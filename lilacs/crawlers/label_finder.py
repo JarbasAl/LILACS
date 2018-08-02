@@ -1,0 +1,29 @@
+from lilacs.crawlers.dbpedia import DBpediaBaseCrawler
+
+
+class LabelCrawler(DBpediaBaseCrawler):
+    def execute_action(self, connections):
+        print("** current", self.current_node.name)
+        # execute an action in current node
+        new_cons = []
+        instance_of = self.dbpedia.get_dbpedia_labels_for_dblink(self.current_node.name)
+        for con in instance_of:
+            if not self.con_exists("label", self.current_node.name, con):
+                c = self.db.add_connection_by_id(self.current_node.id, con, "label")
+                if c is not None:
+                    new_cons.append(c)
+
+        cons = self.dbpedia.get_dbpedia_cons_for_dblink(self.current_node.name)
+        for c, t in cons:
+            c = self.db.add_connection_by_id(self.current_node.id, t, c)
+            if c is not None:
+                new_cons.append(c)
+
+        return new_cons
+
+
+if __name__ == "__main__":
+    c = LabelCrawler(threaded=False)
+    c.start_crawling("elon musk")
+    print(c.crawl_list)
+    print(c.total_steps)
