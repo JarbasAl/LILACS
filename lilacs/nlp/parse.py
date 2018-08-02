@@ -1,12 +1,15 @@
 from builtins import str
 from lilacs.nlp import get_nlp, get_corefnlp
 import textacy.extract
+from lilacs.nlp.inflect import singularize as make_singular
 from lilacs.util import NUM_STRING_EN
+from spacy.parts_of_speech import NOUN, PROPN, VERB
 
 
-def normalize(text, remove_articles=True, solve_corefs=True, coref_nlp=None):
+def normalize(text, remove_articles=True, solve_corefs=True, coref_nlp=None, nlp=None):
     """ English string normalization """
     text = str(text.lower())
+    text = singularize(text, nlp=nlp)
     words = text.split()  # this also removed extra spaces
     normalized = ""
     for word in words:
@@ -129,5 +132,42 @@ def replace_coreferences(text, nlp=None):
     return text
 
 
+def is_negated_verb(token):
+    """
+    Returns True if verb is negated by one of its (dependency parse) children,
+    False otherwise.
+
+    Args:
+        token (``spacy.Token``): parent document must have parse information
+
+    Returns:
+        bool
+
+    TODO: generalize to other parts of speech; rule-based is pretty lacking,
+    so will probably require training a model; this is an unsolved research problem
+    """
+    if token.doc.is_parsed is False:
+        raise ValueError('token is not parsed')
+    if token.pos == VERB and any(c.dep_ == 'neg' for c in token.children):
+        return True
+    # if (token.pos == NOUN
+    #         and any(c.dep_ == 'det' and c.lower_ == 'no' for c in token.children)):
+    #     return True
+    return False
+
+
+def singularize(text, nlp = None):
+    nlp = nlp or get_nlp()
+    doc = nlp(text)
+    ignores = ["this", "data", "my", "was"]
+    words = []
+    for tok in doc:
+        if tok.pos == NOUN and str(tok) not in ignores:
+            words.append(make_singular(str(tok)))
+        else:
+            words.append(str(tok))
+    return " ".join(words)
+
+
 if __name__ == "__main__":
-    print(extract_entities("Apple is looking at buying U.K. startup for 1 billion"))
+    print(singularize("dogs are awesome animals"))
