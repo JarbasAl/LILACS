@@ -44,9 +44,7 @@ class Connection(Base):
     target = relationship("Concept", back_populates="in_connections", foreign_keys=[target_id])
 
     def __repr__(self):
-        return str(self.id) + ": " + str(self.source_id) + "->" + str(self.target_id)
-
-    def __str__(self):
+        #return str(self.id) + ": " + str(self.source_id) + "->" + str(self.target_id)
         return self.type + ": " + str(self.source.name) + "->" + str(self.target.name)
 
 

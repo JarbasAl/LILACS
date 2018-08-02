@@ -37,15 +37,20 @@ class BaseCrawler(object):
 
     def select_connections(self):
         # select relevant connections from current node
-        up = self.current_node.out_connections
-        return up
+        out = self.current_node.out_connections
+        return out
 
     def choose_next_node(self, connections):
-        # pick the next node
-        next_node = random.choice(self.current_node.out_connections).target
-        print("** next", next_node.name)
-        if next_node.name == self.current_node.name:
+        # pick a random next node
+        nodes = [n for n in self.db.get_concepts()
+                 if n.name not in self.crawl_list
+                 and not n.type in ["link", "example", "meaning"]
+                 and not n.name.startswith("http")
+                 and len(n.name) < 20]
+        if not len(nodes):
             return None
+        next_node = random.choice(nodes)
+        print("** next", next_node.name)
         return next_node
 
     def execute_action(self, connections):
@@ -82,9 +87,7 @@ class BaseCrawler(object):
         self.stop_crawling()
 
     def default_node(self, start_node=None):
-        nodes = self.db.get_concepts()
-        start_node = random.choice(nodes)
-        return start_node
+        return self.choose_next_node(None)
 
     def start_crawling(self, start_node=None):
         if start_node is None or isinstance(start_node, str):

@@ -2,7 +2,7 @@ from lilacs.crawlers import BaseCrawler
 import random
 
 
-class LabelFixerCrawler(BaseCrawler):
+class MaintenanceCrawler(BaseCrawler):
     # if node contains both, remove second
     # " if is key can not be item"
 
@@ -19,9 +19,12 @@ class LabelFixerCrawler(BaseCrawler):
         print("** next", next_node.name)
         return next_node
 
-    def execute_action(self, connections):
-        print("** current", self.current_node.name)
-        # execute an action in current node
+    def fix_labels(self):
+        if self.current_node.name.startswith("http"):
+            self.current_node.type = "link"
+            self.db.commit()
+
+    def fix_empty_cons(self):
         # remove empty cons
         for c in self.current_node.out_connections:
             if c.target is None or c.source is None:
@@ -34,6 +37,7 @@ class LabelFixerCrawler(BaseCrawler):
                 self.current_node.in_connections.remove(c)
                 self.db.commit()
 
+    def fix_references_to_self(self):
         # references to self person -> person
         if self.con_exists("label", self.current_node.name, self.current_node.name):
             cons = self.current_node.out_connections
@@ -44,6 +48,7 @@ class LabelFixerCrawler(BaseCrawler):
                     self.current_node.in_connections.remove(c)
                     self.db.commit()
 
+    def fix_incompatible_labels(self):
         # remove forbidden labels
         for key in self.removes:
             # person -> drug (cant be true)
@@ -69,11 +74,23 @@ class LabelFixerCrawler(BaseCrawler):
                         self.current_node.out_connections.remove(c)
                         self.db.commit()
 
+    def expand_synonyms(self):
+        # synonyms and antonyms should be bidirectional
+        pass
+
+    def execute_action(self, connections):
+        print("** current", self.current_node.name)
+        # execute an action in current node
+        self.fix_labels()
+        self.fix_empty_cons()
+        self.fix_references_to_self()
+        self.fix_incompatible_labels()
+        self.expand_synonyms()
         return []
 
 
 if __name__ == "__main__":
-    c = LabelFixerCrawler(threaded=False)
+    c = MaintenanceCrawler(threaded=False)
     c.start_crawling("elon musk")
     print(c.crawl_list)
     print(c.total_steps)
