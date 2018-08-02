@@ -5,7 +5,7 @@ import random
 
 
 class FactFinderCrawler(NLPCrawler):
-    def choose_next_node(self):
+    def choose_next_node(self, connections):
         # pick a random next node
         nodes = [n for n in self.db.get_concepts() if n.name not in self.crawl_list and not n.name.startswith("http") and not n.type == "fact"]
         if not len(nodes):

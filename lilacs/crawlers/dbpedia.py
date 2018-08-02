@@ -14,7 +14,7 @@ class DBpediaBaseCrawler(BaseCrawler):
         up = self.current_node.out_connections
         return up
 
-    def choose_next_node(self):
+    def choose_next_node(self, connections):
         # pick the next node, ignore htp links
         try:
             cons = [c for c in self.current_node.in_connections if c.type == "label"]

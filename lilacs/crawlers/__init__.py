@@ -40,7 +40,7 @@ class BaseCrawler(object):
         up = self.current_node.out_connections
         return up
 
-    def choose_next_node(self):
+    def choose_next_node(self, connections):
         # pick the next node
         next_node = random.choice(self.current_node.out_connections).target
         print("** next", next_node.name)
@@ -70,7 +70,7 @@ class BaseCrawler(object):
         self.new_cons = self.execute_action(cons)
         print("** new cons", str(self.new_cons))
         self.con_list.extend(self.new_cons)
-        next_node = self.choose_next_node()
+        next_node = self.choose_next_node(cons)
         if next_node:
             self.last_node = self.current_node
             self.current_node = next_node
