@@ -93,8 +93,8 @@ class ConceptDatabase(object):
             target = self.add_concept(target_name)
 
         if not self.search_connection_by_concept_pair_id(source.id, target.id) and target and source:
-            target.in_connections.append(connection)
-            source.out_connections.append(connection)
+            connection.target = target
+            connection.source = source
 
             self.session.add(connection)
             if self.commit():
@@ -113,8 +113,8 @@ class ConceptDatabase(object):
             target = self.add_concept(target_name)
 
         if not self.search_connection_by_concept_pair_id(source.id, target.id):
-            target.in_connections.append(connection)
-            source.out_connections.append(connection)
+            connection.target = target
+            connection.source = source
 
             self.session.add(connection)
             if self.commit():

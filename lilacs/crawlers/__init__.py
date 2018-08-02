@@ -68,7 +68,7 @@ class BaseCrawler(object):
 
         cons = self.select_connections()
         self.new_cons = self.execute_action(cons)
-        print("** new cons", [(c.type, c.target.name) for c in self.new_cons])
+        print("** new cons", str(self.new_cons))
         self.con_list.extend(self.new_cons)
         next_node = self.choose_next_node()
         if next_node:

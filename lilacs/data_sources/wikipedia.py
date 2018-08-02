@@ -34,14 +34,15 @@ def extract_wikipedia_connections(subject, save=False, db=None, nlp=None):
 
 def get_wikipedia(subject):
     node_data = {}
-    page = wptools.page(subject, silent=True, verbose=False).get_query().data
+    try:
+        page = wptools.page(subject, silent=True, verbose=False).get_query().data
+        #node_data["image"] = page["image"]["url"]
+        node_data["name"] = page["label"]
 
-    #node_data["image"] = page["image"]["url"]
-    node_data["name"] = page["label"]
-
-    node_data["link"] = [page["url"]]
-    #node_data["link"] += page["links"]
-    node_data["description"] = page["description"]
-    node_data["summary"] = page["extext"]
+        node_data["link"] = [page["url"]]
+        #node_data["link"] += page["links"]
+        node_data["description"] = page["description"]
+        node_data["summary"] = page["extext"]
+    except LookupError:
+        print("could not find wikipedia data for ", subject)
     return node_data
-

@@ -4,7 +4,7 @@ import textacy.extract
 from lilacs.util import NUM_STRING_EN
 
 
-def normalize(text, remove_articles=False, solve_corefs=True, coref_nlp=None):
+def normalize(text, remove_articles=True, solve_corefs=True, coref_nlp=None):
     """ English string normalization """
     text = str(text.lower())
     words = text.split()  # this also removed extra spaces
@@ -68,7 +68,7 @@ def normalize(text, remove_articles=False, solve_corefs=True, coref_nlp=None):
             text_numbers[NUM_STRING_EN[k]] = k
 
         if word in text_numbers:
-            word = NUM_STRING_EN[word]
+            word = str(text_numbers[word])
 
         normalized += " " + word
 
@@ -82,7 +82,7 @@ def extract_facts(subject, text, nlp=None, coref_nlp=None):
     facts = []
     nlp = nlp or get_nlp()
     # Parse the document with spaCy
-    text = normalize(text, coref_nlp=coref_nlp)
+    text = normalize(text, remove_articles=False, coref_nlp=coref_nlp)
     doc = nlp(text)
     # Extract semi-structured statements
     statements = textacy.extract.semistructured_statements(doc, subject)

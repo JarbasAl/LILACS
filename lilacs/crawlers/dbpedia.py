@@ -17,12 +17,12 @@ class DBpediaBaseCrawler(BaseCrawler):
     def choose_next_node(self):
         # pick the next node, ignore htp links
         try:
-            cons = [c for c in self.current_node.out_connections if c.type == "label"]
+            cons = [c for c in self.current_node.in_connections if c.type == "label"]
             nodes = [c.source for c in cons if c.source.name != self.current_node.name and c.source.name not in self.crawl_list and not c.source.name.startswith("http")]
             if not len(nodes):
                 # go back to previous node
                 print("** no next node, going back to start")
-                possible_nodes = [con.target for con in self.start_node.out_connections if con.target.name not in self.crawl_list and not con.target.name.startswith("http")]
+                possible_nodes = [con.target for con in self.start_node.in_connections if con.target.name not in self.crawl_list and not con.target.name.startswith("http")]
                 if len(possible_nodes):
                     return random.choice(possible_nodes)
                 return None

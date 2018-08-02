@@ -6,7 +6,7 @@ __author__ = "JarbasAI"
 Base = declarative_base()
 
 
-from sqlalchemy import Column, ForeignKey, Integer, String, Text, Table
+from sqlalchemy import Column, ForeignKey, Integer, String, Text, Table, UnicodeText, Unicode
 from sqlalchemy.orm import relationship, backref
 
 
@@ -19,9 +19,9 @@ from sqlalchemy.orm import relationship, backref
 class Concept(Base):
     __tablename__ = "concepts"
     id = Column(Integer, primary_key=True, nullable=False)
-    description = Column(Text)
-    name = Column(String)
-    type = Column(String, default="label")
+    description = Column(UnicodeText)
+    name = Column(UnicodeText)
+    type = Column(Unicode, default="label")
     last_seen = Column(Integer, default=0)
     out_connections = relationship("Connection", back_populates="source",
                                    foreign_keys="Connection.source_id", cascade="all, delete-orphan")
@@ -37,14 +37,17 @@ class Connection(Base):
     id = Column(Integer, primary_key=True, nullable=False)
     last_seen = Column(Integer, default=0)
     strength = Column(Integer, default=50)
-    type = Column(String, default="related")
+    type = Column(Unicode, default="related")
     source_id = Column(Integer, ForeignKey('concepts.id'))
     target_id = Column(Integer, ForeignKey('concepts.id'))
     source = relationship("Concept", back_populates="out_connections", foreign_keys=[source_id])
     target = relationship("Concept", back_populates="in_connections", foreign_keys=[target_id])
 
     def __repr__(self):
-        return self.type + ": " + str(self.source_id) + "->" + str(self.target_id)
+        return str(self.id) + ": " + str(self.source_id) + "->" + str(self.target_id)
+
+    def __str__(self):
+        return self.type + ": " + str(self.source.name) + "->" + str(self.target.name)
 
 
 def model_to_dict(obj):

@@ -8,14 +8,13 @@ class LabelCrawler(DBpediaBaseCrawler):
         new_cons = []
         instance_of = self.dbpedia.get_dbpedia_labels_for_dblink(self.current_node.name)
         for con in instance_of:
-            if not self.con_exists("label", self.current_node.name, con):
-                c = self.db.add_connection_by_id(self.current_node.id, con, "label")
-                if c is not None:
-                    new_cons.append(c)
+            c = self.db.add_connection(self.current_node.name, con, "label")
+            if c is not None:
+                new_cons.append(c)
 
         cons = self.dbpedia.get_dbpedia_cons_for_dblink(self.current_node.name)
         for c, t in cons:
-            c = self.db.add_connection_by_id(self.current_node.id, t, c)
+            c = self.db.add_connection(self.current_node.name, t, c)
             if c is not None:
                 new_cons.append(c)
 
@@ -24,6 +23,6 @@ class LabelCrawler(DBpediaBaseCrawler):
 
 if __name__ == "__main__":
     c = LabelCrawler(threaded=False)
-    c.start_crawling("elon musk")
+    c.start_crawling("satan")
     print(c.crawl_list)
     print(c.total_steps)
