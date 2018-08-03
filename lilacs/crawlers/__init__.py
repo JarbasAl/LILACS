@@ -44,7 +44,7 @@ class BaseCrawler(object):
         # pick a random next node
         nodes = [n for n in self.db.get_concepts()
                  if n.name not in self.crawl_list
-                 and not n.type in ["link", "example", "meaning"]
+                 and not n.type in ["link", "example", "meaning", "fact"]
                  and not n.name.startswith("http")
                  and len(n.name) < 20]
         if not len(nodes):

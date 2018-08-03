@@ -92,7 +92,7 @@ class ConceptDatabase(object):
         if not target:
             target = self.add_concept(target_name)
 
-        if not self.search_connection_by_concept_pair_id(source.id, target.id) and target and source:
+        if not self.search_connection_by_concept_pair(source_name, target_name) and target and source:
             connection.target = target
             connection.source = source
 

@@ -6,7 +6,7 @@ crawlers navigate lilacs nodes and execute actions
 - fact finder -> search wikipedia, extracts semi structured facts from text, create "fact" concepts/connections
 - label finder -> search dbpedia, extract and create "label" concepts/connections
 - label fixer -> removes malformed connections, references to self, and removes some invalid connections (you can not be labeled "drug" and "person" at same time)
-
+- connection finder -> search conceptnet/wordnet/dictionary
 # making a crawler
 
 

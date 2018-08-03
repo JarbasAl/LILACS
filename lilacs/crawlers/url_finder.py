@@ -1,4 +1,4 @@
-from lilacs.crawlers.dbpedia import DBpediaBaseCrawler
+from lilacs.crawlers.dbpedia_crawler import DBpediaBaseCrawler
 
 import random
 
@@ -6,7 +6,11 @@ import random
 class URLCrawler(DBpediaBaseCrawler):
     def choose_next_node(self, connections):
         # pick a random next node
-        nodes = [n for n in self.db.get_concepts() if n.name not in self.crawl_list and not n.name.startswith("http")]
+        nodes = [n for n in self.db.get_concepts()
+                 if n.name not in self.crawl_list
+                 and not n.type in ["link", "example", "meaning", "fact"]
+                 and not n.name.startswith("http")
+                 and len(n.name) < 20]
         if not len(nodes):
             return None
         next_node = random.choice(nodes)

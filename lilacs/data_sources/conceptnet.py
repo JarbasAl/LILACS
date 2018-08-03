@@ -1,22 +1,15 @@
 import requests
-from lilacs.nodes.concept import ConceptDatabase
 
 
-def extract_conceptnet_connections(subject, save=False, db=None):
-    cons = get_conceptnet(subject) # type : [nodes]
-    if save:
-        db = db or ConceptDatabase(debug=False)
+def extract_conceptnet_connections(subject):
+    connections = get_conceptnet(subject)  # type : [nodes]
+    new_cons = []
+    for con_type in connections:
+        cons = connections[con_type]
+        for target in cons:
+            new_cons.append((con_type, target, 50))
 
-    connections = []
-
-    for a in cons:
-        b = cons[a]
-        for c in b:
-            if save:
-                db.add_connection(subject, c , a)
-            connections.append({a: c, "con_strength": 50})
-
-    return connections
+    return new_cons
 
 
 def get_conceptnet(subject):
@@ -30,16 +23,25 @@ def get_conceptnet(subject):
     examples = []
     location = []
     other = []
+    pof = []
+    created = []
+    defs = []
+    syns = []
+    nops = []
 
     obj = requests.get('http://api.conceptnet.io/c/en/' + subject).json()
     for edge in obj["edges"]:
+        r, s, t = edge["@id"].split(",")
+        if not s.startswith("/c/en/") or not t.startswith("/c/en/"):
+            # ignore non english
+            continue
         rel = edge["rel"]["label"]
         node = edge["end"]["label"]
         start = edge["start"]["label"]
         if start != node and start not in other:
             other.append(start)
         if rel == "IsA":
-            node = node.replace("a ", "").replace("an ", "")
+            node = node.replace(" a ", "").replace(" an ", "")
             if node not in parents:
                 parents.append(node)
         elif rel == "CapableOf":
@@ -60,13 +62,34 @@ def get_conceptnet(subject):
         elif rel == "AtLocation":
             if node not in location:
                 location.append(node)
+        elif rel == "PartOf":
+            if node not in pof:
+                pof.append(node)
+        elif rel == "CreatedBy":
+            if node not in created:
+                created.append(node)
+        elif rel == "DefinedAs":
+            if node not in defs:
+                defs.append(node)
+        elif rel == "Synonym":
+            if node not in syns:
+                syns.append(node)
+        elif rel == "NotHasProperty":
+            if node not in nops:
+                nops.append(node)
         usage = edge["surfaceText"]
         if usage is not None:
             examples.append(usage)
 
-    return {"related": other,
+    return {"related": related,
             "instance of": parents,
             "capable of": capable,
-            "used for": used}
-
+            "used for": used,
+            "desires": desires,
+            "found at": location,
+            "part of": pof,
+            "created by": created,
+            "label": defs,
+            "synonym": syns,
+            "incompatible": nops}
 

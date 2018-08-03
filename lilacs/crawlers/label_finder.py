@@ -1,4 +1,4 @@
-from lilacs.crawlers.dbpedia import DBpediaBaseCrawler
+from lilacs.crawlers.dbpedia_crawler import DBpediaBaseCrawler
 
 
 class LabelCrawler(DBpediaBaseCrawler):

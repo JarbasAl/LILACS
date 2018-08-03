@@ -1,19 +1,9 @@
 from lilacs.crawlers.nlp_crawler import NLPCrawler
 from lilacs.data_sources.wikipedia import get_wikipedia
 from lilacs.nlp.parse import extract_facts
-import random
 
 
 class FactFinderCrawler(NLPCrawler):
-    def choose_next_node(self, connections):
-        # pick a random next node
-        nodes = [n for n in self.db.get_concepts() if n.name not in self.crawl_list and not n.name.startswith("http") and not n.type == "fact"]
-        if not len(nodes):
-            return None
-        next_node = random.choice(nodes)
-        print("** next", next_node.name)
-        return next_node
-
     def execute_action(self, connections):
         print("** current", self.current_node.name)
         # execute an action in current node
