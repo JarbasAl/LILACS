@@ -23,6 +23,6 @@ class LabelCrawler(DBpediaBaseCrawler):
 
 if __name__ == "__main__":
     c = LabelCrawler(threaded=False)
-    c.start_crawling("satan")
+    c.start_crawling("dog")
     print(c.crawl_list)
     print(c.total_steps)

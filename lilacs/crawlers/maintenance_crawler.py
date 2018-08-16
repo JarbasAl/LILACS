@@ -10,10 +10,24 @@ class MaintenanceCrawler(BaseCrawler):
     # remove elon musk -> drug
     removes = {"person": "drug"}
 
-    def fix_labels(self):
-        if self.current_node.name.startswith("http"):
+    def fix_types(self):
+        if self.current_node.name.startswith("http") and not self.current_node.type == "link":
+            print("fixing type", self.current_node.name, self.current_node.type, "-> link")
             self.current_node.type = "link"
             self.db.commit()
+        else:
+            ents = [("person", "person"),
+                    ("agent","entity"),
+                    ("thing", "thing")]
+            for (l, t) in ents:
+                for con in self.current_node.out_connections:
+                    if con.type == "label":
+                        if con.target.name == l and not self.current_node.type == t:
+
+                            print("fixing type", self.current_node.name, self.current_node.type, "->", t)
+                            self.current_node.type = t
+                            self.db.commit()
+                            return
 
     def fix_empty_cons(self):
         # remove empty cons
@@ -74,7 +88,7 @@ class MaintenanceCrawler(BaseCrawler):
     def execute_action(self, connections):
         print("** current", self.current_node.name)
         # execute an action in current node
-        self.fix_labels()
+        self.fix_types()
         self.fix_empty_cons()
         self.fix_references_to_self()
         self.fix_incompatible_labels()

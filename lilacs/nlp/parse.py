@@ -1,9 +1,10 @@
 from builtins import str
-from lilacs.nlp import get_nlp, get_corefnlp
+from lilacs.nlp import get_nlp
 import textacy.extract
 from lilacs.nlp.inflect import singularize as make_singular
 from lilacs.util import NUM_STRING_EN
-from spacy.parts_of_speech import NOUN, PROPN, VERB
+from spacy.parts_of_speech import NOUN, VERB
+import requests
 
 
 def normalize(text, remove_articles=True, solve_corefs=True, coref_nlp=None, nlp=None):
@@ -96,16 +97,19 @@ def extract_facts(subject, text, nlp=None, coref_nlp=None):
 
 
 def extract_entities(text, nlp=None):
-    nlp = nlp or get_nlp(False)
-    # Parse the text with spaCy. This runs the entire pipeline.
-    text = normalize(text, solve_corefs=False)
-    doc = nlp(text)
-
-    # 'doc' now contains a parsed version of text. We can use it to do anything we want!
-    # For example, this will print out all the named entities that were detected:
     ents = []
-    for entity in doc.ents:
-        ents.append((entity.text, entity.label_))
+    text = normalize(text, nlp=nlp)
+    if nlp:
+        doc = nlp(text)
+        for entity in doc.ents:
+            ents.append((entity.text, entity.label_))
+    else:
+        data = {"model": "en_core_web_lg", "text": text}
+        r = requests.post("https://api.explosion.ai/displacy/ent", data)
+        r = r.json()
+        for e in r:
+            txt = text[e["start"]:e["end"]]
+            ents.append((txt, e["label"].lower()))
     return ents
 
 
@@ -123,12 +127,12 @@ def replace_coreferences(text, nlp=None):
     # London has been a major settlement  for two millennia.  London was founded by the Romans,
     # who named London Londinium.
     # """
-    nlp = nlp or get_corefnlp()
-    # Parse the text with spaCy. This runs the entire pipeline.
-    doc = nlp(text)
-
-    # 'doc' now contains a parsed version of text. We can use it to do anything we want!
-    text = doc._.coref_resolved
+    if nlp:
+        doc = nlp(text)
+        text = doc._.coref_resolved
+    else:
+        params = {"text": text}
+        text = requests.get("https://coref.huggingface.co/coref", params=params).json()["corefResText"]
     return text
 
 
@@ -156,18 +160,29 @@ def is_negated_verb(token):
     return False
 
 
-def singularize(text, nlp = None):
+def singularize(text, nlp=None):
     nlp = nlp or get_nlp()
     doc = nlp(text)
     ignores = ["this", "data", "my", "was"]
+    replaces = {"are": "is"}
     words = []
     for tok in doc:
         if tok.pos == NOUN and str(tok) not in ignores:
             words.append(make_singular(str(tok)))
+        elif str(tok) in replaces:
+            words.append(replaces[str(tok)])
         else:
             words.append(str(tok))
     return " ".join(words)
 
 
+def dependency_tree(text, nlp=None):
+    text = normalize(text, remove_articles=False, nlp=nlp)
+    data = {"collapse_phrases": "1", "collapse_punctuation": "1", "model": "en_core_web_lg", "text": text}
+    r = requests.post("https://api.explosion.ai/displacy/dep", data)
+    return r.json()
+
+
 if __name__ == "__main__":
     print(singularize("dogs are awesome animals"))
+    print(extract_entities("i ate cheese earlier this week"))

@@ -11,12 +11,14 @@ SPARQLWrapper
 # spacy models, pick one, change settings.py to use it
 
 # https://github.com/explosion/spacy-models
-# https://github.com/huggingface/neuralcoref
-#https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.0.0/en_core_web_sm-2.1.0a0.tar.gz
+
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.0.0/en_core_web_sm-2.0.0.tar.gz
 #https://github.com/explosion/spacy-models/releases/download/en_core_web_md-2.1.0a0/en_core_web_md-2.1.0a0.tar.gz
 #https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-2.1.0a0/en_core_web_lg-2.1.0a0.tar.gz
 #https://github.com/explosion/spacy-models/releases/download/xx_ent_wiki_sm-2.1.0a0/xx_ent_wiki_sm-2.1.0a0.tar.gz
-#https://github.com/huggingface/neuralcoref-models/releases/download/en_coref_md-3.0.0/en_coref_md-3.0.0.tar.gz
+
+# https://github.com/huggingface/neuralcoref
+https://github.com/huggingface/neuralcoref-models/releases/download/en_coref_md-3.0.0/en_coref_md-3.0.0.tar.gz
 
 
 vocabulary

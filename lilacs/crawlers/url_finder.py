@@ -1,5 +1,5 @@
 from lilacs.crawlers.dbpedia_crawler import DBpediaBaseCrawler
-
+from lilacs.data_sources.wikipedia import get_wikipedia
 import random
 
 
@@ -7,7 +7,7 @@ class URLCrawler(DBpediaBaseCrawler):
     def choose_next_node(self, connections):
         # pick a random next node
         nodes = [n for n in self.db.get_concepts()
-                 if n.name not in self.crawl_list
+                 if n and n.name and n.name not in self.crawl_list
                  and not n.type in ["link", "example", "meaning", "fact"]
                  and not n.name.startswith("http")
                  and len(n.name) < 20]
@@ -28,6 +28,14 @@ class URLCrawler(DBpediaBaseCrawler):
                 c = self.db.add_connection_by_id(self.current_node.id, url, "link")
                 if c is not None:
                     new_cons.append(c)
+        urls = get_wikipedia(self.current_node.name).get("link")
+        if urls and len(urls):
+            for url in urls:
+                if not self.con_exists("link", self.current_node.name, url):
+                    c = self.db.add_connection_by_id(self.current_node.id, url, "link")
+                    if c is not None:
+                        new_cons.append(c)
+
         return new_cons
 
 

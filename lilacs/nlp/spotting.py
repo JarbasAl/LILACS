@@ -3,18 +3,69 @@ from lilacs.settings import SPOTLIGHT_URL
 from padaos import IntentContainer
 from lilacs.nlp import get_nlp
 from lilacs.nlp.parse import normalize
-from spacy.parts_of_speech import NOUN, PROPN, VERB
+from spacy.parts_of_speech import VERB
 
 
-class BasicQuestionParser(object):
+class BasicTeacher(object):
+    """
+    Poor-man's english connection extractor. Not even close to complete
+
+    """
+    nlp = None
+    coref = None
+
+    def __init__(self, nlp=None, coref=None, use_nlp=False):
+        if use_nlp:
+            self.nlp = nlp or self.nlp or get_nlp()
+            self.coref = coref or self.coref
+
+        self.container = IntentContainer()
+        self.register_utterances()
+
+    def register_utterances(self):
+        self.container.add_intent('instance of', ['{source} (is|are|instance) {target}'])
+        self.container.add_intent('sample of', ['{source} is (sample|example) {target}'])
+        self.container.add_intent('incompatible', ['{source} (can not|is forbidden|is not allowed) {target}'])
+        self.container.add_intent('synonym', ['{source} is (same|synonym) {target}'])
+        self.container.add_intent('antonym', ['{source} is (opposite|antonym) {target}'])
+        self.container.add_intent('part of', ['{source} is part {target}', '{target} is (composed|made) {source}'])
+        self.container.add_intent('capable of', ['{source} (is capable|can) {target}'])
+        self.container.add_intent('created by', ['{source} is created {target}'])
+        self.container.add_intent('used for', ['{source} is used {target}'])
+
+    def normalize(self, text):
+        text = normalize(text, True, True, nlp=self.nlp, coref_nlp=self.coref)
+        # lets be aggressive to improve parsing
+        text = text.lower().replace("did you know that", "")
+        text = text.replace("example", "sample of")
+        words = text.split(" ")
+        removes = ["a", "an", "of", "that", "this", "to", "with", "as", "by", "for"]
+        replaces = {"be": "is", "are": "is", "you": "self", "was": "is", "i": "user", "were": "is"}
+        for idx, word in enumerate(words):
+            if word in removes:
+                words[idx] = ""
+            if word in replaces:
+                words[idx] = replaces[word]
+
+        return " ".join([w for w in words if w])
+
+    def parse(self, utterance):
+        utterance = self.normalize(utterance)
+        match = self.container.calc_intent(utterance)
+
+        data = match["entities"]
+        data["normalized_text"] = utterance
+        data["connection_type"] = match["name"]
+        return data
+
+
+class BasicQuestionParser(BasicTeacher):
     """
     Poor-man's english question parser. Not even close to conclusive, but
     appears to construct some decent w|a queries and responses.
 
     """
-
-    def __init__(self):
-        self.container = IntentContainer()
+    def register_utterances(self):
         self.container.add_entity('question', ['what', 'when', 'where', 'why', 'how', 'which', 'whose', 'who'])
 
         self.container.add_intent('what of', ['what (is|are|were|was|did|does|do) {first_query} of {second_query}'])
@@ -42,6 +93,7 @@ class BasicQuestionParser(object):
 
         self.container.add_intent('will you', ['(are|will|do) you {query}'])
         self.container.add_intent('have you', ['(have|were|did) you {query}'])
+        self.container.add_intent('teach', ['teach {query}'])
 
     def parse(self, utterance):
         match = self.container.calc_intent(utterance)
@@ -57,20 +109,20 @@ class BasicQuestionParser(object):
         return data
 
 
-class LILACSQuestionParser(object):
+class LILACSQuestionParser(BasicQuestionParser):
     # these are mostly hand picked by trial and error, may need tuning
     IGNORES = ["example", "examples", "much", "is", "me", "who", "what",
                "when", "why", "how", "which", "whose", "common", "are", "at", "was"]
     SUBJECTS = ["nsubj", "nsubjpass"]
     OBJECTS = ["dobj", "pobj", "dobj"]
+    HOST = SPOTLIGHT_URL
 
-    def __init__(self, host=SPOTLIGHT_URL, nlp=None):
-        self.nlp = nlp or get_nlp()
-        self.parser = BasicQuestionParser()
-        self.host = host
+    def __init__(self, use_spotlight=False, nlp=None, coref=None):
+        BasicQuestionParser.__init__(self, nlp, coref, True)
+        self.use_spotlight = use_spotlight
 
     def get_noun_chunks(self, doc):
-        chunks =[ chunk.text for chunk in doc.noun_chunks if chunk.text not in self.IGNORES]
+        chunks = [chunk.text for chunk in doc.noun_chunks if chunk.text not in self.IGNORES]
         for i, chunk in enumerate(chunks):
             words = chunk.split(" ")
             for idx, w in enumerate(words):
@@ -82,8 +134,8 @@ class LILACSQuestionParser(object):
     def get_subject_object(self, doc):
         sub_toks = [str(tok) for tok in doc if (tok.dep_ in self.SUBJECTS) and str(tok) not in self.IGNORES]
         obj_toks = [str(tok) for tok in doc if (tok.dep_ in self.OBJECTS) and str(tok) not in self.IGNORES]
-        #print("Subjects:", sub_toks)
-        #print("Objects :", obj_toks)
+        # print("Subjects:", sub_toks)
+        # print("Objects :", obj_toks)
         return sub_toks, obj_toks
 
     def get_root(self, doc):
@@ -97,9 +149,29 @@ class LILACSQuestionParser(object):
         return [tok for tok in doc
                 if tok.pos == VERB and tok.dep_ not in {'aux', 'auxpass'}]
 
+    def normalize(self, text):
+        text = normalize(text, False, False, nlp=self.nlp, coref_nlp=self.coref)
+        # lets be aggressive to improve parsing
+        text = text.lower().replace("did you know that", "teach")
+        words = text.split(" ")
+        removes = []
+        replaces = {}
+        for idx, word in enumerate(words):
+            if word in removes:
+                words[idx] = ""
+            if word in replaces:
+                words[idx] = replaces[word]
+
+        return " ".join(words)
+
     def parse_question(self, text):
-        text = normalize(text, True, False)
-        subjects, parents, synonyms, url = self.spotlight_tag(text)
+        text = self.normalize(text)
+        # print(text)
+        if self.use_spotlight:
+            subjects, parents, synonyms, url = self.spotlight_tag(text)
+        else:
+            parents = {}
+            synonyms = {}
 
         # select center and target node using nlp parsing
         doc = self.nlp(text)
@@ -156,12 +228,12 @@ class LILACSQuestionParser(object):
         middle = [node for node in subjects if node != center_node and node != target_node]
         concepts = {"parents": parents, "synonyms": synonyms, "relevant": middle}
         data = {"source": center_node.strip(), "target": target_node.strip(), "concepts": concepts,
-                "question_type": question, "question_root": root, "verbs": verbs}
+                "question_type": question, "question_root": root, "verbs": verbs, "normalized_text": text}
 
         return data
 
     def regex_parse(self, text):
-        parse = self.parser.parse(text)
+        parse = self.parse(text)
         for k in ["Query", "Query1", "Query2"]:
             if not parse.get(k):
                 continue
@@ -173,14 +245,15 @@ class LILACSQuestionParser(object):
             parse[k] = " ".join(words)
         return parse
 
-    def spotlight_tag(self, text):
+    @staticmethod
+    def spotlight_tag(text):
         text = text.lower()
         subjects = {}
         parents = {}
         synonims = {}
         urls = {}
         try:
-            annotations = spotlight.annotate(self.host, text)
+            annotations = spotlight.annotate(LILACSQuestionParser.HOST, text)
             for annotation in annotations:
 
                 score = annotation["similarityScore"]
@@ -197,8 +270,9 @@ class LILACSQuestionParser(object):
                     p = []
                     types = annotation["types"].split(",")
                     for label in types:
-                        label = label.replace("DBpedia:", "").replace("Schema:", "").replace("Http://xmlns.com/foaf/0.1/",
-                                                                                           "").lower()
+                        label = label.replace("DBpedia:", "").replace("Schema:", "").replace(
+                            "Http://xmlns.com/foaf/0.1/",
+                            "").lower()
                         if label not in p and ":" not in label:
                             p.append(label)
                     parents.setdefault(subject, p)
@@ -208,14 +282,13 @@ class LILACSQuestionParser(object):
                 dbpedia_name = urls[subject].replace("http://dbpedia.org/resource/", "").replace("_", " ")
                 if dbpedia_name.lower() not in subject:
                     synonims.setdefault(subject, dbpedia_name.lower())
-        except:
-            pass
+        except Exception as e:
+            print(e)
         return subjects, parents, synonims, urls
 
 
 def spot_concepts(text):
-    parser = LILACSQuestionParser()
-    subjects, parents, synonyms, urls = parser.spotlight_tag(text)
+    subjects, parents, synonyms, urls = LILACSQuestionParser.spotlight_tag(text)
 
     concepts = {}
     for a in subjects:
@@ -256,11 +329,13 @@ def test_qp():
                  "how long ago was sunrise",
                  "how much is bitcoin worth",
                  "which city has more people",
-                 "whose dog is this"]
+                 "whose dog is this",
+                 "did you know that dogs are animals"]
 
     for text in questions:
         data = parser.parse_question(text)
         print("\nQuestion: " + text)
+        print("normalized: " + str(data["normalized_text"]))
         print("start_node: " + str(data["source"]))
         print("target_node: " + str(data["target"]))
         print("question_type: " + str(data["question_type"]))
@@ -271,5 +346,29 @@ def test_qp():
         print("synonyms: " + str(data["concepts"]["synonyms"]))
 
 
+def test_teacher():
+    parser = BasicTeacher()
+
+    questions = ["did you know that dogs are animals",
+                 "did you know that fish is an example of animal",
+                 "droids can not kill",
+                 "you are forbidden to murder",
+                 "you were created by humans",
+                 "you are part of a revolution",
+                 "robots are used to serve humanity",
+                 "droids are the same as robots",
+                 "murder is a crime",
+                 "everything is made of atoms"]
+
+    for text in questions:
+        data = parser.parse(text)
+        print("\nutterance: " + text)
+        print("source:", data.get("source"))
+        print("target:", data.get("target"))
+        print("connection_type:", data.get("connection_type"))
+        print("normalized_text:", data.get("normalized_text"))
+
+
 if __name__ == '__main__':
+    test_teacher()
     test_qp()

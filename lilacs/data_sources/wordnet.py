@@ -108,7 +108,7 @@ def extract_wordnet_connections(word):
     for l in get_holonyms(word): # dog is part of
         cons.append(("part of", l, 55))
     for l in get_hyponyms(word): # are instances of dog
-        cons.append(("examples of", l, 60))
+        cons.append(("sample of", l, 60))
     for l in get_hypernyms(word): # dog is instance of
         cons.append(("instance of", l, 70))
         cons.append(("label", l, 60))

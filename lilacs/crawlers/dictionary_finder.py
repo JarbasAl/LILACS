@@ -1,5 +1,5 @@
 from lilacs.crawlers import BaseCrawler
-
+from lilacs.data_sources.dictionary import extract_dictionary_connections
 
 
 class DictionaryCrawler(BaseCrawler):
@@ -23,6 +23,6 @@ class DictionaryCrawler(BaseCrawler):
 
 if __name__ == "__main__":
     c = DictionaryCrawler(threaded=False)
-    c.start_crawling("self")
+    c.start_crawling()
     print(c.crawl_list)
     print(c.total_steps)
