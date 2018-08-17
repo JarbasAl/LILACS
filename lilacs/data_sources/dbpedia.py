@@ -415,11 +415,18 @@ class DbpediaEnquirer(object):
                 elif predicate.endswith("/nationality"):
                     object = self._fix_object(dictionary['object']['value']).replace("_", "")
                     if object and object not in cons and not object.startswith("Q") and not object[1].isdigit():
-                        cons.append(("nationality", object))
+                        if "," in object:
+                            t = object.split(",")
+                            for object in t:
+                                cons.append(("nationality", object.strip()))
+                        else:
+                            cons.append(("nationality", object))
                 elif predicate.endswith("/hypernym"):
                     object = self._fix_object(dictionary['object']['value']).replace("_", "")
                     if object and object not in cons and not object.startswith("Q") and not object[1].isdigit():
                         cons.append(("hypernym", object))
+                        cons.append(("instance of", object))
+                        cons.append(("label", object))
                 elif predicate.endswith("/almaMater"):
                     object = self._fix_object(dictionary['object']['value']).replace("_", "")
                     if object and object not in cons and not object.startswith("Q") and not object[1].isdigit():
@@ -575,4 +582,4 @@ if __name__ == '__main__':
     #labels = my_dbpedia.get_dbpedia_cons_for_dblink(query)
     #print(labels)
     labels = my_dbpedia.get_external_urls_for_dblink(query)
-    print(labels)
+

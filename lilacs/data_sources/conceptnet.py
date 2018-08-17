@@ -7,7 +7,7 @@ def extract_conceptnet_connections(subject):
     for con_type in connections:
         cons = connections[con_type]
         for target in cons:
-            new_cons.append((con_type, target, 50))
+            new_cons.append((con_type, target, 35))
 
     return new_cons
 
@@ -29,6 +29,14 @@ def get_conceptnet(subject):
     syns = []
     nops = []
 
+    def normalize_node(node):
+        removes = ["a", "an", "the"]
+        words = node.split(" ")
+        for idx, word in enumerate(words):
+            if word in removes:
+                words[idx] = ""
+        return " ".join(words).strip()
+
     obj = requests.get('http://api.conceptnet.io/c/en/' + subject).json()
     for edge in obj["edges"]:
         r, s, t = edge["@id"].split(",")
@@ -38,10 +46,10 @@ def get_conceptnet(subject):
         rel = edge["rel"]["label"]
         node = edge["end"]["label"]
         start = edge["start"]["label"]
+        node = normalize_node(node)
         if start != node and start not in other:
             other.append(start)
         if rel == "IsA":
-            node = node.replace(" a ", "").replace(" an ", "")
             if node not in parents:
                 parents.append(node)
         elif rel == "CapableOf":

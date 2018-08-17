@@ -10,19 +10,43 @@ def extract_wikidata_connections(subject, save=False, db=None):
         db = db or ConceptDatabase(debug=False)
 
     connections = []  # concept : [{type : con, strength: score}]
+    skips = ["heart rate", "image", "topic's main category", "earliest date", "Commons gallery", "signature",
+             "described by source", "on focus list of Wikimedia project", "Commons category", "topic's main template"]
     for con_type in cons:
         if con_type.endswith(")"):
             con_type = " ".join(con_type.split(" ")[:-1])
         targets = cons[con_type]
+        if con_type in skips:
+            continue
+        if con_type == "use":
+            con_type = "used for"
+        elif con_type == "subclass of":
+            con_type = "instance of"
         if isinstance(targets, list):
             for target in targets:
-                connections.append({con_type: target, "con_strength": 50})
+                if not target:
+                    continue
+                if "," in target:
+                    t = target.split(",")
+                    for target in t:
+                        connections.append((con_type, target, 46))
+                        if save:
+                            db.add_connection(subject, target, con_type)
+                else:
+                    connections.append((con_type, target, 46))
+                    if save:
+                        db.add_connection(subject, target, con_type)
+        elif targets:
+            if "," in targets:
+                t = targets.split(",")
+                for target in t:
+                    connections.append((con_type, target, 46))
+                    if save:
+                        db.add_connection(subject, target, con_type)
+            else:
+                connections.append((con_type, targets, 46))
                 if save:
-                    db.add_connection(subject, target, con_type)
-        else:
-            connections.append({con_type: targets, "con_strength": 50})
-            if save:
-                db.add_connection(subject, targets, con_type)
+                    db.add_connection(subject, targets, con_type)
     return connections
 
 
@@ -34,8 +58,12 @@ def get_wikidata(subject):
     # clean data (remove (PXXX) )
     data = page["wikidata"]
 
-    def clean_dict(data):
+    def clean_dict(data=None):
+        data = data or {}
+        clean = {}
         for key in dict(data):
+            if not key:
+                continue
             val = data[key]
             if isinstance(val, list):
                 for idx, v in enumerate(val):
@@ -54,8 +82,9 @@ def get_wikidata(subject):
             elif val.endswith(")"):
                 val = " ".join(val.split(" ")[:-1])
             key = " ".join(key.split(" ")[:-1])
-            data[key] = val
-        return data
+            if val and key:
+                clean[key] = val
+        return clean
 
     data = clean_dict(data)
 
