@@ -2,8 +2,9 @@ import spotlight
 from lilacs.settings import SPOTLIGHT_URL
 from padaos import IntentContainer
 from lilacs.nlp import get_nlp
-from lilacs.nlp.parse import normalize
+from lilacs.nlp.parse import normalize, extract_facts
 from spacy.parts_of_speech import VERB
+from textblob import TextBlob
 
 
 class BasicTeacher(object):
@@ -309,6 +310,119 @@ def spot_concepts(text):
     return concepts
 
 
+def formulate_questions(text_corpus, verbose=False):
+    questions = []
+    text_corpus = text_corpus.replace(",",".").replace(";",".").replace("\n",". ")
+    for line in text_corpus.split("."):
+        if not line:
+            continue
+        #print(line)
+        if type(line) is str:  # If the passed variable is of type string.
+            line = TextBlob(line)  # Create object of type textblob.blob.TextBlob
+
+        bucket = {}  # Create an empty dictionary
+
+        for i, j in enumerate(line.tags):  # line.tags are the parts-of-speach in English
+            if j[1] not in bucket:
+                bucket[j[1]] = i  # Add all tags to the dictionary or bucket variable
+
+        if verbose:  # In verbose more print the key,values of dictionary
+            print('\n', '-' * 20)
+            print(line, '\n')
+            print("TAGS:", line.tags, '\n')
+            print(bucket)
+
+        question = ''  # Create an empty string
+
+        # These are the english part-of-speach tags used in this demo program.
+        # .....................................................................
+        # NNS     Noun, plural
+        # JJ  Adjective
+        # NNP     Proper noun, singular
+        # VBG     Verb, gerund or present participle
+        # VBN     Verb, past participle
+        # VBZ     Verb, 3rd person singular present
+        # VBD     Verb, past tense
+        # IN      Preposition or subordinating conjunction
+        # PRP     Personal pronoun
+        # NN  Noun, singular or mass
+        # .....................................................................
+
+        # Create a list of tag-combination
+
+        l1 = ['NNP', 'VBG', 'VBZ', 'IN']
+        l2 = ['NNP', 'VBG', 'VBZ']
+
+        l3 = ['PRP', 'VBG', 'VBZ', 'IN']
+        l4 = ['PRP', 'VBG', 'VBZ']
+        l5 = ['PRP', 'VBG', 'VBD']
+        l6 = ['NNP', 'VBG', 'VBD']
+        l7 = ['NN', 'VBG', 'VBZ']
+
+        l8 = ['NNP', 'VBZ', 'JJ']
+        l9 = ['NNP', 'VBZ', 'NN']
+
+        l10 = ['NNP', 'VBZ']
+        l11 = ['PRP', 'VBZ']
+        l12 = ['NNP', 'NN', 'IN']
+        l13 = ['NN', 'VBZ']
+
+        # With the use of conditional statements the dictionary is compared with the list created above
+
+        try:
+            if all(key in bucket for key in l1):  # 'NNP', 'VBG', 'VBZ', 'IN' in sentence.
+                question = 'What' + ' ' + line.words[bucket['VBZ']] + ' ' + line.words[bucket['NNP']] + ' ' + line.words[
+                    bucket['VBG']] + '?'
+
+            elif all(key in bucket for key in l2):  # 'NNP', 'VBG', 'VBZ' in sentence.
+                question = 'What' + ' ' + line.words[bucket['VBZ']] + ' ' + line.words[bucket['NNP']] + ' ' + line.words[
+                    bucket['VBG']] + '?'
+
+            elif all(key in bucket for key in l3):  # 'PRP', 'VBG', 'VBZ', 'IN' in sentence.
+                question = 'What' + ' ' + line.words[bucket['VBZ']] + ' ' + line.words[bucket['PRP']] + ' ' + line.words[
+                    bucket['VBG']] + '?'
+
+            elif all(key in bucket for key in l4):  # 'PRP', 'VBG', 'VBZ' in sentence.
+                question = 'What ' + line.words[bucket['PRP']] + ' ' + ' does ' + line.words[bucket['VBG']] + ' ' + \
+                           line.words[bucket['VBG']] + '?'
+
+            elif all(key in bucket for key in l7):  # 'NN', 'VBG', 'VBZ' in sentence.
+                question = 'What' + ' ' + line.words[bucket['VBZ']] + ' ' + line.words[bucket['NN']] + ' ' + line.words[
+                    bucket['VBG']] + '?'
+
+            elif all(key in bucket for key in l8):  # 'NNP', 'VBZ', 'JJ' in sentence.
+                question = 'What' + ' ' + line.words[bucket['VBZ']] + ' ' + line.words[bucket['NNP']] + '?'
+
+            elif all(key in bucket for key in l9):  # 'NNP', 'VBZ', 'NN' in sentence
+                question = 'What' + ' ' + line.words[bucket['VBZ']] + ' ' + line.words[bucket['NNP']] + '?'
+
+            elif all(key in bucket for key in l11):  # 'PRP', 'VBZ' in sentence.
+                if line.words[bucket['PRP']] in ['she', 'he']:
+                    question = 'What' + ' does ' + line.words[bucket['PRP']].lower() + ' ' + line.words[
+                        bucket['VBZ']].singularize() + '?'
+
+            elif all(key in bucket for key in l10):  # 'NNP', 'VBZ' in sentence.
+                question = 'What' + ' does ' + line.words[bucket['NNP']] + ' ' + line.words[
+                    bucket['VBZ']].singularize() + '?'
+
+            elif all(key in bucket for key in l13):  # 'NN', 'VBZ' in sentence.
+                question = 'What' + ' ' + line.words[bucket['VBZ']] + ' ' + line.words[bucket['NN']] + '?'
+
+            # When the tags are generated 's is split to ' and s. To overcome this issue.
+            if 'VBZ' in bucket and line.words[bucket['VBZ']] == "’":
+                question = question.replace(" ’ ", "'s ")
+
+            # Print the generated questions as output.
+            if question != '':
+                if verbose:
+                    print('\n', 'Question: ' + question)
+                questions.append(question)
+        except Exception as e:
+            pass
+
+    return questions
+
+
 def test_qp():
     parser = LILACSQuestionParser()
 
@@ -370,5 +484,13 @@ def test_teacher():
 
 
 if __name__ == '__main__':
+    corpus = """T he Citânia de Briteiros is an archaeological site of the Castro culture located in the Portuguese civil parish of Briteiros São Salvador e Briteiros Santa Leocádia in the municipality of Guimarães; important for its size, "urban" form and developed architecture, it is one of the more excavated sites in northwestern Iberian Peninsula. Although primarily known as the remains of an Iron Age proto-urban hill fort (or oppidum), the excavations at the site have revealed evidence of sequential settlement, extending from the Bronze to Middle Ages."""
+    #corpus = normalize(corpus)
+    print(formulate_questions(corpus))
+    corpus = """The African wild dog (Lycaon pictus), also known as African hunting dog, African painted dog, painted hunting dog, or painted wolf, is a canid native to sub-Saharan Africa. It is the largest of its family in Africa, and the only extant member of the genus Lycaon, which is distinguished from Canis by its fewer toes and its dentition, which is highly specialised for a hypercarnivorous diet. It was classified as endangered by the IUCN in 2016, as it had disappeared from much of its original range. The 2016 population was estimated at roughly 39 subpopulations containing 6,600 adults, only 1,400 of which were reproducing adults.[2] The decline of these populations is ongoing, due to habitat fragmentation, human persecution, and disease outbreaks.
+    The African wild dog is a highly social animal, living in packs with separate dominance hierarchies for males and females. Uniquely among social carnivores, the females rather than the males scatter from the natal pack once sexually mature, and the young are allowed to feed first on carcasses. The species is a specialised diurnal hunter of antelopes, which it catches by chasing them to exhaustion. Like other canids, it regurgitates food for its young, but this action is also extended to adults, to the point of being the bedrock of African wild dog social life.[3][4][5] It has few natural predators, though lions are a major source of mortality, and spotted hyenas are frequent kleptoparasites.
+    Although not as prominent in African folklore or culture as other African carnivores, it has been respected in several hunter-gatherer societies, particularly those of the predynastic Egyptians and the San people."""
+    print(normalize(corpus))
+    print(extract_facts("dog", corpus, norm=False))
     test_teacher()
     test_qp()

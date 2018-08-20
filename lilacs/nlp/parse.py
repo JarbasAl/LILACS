@@ -3,6 +3,7 @@ from lilacs.nlp import get_nlp
 import textacy.extract
 from lilacs.nlp.inflect import singularize as make_singular
 from lilacs.util import NUM_STRING_EN
+from lilacs.emotions import EMOTION_NAMES
 from spacy.parts_of_speech import NOUN, VERB
 import requests
 
@@ -82,11 +83,12 @@ def normalize(text, remove_articles=True, solve_corefs=True, coref_nlp=None, nlp
     return text
 
 
-def extract_facts(subject, text, nlp=None, coref_nlp=None):
+def extract_facts(subject, text, nlp=None, coref_nlp=None, norm=True):
     facts = []
     nlp = nlp or get_nlp()
     # Parse the document with spaCy
-    text = normalize(text, remove_articles=False, coref_nlp=coref_nlp)
+    if norm:
+        text = normalize(text, remove_articles=False, coref_nlp=coref_nlp)
     doc = nlp(text)
     # Extract semi-structured statements
     statements = textacy.extract.semistructured_statements(doc, subject)
@@ -104,12 +106,21 @@ def extract_entities(text, nlp=None):
         for entity in doc.ents:
             ents.append((entity.text, entity.label_))
     else:
-        data = {"model": "en_core_web_lg", "text": text}
-        r = requests.post("https://api.explosion.ai/displacy/ent", data)
-        r = r.json()
-        for e in r:
-            txt = text[e["start"]:e["end"]]
-            ents.append((txt, e["label"].lower()))
+        try:
+            data = {"model": "en_core_web_lg", "text": text}
+            r = requests.post("https://api.explosion.ai/displacy/ent", data)
+            r = r.json()
+            for e in r:
+                txt = text[e["start"]:e["end"]]
+                ents.append((txt, e["label"].lower()))
+        except Exception as e:
+            print(e)
+
+    # recognize emotions
+    words = text.lower().split(" ")
+    for emotion in EMOTION_NAMES:
+        if emotion in words:
+            ents.append((emotion, "emotion"))
     return ents
 
 
@@ -131,8 +142,11 @@ def replace_coreferences(text, nlp=None):
         doc = nlp(text)
         text = doc._.coref_resolved
     else:
-        params = {"text": text}
-        text = requests.get("https://coref.huggingface.co/coref", params=params).json()["corefResText"]
+        try:
+            params = {"text": text}
+            text = requests.get("https://coref.huggingface.co/coref", params=params).json()["corefResText"]
+        except Exception as e:
+            print(e)
     return text
 
 
@@ -185,4 +199,4 @@ def dependency_tree(text, nlp=None):
 
 if __name__ == "__main__":
     print(singularize("dogs are awesome animals"))
-    print(extract_entities("i ate cheese earlier this week"))
+    print(extract_entities("i ate cheese earlier this week, i hate it"))
