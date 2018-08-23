@@ -17,6 +17,7 @@ from lilacs.settings import MODELS_DIR, SENSE2VEC_MODEL
 import time
 from profanity.profanity import contains_profanity
 from lilacs.context.emotions.tag import best_emotion
+from lilacs.context.emotions.deepmoji import get_emojis, get_emoji_scores
 from lilacs.context.core import UserEmotionContext
 
 
@@ -29,9 +30,9 @@ class LILACS(object):
 
     def __init__(self, debug=False):
         self.db = ConceptDatabase(debug=debug)
-        self.past_actions = []
+        self.explanation = []
         self.contexts = []
-        self.feelings = []
+        self.emotions = []
         self.status = {}
         self.status_update("boot")
         self.reaction_handlers = {
@@ -99,18 +100,30 @@ class LILACS(object):
 
     # reactions
     def react(self, utterance):
+        self.status_update("start")
+        self.status_update("receive user question", {"utterance": utterance})
         # TODO set some bias emotions or context
 
         data = self.feature_selection(utterance)
         possible_reactions = self.emotional_reaction(utterance)
         # execute all contexts to mutate data
+        contexts = []
         for context in self.contexts:
+            contexts.append(context)
             data, emotions = context.execute(data)
+            data["contexts"] = contexts
+            data["last_context"] = context
+            self.status_update("executed context", data)
             # add emotions from contexts
             for e in emotions:
+                self.status_update("context bias", {"bias": e})
                 self.add_emotion(e)
         reaction = self.model_selection(data, possible_reactions)
-        return reaction.execute(data)
+        success = reaction.execute(data)
+        data["success"] = success
+        self.status_update("executed reaction", data)
+        self.status_update("end")
+        return success
 
     def emotional_reaction(self, text):
         # how does the user feel
@@ -122,6 +135,8 @@ class LILACS(object):
         # profanity bias
         if contains_profanity(text):
             self.add_emotion("disgust")
+            data = {"bias": "disgust"}
+            self.status_update("detected profanity", data)
 
         # TODO reactions from emotions
         reactions = []
@@ -138,10 +153,14 @@ class LILACS(object):
         # is question?
         data = self.parser.parse(text)
         question_type = data["question_type"]
+        self.status_update("parsed user question", data)
         if question_type == "teach":
             teacher_data = self.teacher.parse(text)
+            self.status_update("parsed user teaching", teacher_data)
             # bias for selecting learning behaviour
             self.add_emotion("serenity")
+            teacher_data["bias"] = "serenity"
+            self.status_update("added learning bias", teacher_data)
             return teacher_data
         return data
 
@@ -156,12 +175,14 @@ class LILACS(object):
             elif reaction.wants_to_execute():
                 reactions.append(reaction)
         # TODO select best reaction here
+        data["emotions"] = self.emotions
+        self.status_update("selected reaction", data)
         return None
 
     def add_emotion(self, name):
         emotion = name
         # TODO use emotion object
-        self.feelings.append(emotion)
+        self.emotions.append(emotion)
 
     def register_reaction(self, reaction_type, handler):
         assert reaction_type in self.reaction_handlers.keys()
@@ -169,17 +190,34 @@ class LILACS(object):
         self.reaction_handlers[reaction_type].append(handler)
 
     def set_context(self, context):
+        self.status_update("defined context", context.__dict__)
         self.contexts.insert(0, context)
+
+    def explain(self):
+        # find start
+        reversed_history = self.explanation.copy()
+        reversed_history.reverse()
+        relevant = []
+        for idx, reason in enumerate(reversed_history):
+            if reason["last action"] == "start":
+                relevant = reversed_history[:idx]
+                relevant.reverse()
+        return relevant
 
     # emotion parsing
     def extract_text_emotions(self, text):
+        emojis = get_emojis(text)
+        data = {"emojis": emojis}
+        self.status_update("deepmoji tagging", data)
         return {}
 
     def extract_user_emotions(self, text):
         # create context
         self.set_context(UserEmotionContext())
         # return emotion data
-        return {"user_emotion": best_emotion(text)}
+        data = {"user_emotion": best_emotion(text)}
+        self.status_update("set user emotion context", data)
+        return data
 
     # TODO historical context
     def status_update(self, action, data=None):
@@ -187,7 +225,7 @@ class LILACS(object):
         self.status["last_action_timestamp"] = time.time()
         self.status["last_action_data"] = data
         self.status["last_action"] = action
-        self.past_actions.append(dict(self.status))
+        self.explanation.append(dict(self.status))
 
     # text parsing
     def normalize(self, text):
@@ -228,7 +266,6 @@ class LILACS(object):
         #for c in ents:
         #    c = ("related", c[0], c[1])
         #    print(c)
-
 
     # nodes
     def add_node(self, subject, description="", node_type="idea"):
