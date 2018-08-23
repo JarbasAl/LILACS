@@ -32,7 +32,70 @@ class LILACS(object):
         self.feelings = []
         self.status = {}
         self.status_update("boot")
+        self.reaction_handlers = {
+            "retain or repeat": [],
+            "groom": [],
+            "escape": [],
+            "stop": [],
+            "cry": [],
+            "vomit": [],
+            "attack": [],
+            "map": []
+        }
+        self._build_base_reactions()
 
+    def _build_base_reactions(self):
+        # when teaching, retain or repeat, base = serenity
+        name = "retain or repeat"
+        self.register_reaction(name, self.handle_retain_or_repeat)
+        # when wrong, cry, base = pensiveness
+        name = "cry"
+        self.register_reaction(name, self.handle_cry)
+        # when user wrong, attack, base = annoyance
+        name = "attack"
+        self.register_reaction(name, self.handle_attack)
+        # when told to stop, stop, base = distraction
+        name = "stop"
+        self.register_reaction(name, self.handle_stop)
+        # when can learn, map, base = interest
+        name = "map"
+        self.register_reaction(name, self.handle_map)
+        # when can answer, groom, base = acceptance
+        name = "groom"
+        self.register_reaction(name, self.handle_groom)
+        # when unknown, escape, base = apprehension
+        name = "escape"
+        self.register_reaction(name, self.handle_escape)
+        # when not enough data/need clarification, vomit, base = boredom
+        name = "vomit"
+        self.register_reaction(name, self.handle_vomit)
+
+    # 8 basic survival instincts
+    def handle_retain_or_repeat(self, data):
+        pass
+
+    def handle_attack(self, data):
+        pass
+
+    def handle_stop(self, data):
+        pass
+
+    def handle_cry(self, data):
+        pass
+
+    def handle_map(self, data):
+        pass
+
+    def handle_groom(self, data):
+        pass
+
+    def handle_escape(self, data):
+        pass
+
+    def handle_vomit(self, data):
+        pass
+
+    # reactions
     def react(self, utterance):
         # TODO set some bias emotions or context
 
@@ -44,8 +107,8 @@ class LILACS(object):
             # add emotions from contexts
             for e in emotions:
                 self.add_emotion(e)
-
         reaction = self.model_selection(data, possible_reactions)
+        return reaction.execute(data)
 
     def emotional_reaction(self, text):
         # how does the user feel
@@ -58,7 +121,7 @@ class LILACS(object):
         # profanity bias
         if contains_profanity(text):
             self.add_emotion("disgust")
-        # TODO reaction handlers
+        # TODO reactions from emotions
         reactions = []
         return reactions
 
@@ -81,15 +144,16 @@ class LILACS(object):
         return data
 
     def model_selection(self, data, reaction_whitelist=None):
-        # TODO select possible reactions here
-        # when teaching, retain or repeat, base = serenity
-        # when wrong, cry, base = pensiveness
-        # when user wrong, attack, base = annoyance
-        # when told to stop, stop, base = distraction
-        # when can learn, map, base = interest
-        # when can answer, groom, base = acceptance
-        # when unknown, escape, base = apprehension
-        # when not enough data/need clarification, vomit, base = boredom
+        # pre selection
+        reactions = []
+        for reaction in reaction_whitelist:
+            # useful reaction
+            if reaction.can_solve(data):
+                reactions.append(reaction)
+            # wants do something but cant solve
+            elif reaction.wants_to_execute():
+                reactions.append(reaction)
+        # TODO select best reaction here
         return None
 
     def add_emotion(self, name):
@@ -97,7 +161,7 @@ class LILACS(object):
         # TODO use emotion object
         self.feelings.append(emotion)
 
-    def register_reaction(self, name, handler):
+    def register_reaction(self, reaction_type, handler):
         REACTION_NAMES = {
             "retain or repeat": {
                 "function": "gain resources",
@@ -156,6 +220,7 @@ class LILACS(object):
                 "behaviour": "exploration"
             }
         }
+        self.reaction_handlers[reaction_type].append(handler)
 
     # emotion parsing
     def extract_text_emotions(self, text):
@@ -164,7 +229,7 @@ class LILACS(object):
     def extract_user_emotions(self, text):
         return {}
 
-    # situational context
+    # historical context
     def status_update(self, action, data=None):
         data = data or {}
         self.status["last_action_timestamp"] = time.time()

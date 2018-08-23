@@ -147,6 +147,7 @@ class BehavioralReaction(object):
 def _get_reactions():
     bucket = {}
     bucket2 = {}
+    bucket3 = {}
     for reaction in REACTION_NAMES:
         data = REACTION_NAMES[reaction]
 
@@ -155,10 +156,12 @@ def _get_reactions():
         bucket[r.name] = r
         bucket2[r.name] = r.base_emotion
 
-    return bucket, bucket2
+        bucket3[r.base_emotion] = r
+
+    return bucket, bucket2, bucket3
 
 
-REACTIONS, REACTION_TO_EMOTION_MAP = _get_reactions()
+REACTIONS, REACTION_TO_EMOTION_MAP, EMOTION_TO_REACTION_MAP = _get_reactions()
 
 
 if __name__ == "__main__":
