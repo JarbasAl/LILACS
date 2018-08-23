@@ -3,7 +3,7 @@ from lilacs.nlp import get_nlp
 import textacy.extract
 from lilacs.nlp.inflect import singularize as make_singular
 from lilacs.util import NUM_STRING_EN
-from lilacs.emotions import EMOTION_NAMES
+from lilacs.context.emotions.emotions import EMOTION_NAMES
 from spacy.parts_of_speech import NOUN, VERB
 import requests
 

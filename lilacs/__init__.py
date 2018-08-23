@@ -32,6 +32,31 @@ class LILACS(object):
         self.status = {}
         self.status_update("boot")
 
+    def react(self, utterance):
+        # TODO set some bias emotions or context
+
+        data = self.feature_selection(utterance)
+        possible_reactions = self.emotional_reaction(utterance)
+        # execute all contexts to mutate data
+        for context in self.contexts:
+            data, emotions = context.execute(data)
+            # add all emotions
+            for e in emotions:
+                self.add_emotion(e)
+        reaction = self.model_selection(data, possible_reactions)
+
+    def emotional_reaction(self, text):
+        # how does the user feel
+        # TODO contexts and emotions out of this
+        user_emotion_data = self.extract_user_emotions(text)
+
+        # how do i feel about the text content
+        deepmoji_data = self.extract_text_emotions(text)
+
+        # TODO reaction handlers
+        reactions = []
+        return reactions
+
     # pipeline
     def feature_selection(self, text):
         """
@@ -40,32 +65,18 @@ class LILACS(object):
         :param text:
         :return:
         """
-        # emotional reaction
-        reactions = self.emotional_reaction(text)
-
         # is question?
-        question = True
-        if question:
-            question_data = self.parser.parse(text)
-            # bias for selecting answering behaviour
-            #self.add_emotion("serenity")
-            self.model_selection(question_data, reactions)
-        else:
+        data = self.parser.parse(text)
+        question_type = data["question_type"]
+        if question_type == "teach":
             teacher_data = self.teacher.parse(text)
             # bias for selecting learning behaviour
             self.add_emotion("serenity")
-            self.model_selection(teacher_data, reactions)
+            return teacher_data
+        return data
 
-    def model_selection(self, data, reactions=None):
-        # from contexts, emotions and data
-
-        # execute all contexts to mutate data
-        for context in self.contexts:
-            data, emotions = context.execute(data)
-            # add all emotions
-            self.feelings += emotions
-
-        # execute possible reactions here
+    def model_selection(self, data, reaction_whitelist=None):
+        # TODO select possible reactions here
         # when teaching, retain or repeat, base = serenity
         # when wrong, cry, base = pensiveness
         # when user wrong, attack, base = annoyance
@@ -74,10 +85,11 @@ class LILACS(object):
         # when can answer, groom, base = acceptance
         # when unknown, escape, base = apprehension
         # when not enough data/need clarification, vomit, base = boredom
-        reactions = reactions or []
+        return None
 
     def add_emotion(self, name):
         emotion = name
+        # TODO use emotion object
         self.feelings.append(emotion)
 
     def register_reaction(self, name, handler):
@@ -139,17 +151,6 @@ class LILACS(object):
                 "behaviour": "exploration"
             }
         }
-
-    def emotional_reaction(self, text):
-        # how does the user feel
-        user_emotion_data = self.extract_user_emotions(text)
-
-        # how do i feel about the text content
-        deepmoji_data = self.extract_text_emotions(text)
-
-        # TODO reaction handlers
-        reaction = None
-        return reaction
 
     # emotion parsing
     def extract_text_emotions(self, text):
