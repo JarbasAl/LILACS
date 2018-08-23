@@ -1,4 +1,4 @@
-from emotion_data.emotions import EMOTIONS
+from lilacs.context.emotions.emotions import EMOTIONS
 
 BEHAVIOUR_NAMES = {
     "protection": {
