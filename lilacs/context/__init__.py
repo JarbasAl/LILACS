@@ -8,16 +8,20 @@ class DataChange(object):
         self.data = data or {}
         self.initialize()
         self._handlers = []
+        self.emotions = []
 
     def initialize(self):
         pass
 
-    def execute(self):
+    def execute(self, data=None):
+        data = data or self.data
         for handler in self._handlers:
             try:
-                handler(self.data)
+                data, emotion = handler(data)
+                self.emotions.append(emotion)
             except Exception as e:
                 print(e)
+        return data, self.emotions
 
     def register_handler(self, handler):
         self._handlers.append(handler)
@@ -32,7 +36,7 @@ class BaseSituationalContext(object):
     availability_changes = []
 
     def __init__(self):
-        pass
+        self.emotions = []
 
     def register_meaning_change(self, change, handler, data=None):
         """
@@ -106,6 +110,21 @@ class BaseSituationalContext(object):
         c = DataChange(change, data)
         c.register_handler(handler)
         self.availability_changes.append(c)
+
+    def execute(self, data=None):
+        for change in self.meaning_changes:
+            data, emotions = change.execute(data)
+            self.emotions += emotions
+        for change in self.influence_changes:
+            data, emotions = change.execute(data)
+            self.emotions += emotions
+        for change in self.accuracy_changes:
+            data, emotions = change.execute(data)
+            self.emotions += emotions
+        for change in self.availability_changes:
+            data, emotions = change.execute(data)
+            self.emotions += emotions
+        return data, self.emotions
 
 
 class HistoricalContext(BaseSituationalContext):
