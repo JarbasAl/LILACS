@@ -47,16 +47,33 @@ class LILACS(object):
         question = True
         if question:
             question_data = self.parser.parse(text)
-            # add emotion
+            # bias for selecting answering behaviour
+            #self.add_emotion("serenity")
             self.model_selection(question_data, reactions)
         else:
             teacher_data = self.teacher.parse(text)
+            # bias for selecting learning behaviour
             self.add_emotion("serenity")
             self.model_selection(teacher_data, reactions)
 
-    def model_selection(self, question_data, reactions=None):
-        # from contexts, reactions and data
-        # execute reactions here
+    def model_selection(self, data, reactions=None):
+        # from contexts, emotions and data
+
+        # execute all contexts to mutate data
+        for context in self.contexts:
+            data, emotions = context.execute(data)
+            # add all emotions
+            self.feelings += emotions
+
+        # execute possible reactions here
+        # when teaching, retain or repeat, base = serenity
+        # when wrong, cry, base = pensiveness
+        # when user wrong, attack, base = annoyance
+        # when told to stop, stop, base = distraction
+        # when can learn, map, base = interest
+        # when can answer, groom, base = acceptance
+        # when unknown, escape, base = apprehension
+        # when not enough data/need clarification, vomit, base = boredom
         reactions = reactions or []
 
     def add_emotion(self, name):
@@ -130,7 +147,7 @@ class LILACS(object):
         # how do i feel about the text content
         deepmoji_data = self.extract_text_emotions(text)
 
-
+        # TODO reaction handlers
         reaction = None
         return reaction
 
