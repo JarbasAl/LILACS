@@ -72,7 +72,6 @@ EMOJI_MAP = {
 
 
 # http://kt.ijs.si/data/Emoji_sentiment_ranking/
-# TODO
 EMOJI_SENTIMENT = {}
 
 
@@ -81,27 +80,33 @@ EMOJI_SENTIMENT = {}
 def get_emoji_scores(text):
     params = {"q": text}
     emojis = {}
-    try:
-        scores = requests.get("https://deepmoji.mit.edu/api/", params=params).json()["scores"]
-        for idx, score in enumerate(scores):
-            if score:
-                emojis[idx] = score
-    except:
-        pass
+    scores = requests.get("https://deepmoji.mit.edu/api/", params=params).json()["scores"]
+    for idx, score in enumerate(scores):
+        if score:
+            emojis[idx] = score
     return emojis
 
 
 def get_emojis(text):
     params = {"q": text}
     emojis = {}
-    try:
-        scores = requests.get("https://deepmoji.mit.edu/api/", params=params).json()["scores"]
-        for idx, score in enumerate(scores):
-            if score:
-                emojis[idx] = score
-        scores = sorted(emojis, key=lambda k: emojis[k])
-        scores.reverse()
-        return [EMOJI_MAP[s] for s in scores]
-    except:
-        return []
+    scores = requests.get("https://deepmoji.mit.edu/api/", params=params).json()["scores"]
+    for idx, score in enumerate(scores):
+        if score:
+            emojis[idx] = score
+    scores = sorted(emojis, key=lambda k: emojis[k])
+    scores.reverse()
+    return [EMOJI_MAP[s] for s in scores]
+
+
+def test():
+    TEST_SENTENCES = ['I love mom\'s cooking',
+                      'I love how you never reply back..',
+                      'I love cruising with my homies',
+                      'I love messing with yo mind!!',
+                      'I love you and now you\'re just gone..',
+                      'This is shit',
+                      'This is the shit']
+    for t in TEST_SENTENCES:
+        print(get_emojis(t))
 
