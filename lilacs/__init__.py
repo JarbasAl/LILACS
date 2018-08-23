@@ -15,6 +15,7 @@ from lilacs.data_sources.wikipedia import extract_wikipedia_connections
 from lilacs.settings import MODELS_DIR, SENSE2VEC_MODEL
 #import sense2vec
 import time
+from profanity.profanity import contains_profanity
 
 
 class LILACS(object):
@@ -40,9 +41,10 @@ class LILACS(object):
         # execute all contexts to mutate data
         for context in self.contexts:
             data, emotions = context.execute(data)
-            # add all emotions
+            # add emotions from contexts
             for e in emotions:
                 self.add_emotion(e)
+
         reaction = self.model_selection(data, possible_reactions)
 
     def emotional_reaction(self, text):
@@ -53,6 +55,9 @@ class LILACS(object):
         # how do i feel about the text content
         deepmoji_data = self.extract_text_emotions(text)
 
+        # profanity bias
+        if contains_profanity(text):
+            self.add_emotion("disgust")
         # TODO reaction handlers
         reactions = []
         return reactions
