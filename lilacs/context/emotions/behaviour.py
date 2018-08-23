@@ -130,6 +130,7 @@ class BehavioralReaction(object):
         self.trigger = ""
         self.base_emotion = None # emotion object
         self.behaviour = None # behaviour object
+        self.handler = None
 
     def from_data(self, data=None):
         data = data or {}
@@ -139,6 +140,23 @@ class BehavioralReaction(object):
         self.trigger = data.get("trigger", "")
         self.base_emotion = EMOTIONS.get(data.get("base_emotion", ""))
         self.behaviour = BEHAVIOURS[data["behaviour"]]
+
+    def test(self, data):
+        return False
+
+    def execute(self, data):
+        if self.handler:
+            return self.handler()
+        return False
+
+    def can_solve(self, data):
+        try:
+            return self.test(data)
+        except Exception as e:
+            return False
+
+    def wants_to_execute(self):
+        return False
 
     def __repr__(self):
         return "BehavioralReactionObject:" + self.name
