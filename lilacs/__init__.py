@@ -16,6 +16,8 @@ from lilacs.settings import MODELS_DIR, SENSE2VEC_MODEL
 #import sense2vec
 import time
 from profanity.profanity import contains_profanity
+from lilacs.context.emotions.tag import best_emotion
+from lilacs.context.core import UserEmotionContext
 
 
 class LILACS(object):
@@ -112,7 +114,6 @@ class LILACS(object):
 
     def emotional_reaction(self, text):
         # how does the user feel
-        # TODO contexts and emotions out of this
         user_emotion_data = self.extract_user_emotions(text)
 
         # how do i feel about the text content
@@ -121,6 +122,7 @@ class LILACS(object):
         # profanity bias
         if contains_profanity(text):
             self.add_emotion("disgust")
+
         # TODO reactions from emotions
         reactions = []
         return reactions
@@ -162,74 +164,24 @@ class LILACS(object):
         self.feelings.append(emotion)
 
     def register_reaction(self, reaction_type, handler):
-        REACTION_NAMES = {
-            "retain or repeat": {
-                "function": "gain resources",
-                "cognite appraisal": "possess",
-                "trigger": "gain of value",
-                "base_emotion": "serenity",
-                "behaviour": "incorporation"
-            },
-            "groom": {
-                "function": "mutual support",
-                "cognite appraisal": "friend",
-                "trigger": "member of one's group",
-                "base_emotion": "acceptance",
-                "behaviour": "reproduction"
-            },
-            "escape": {
-                "function": "safety",
-                "cognite appraisal": "danger",
-                "trigger": "threat",
-                "base_emotion": "apprehension",
-                "behaviour": "protection"
-            },
-            "stop": {
-                "function": "gain time",
-                "cognite appraisal": "orient self",
-                "trigger": "unexpected event",
-                "base_emotion": "distraction",
-                "behaviour": "orientation"
-            },
-            "cry": {
-                "function": "reattach to lost object",
-                "cognite appraisal": "abandonment",
-                "trigger": "loss of value",
-                "base_emotion": "pensiveness",
-                "behaviour": "reintegration"
-            },
-            "vomit": {
-                "function": "eject poison",
-                "cognite appraisal": "poison",
-                "trigger": "unpalatable object",
-                "base_emotion": "boredom",
-                "behaviour": "rejection"
-            },
-            "attack": {
-                "function": "destroy obstacle",
-                "cognite appraisal": "enemy",
-                "trigger": "obstacle",
-                "base_emotion": "annoyance",
-                "behaviour": "destruction"
-            },
-            "map": {
-                "function": "knowledge of territory",
-                "cognite appraisal": "examine",
-                "trigger": "new territory",
-                "base_emotion": "interest",
-                "behaviour": "exploration"
-            }
-        }
+        assert reaction_type in self.reaction_handlers.keys()
+
         self.reaction_handlers[reaction_type].append(handler)
+
+    def set_context(self, context):
+        self.contexts.insert(0, context)
 
     # emotion parsing
     def extract_text_emotions(self, text):
         return {}
 
     def extract_user_emotions(self, text):
-        return {}
+        # create context
+        self.set_context(UserEmotionContext())
+        # return emotion data
+        return {"user_emotion": best_emotion(text)}
 
-    # historical context
+    # TODO historical context
     def status_update(self, action, data=None):
         data = data or {}
         self.status["last_action_timestamp"] = time.time()

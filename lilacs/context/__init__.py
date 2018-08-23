@@ -39,7 +39,7 @@ class BaseSituationalContext(object):
         self.name = name
         self.emotions = []
 
-    def register_meaning_change(self, change, handler, data=None):
+    def register_meaning_change(self, change_name, handler, data=None):
         """
         meaning of cues depends on social factors: for example,
         whistling that indicates game highlight in basketball matches is a meaningless sound in tennis.
@@ -47,36 +47,36 @@ class BaseSituationalContext(object):
         (e.g., the users’ laughter during a dialog may be interpreted as either happy or sarcastic,
         depending on the previous statements).
 
-        :param change:
+        :param change_name:
         :param handler:
         :param data:
         :return:
         """
         data = data or {}
         data["type"] = "meaning"
-        c = DataChange(change, data)
+        c = DataChange(change_name, data)
         c.register_handler(handler)
         self.meaning_changes.append(c)
 
-    def register_influence_change(self, change, handler, data=None):
+    def register_influence_change(self, change_name, handler, data=None):
         """
         Importance of the same input cues may vary in different contexts (often, also due to social factors):
         for example, presence of young children may strongly affect the choice of TV programmes to watch in one family,
         whereas adults may dominate in another family. Task factors play this role, too:
         for example, noise or illumination cues may be more or less important, depending on a search goal.
 
-        :param change:
+        :param change_name:
         :param handler:
         :param data:
         :return:
         """
         data = data or {}
         data["type"] = "influence"
-        c = DataChange(change, data)
+        c = DataChange(change_name, data)
         c.register_handler(handler)
         self.influence_changes.append(c)
 
-    def register_accuracy_change(self, change, handler, data=None):
+    def register_accuracy_change(self, change_name, handler, data=None):
         """
         cues may be recognised more or less reliably in different contexts, often due to computational factors;
         for example, the accuracy of image analysis depends on image resolution.
@@ -84,45 +84,45 @@ class BaseSituationalContext(object):
         the accuracy of input cues: for example, image background affects the accuracy of object detection.
         Historical factors may degrade the accuracies, too, when the models become outdated; for example,
         growing hair may decrease the face recognition accuracy.
-        :param change:
+        :param change_name:
         :param handler:
         :param data:
         :return:
         """
         data = data or {}
         data["type"] = "accuracy"
-        c = DataChange(change, data)
+        c = DataChange(change_name, data)
         c.register_handler(handler)
         self.accuracy_changes.append(c)
 
-    def register_availability_change(self, change, handler, data=None):
+    def register_availability_change(self, change_name, handler, data=None):
         """
         The same input cues may be abundant in some situations and missing in others.
         Most often this happens in uncontrolled conditions: for example, results of video analysis may be unavailable
         if users bypass a camera. Social factors may cause incomplete data, too: if it is polite to stay silent,
         audio cues will be unavailable.
-        :param change:
+        :param change_name:
         :param handler:
         :param data:
         :return:
         """
         data = data or {}
         data["type"] = "availability"
-        c = DataChange(change, data)
+        c = DataChange(change_name, data)
         c.register_handler(handler)
         self.availability_changes.append(c)
 
     def execute(self, data=None):
-        for change in self.meaning_changes:
+        for change in self.accuracy_changes:
+            data, emotions = change.execute(data)
+            self.emotions += emotions
+        for change in self.availability_changes:
             data, emotions = change.execute(data)
             self.emotions += emotions
         for change in self.influence_changes:
             data, emotions = change.execute(data)
             self.emotions += emotions
-        for change in self.accuracy_changes:
-            data, emotions = change.execute(data)
-            self.emotions += emotions
-        for change in self.availability_changes:
+        for change in self.meaning_changes:
             data, emotions = change.execute(data)
             self.emotions += emotions
         return data, self.emotions
