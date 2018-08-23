@@ -35,7 +35,8 @@ class BaseSituationalContext(object):
     accuracy_changes = []
     availability_changes = []
 
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.emotions = []
 
     def register_meaning_change(self, change, handler, data=None):
@@ -133,8 +134,8 @@ class HistoricalContext(BaseSituationalContext):
                   " changes in user’s mood or appearance over time, " \
                   "and recently viewed movies."
 
-    def __init__(self):
-        BaseSituationalContext.__init__(self)
+    def __init__(self, name="historical context"):
+        BaseSituationalContext.__init__(self, name)
 
 
 class SocialContext(BaseSituationalContext):
@@ -142,24 +143,24 @@ class SocialContext(BaseSituationalContext):
                   "for example, gender/age-dependent behaviour " \
                   "and what is considered polite in different situations."
 
-    def __init__(self):
-        BaseSituationalContext.__init__(self)
+    def __init__(self, name="social context"):
+        BaseSituationalContext.__init__(self, name)
 
 
 class EnvironmentalContext(BaseSituationalContext):
     description = "Environmental factors are anything in surroundings that may affect sensor readings, " \
                   "for example, background noise and light."
 
-    def __init__(self):
-        BaseSituationalContext.__init__(self)
+    def __init__(self, name="environmental context"):
+        BaseSituationalContext.__init__(self, name)
 
 
 class TaskContext(BaseSituationalContext):
     description = "Task factors present specific users’ objectives, for example, " \
                   "purpose of information search and available time."
 
-    def __init__(self):
-        BaseSituationalContext.__init__(self)
+    def __init__(self, name="task context"):
+        BaseSituationalContext.__init__(self, name)
 
 
 class ComputationalContext(BaseSituationalContext):
@@ -167,5 +168,5 @@ class ComputationalContext(BaseSituationalContext):
                   "for example, availability or quality of a certain data type (such as image resolution), " \
                   "computational power, and algorithm capabilities."
 
-    def __init__(self):
-        BaseSituationalContext.__init__(self)
+    def __init__(self, name="computational context"):
+        BaseSituationalContext.__init__(self, name)
