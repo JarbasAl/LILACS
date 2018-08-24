@@ -82,8 +82,73 @@ DEEPMOJI_MAP = {
     63: ":sparkles:"
 }
 
-# http://kt.ijs.si/data/Emoji_sentiment_ranking/
-EMOJI_TO_EMOTION = {}
+# many thanks to impearker! he hand tagged these emotions
+# check his company twitter @avemDNS a website is on the way!
+# seriously, check it out
+EMOJI_TO_EMOTION = {0: 'Amazement',
+                    1: 'Annoyance',
+                    2: 'Despair',
+                    3: 'Sadness',
+                    4: 'Love',
+                    5: 'Disappointment',
+                    6: 'Optimism',
+                    7: 'Joy',
+                    8: 'Love',
+                    9: 'Bemusement',
+                    10: 'Zeal',
+                    11: 'Delight',
+                    12: 'Subservience',
+                    13: 'Awe',
+                    14: 'boredom',
+                    15: 'Optimism',
+                    16: 'Joy',
+                    17: 'Delight',
+                    18: 'Love',
+                    19: 'boredom',
+                    20: 'Anxiety',
+                    21: 'Pride',
+                    22: 'Pessimism',
+                    23: 'Love',
+                    24: 'Love',
+                    25: 'boredom',
+                    26: 'Interest',
+                    27: 'boredom',
+                    28: 'Hope',
+                    29: 'Anxiety',
+                    30: 'Optimism',
+                    31: 'Serenity',
+                    32: 'Outrage',
+                    33: 'Delight',
+                    34: 'Pessimism',
+                    35: 'Sadness',
+                    36: 'Zeal',
+                    37: 'Cynicism',
+                    38: 'Dismay',
+                    39: 'Wariness',
+                    40: 'Unbelief',
+                    41: 'Curiosity',
+                    42: 'Hatred',
+                    43: 'Despair',
+                    44: 'Pride',
+                    45: 'Contempt',
+                    46: 'Despair',
+                    47: 'Remorse',
+                    48: 'Zeal',
+                    49: 'Disfavor',
+                    50: 'Zeal',
+                    51: 'Morbidness',
+                    52: 'Disgust',
+                    53: 'Optimism',
+                    54: 'Delight',
+                    55: 'Annoyance',
+                    56: 'Disapproval',
+                    57: 'Optimism',
+                    58: 'Optimism',
+                    59: 'love',
+                    60: 'love',
+                    61: 'love',
+                    62: 'pensiveness',
+                    63: 'Joy'}
 
 # https://github.com/words/emoji-emotion/blob/master/faces.txt#L49
 # Affin polarity, can be replicated with lilacs.nlp.sentiment_analysis.get_sentiment("your emoji instead of text")
@@ -2097,6 +2162,18 @@ def get_emojis(text):
     return [DEEPMOJI_MAP[s] for s in scores]
 
 
+def get_emotions(text):
+    params = {"q": text}
+    emojis = {}
+    scores = requests.get("https://deepmoji.mit.edu/api/", params=params).json()["scores"]
+    for idx, score in enumerate(scores):
+        if score:
+            emojis[idx] = score
+    scores = sorted(emojis, key=lambda k: emojis[k])
+    scores.reverse()
+    return [EMOJI_TO_EMOTION[s] for s in scores]
+
+
 def test():
     TEST_SENTENCES = ['I love mom\'s cooking',
                       'I love how you never reply back..',
@@ -2106,4 +2183,12 @@ def test():
                       'This is shit',
                       'This is the shit']
     for t in TEST_SENTENCES:
-        print(get_emojis(t))
+        print(get_emotions(t))
+
+    #['Zeal', 'Love', 'Love', 'Joy', 'Remorse']
+    #['Annoyance', 'boredom', 'Annoyance', 'boredom', 'Despair']
+    #['Serenity', 'Optimism', 'Optimism', 'Optimism', 'Awe']
+    #['Delight', 'Pride', 'Bemusement', 'Zeal', 'Disfavor']
+    #['Despair', 'Disappointment', 'boredom', 'Sadness', 'Pessimism']
+    #['Annoyance', 'Outrage', 'boredom', 'Annoyance', 'Cynicism']
+    #['Zeal', 'Delight', 'Optimism', 'Serenity', 'Bemusement']
