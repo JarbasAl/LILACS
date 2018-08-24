@@ -248,7 +248,7 @@ class LILACS(object):
         cons = []
         for r in data.get("results"):
             cons.append((r["text"].strip(), (r["score"] * 100) - 30))
-        self.status_update("sense2vec", cons)
+        self.status_update("sense2vec", {"connections": cons})
         return cons
 
     def populate_node(self, subject):

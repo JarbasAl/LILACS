@@ -32,3 +32,6 @@ wptools
 requests
 bs4
 python-dateutil==2.6.0
+
+# version with emojis
+git+https://github.com/angstwad/afinn
