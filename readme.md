@@ -9,4 +9,4 @@
 - [emotions](lilacs/blog/5-LILACS-emotions.md)
 - [neurotransmitters](lilacs/blog/6-LILACS_feels.md)
 - [reactions](lilacs/blog/7-LILACS-reactions.md)
-- [references](lilacs/blog/8-LILACS-referen8- LILACS - referencesces.md)
+- [references](lilacs/blog/8-LILACS-referen8-LILACS-referencesces.md)
