@@ -73,7 +73,7 @@ dimension to neurotransmitter octant
 ![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_dimension.png)
 
 
-| dimension/quadrant|     1     |       2      |      3     |     4      |   5    |    6    |  7  |  8 |
+| dimension/octant|     1     |       2      |      3     |     4      |   5    |    6    |  7  |  8 |
 |:--------------:|:----------:|:------------:|:----------:|:------------:|:--------:|:---------:|:---------:|:---------:|
 |   sensitivity  |    -    |      +1   |   -    |    -    |   -    |   -1    | -    |   -    | 
 |    attention   |  +1 | - |    -    |     -   |   -   |   -    |  -1    |   -    | 
