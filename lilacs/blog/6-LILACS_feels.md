@@ -133,7 +133,7 @@ This represents emotional equilibrium
 
 # Facial Expression
 
-We can go further and assign a facial expression LILACS i supposed to make for a certain emotion
+We can go further and assign a facial expression LILACS i supposed to make for each octant
 
 ![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/emotion-expression.jpg) 
 

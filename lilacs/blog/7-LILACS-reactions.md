@@ -89,6 +89,10 @@ Context and emotions will affect which reaction is executed
 
 Reactions can be thought off as intent domains for skills
 
+
+![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_reaction.png)     
+        
+        
 How do we make these reactions be useful in the context of AI assistant?
 
 
