@@ -125,11 +125,17 @@ The output captures the nuances of emotion better than a simple classifier
 
   
 [':stuck_out_tongue_closed_eyes:', ':heart_eyes:', ':heart:', ':blush:', ':yellow_heart:']
+
 [':unamused:', ':expressionless:', ':angry:', ':neutral_face:', ':broken_heart:']
+
 [':sunglasses:', ':ok_hand:', ':v:', ':relieved:', ':100:']
+
 [':stuck_out_tongue_winking_eye:', ':smiling_imp:', ':smirk:', ':wink:', ':speak_no_evil:']
+
 [':broken_heart:', ':pensive:', ':disappointed:', ':sleepy:', ':cry:']
+
 [':angry:', ':rage:', ':disappointed:', ':unamused:', ':triumph:']
+
 [':headphones:', ':notes:', ':ok_hand:', ':sunglasses:', ':smirk:']
 
 
