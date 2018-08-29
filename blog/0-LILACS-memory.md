@@ -1,3 +1,13 @@
+# LILACS - Memory
+
+For a bot to understand you, it needs to have some kind of memory
+
+Projects like [DbPedia]() and [Concept Net]() store data in semantic networks
+
+So lets do the same for LILACS, thats also almost like humans do, we store some abstract concept and connect it to other concepts
+
+The connections and concepts can be anything
+
 # Connections
 
 Connections have a source node, a target node, and a type
@@ -17,8 +27,7 @@ You can add new types at will for your own application
 
 this is the default connection type, it indicates an unknown type of relationship. 
 
-Examples of this are connections extracted from *sense2vec
-*
+Examples of this are connections extracted from *sense2vec*
 
 These are useful when we need to explore new nodes while ensuring we stay on topic
 
