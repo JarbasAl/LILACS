@@ -93,7 +93,7 @@ we can assign valence, some octants are positive and others are negative
 ![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_valence.png)
         
         
-lets define the dimensions as the vector of the octant diagonals
+lets define the dimensions as the vector of the octant diagonals, this simply gives us a direction
 
 		    
 ![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_pleasantness.png) 
@@ -113,6 +113,7 @@ We can also sum emotion vector to create feelings
 
 Since we are working with vectors we can also multiply vectors
 
+![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_cross_product.png) 
 
 
 
@@ -125,6 +126,9 @@ However we can see that octants  4/8 and 2/6 cancel each other
 this allows us to trace a neutrality line
 
 ![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_neutrality.png) 
+
+This represents emotional equilibrium
+
 
 
 # how do you feel LILACS ?
