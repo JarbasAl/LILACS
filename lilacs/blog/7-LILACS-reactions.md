@@ -80,7 +80,7 @@ TODO finish
 
 Since our bot has emotions, lets use it to select a behaviour, but what is a behaviour?
 
-![](lilacs/blog/survival.jpg) 
+![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/survival.jpg) 
 
 
 LILACS models a behaviour as a piece of code that runs with the previously tagged data, emotions set the behaviour, then there are a bunch of reactions registered in the system

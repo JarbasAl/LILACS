@@ -93,7 +93,7 @@ we can assign valence, some octants are positive and others are negative
 ![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_valence.png)
         
         
-lets define the dimensions as the vector of the octant diagonals, this simply gives us a direction
+lets define the dimensions as the vector of the octant diagonals, this gives us a direction
 
 		    
 ![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_pleasantness.png) 
@@ -129,6 +129,13 @@ this allows us to trace a neutrality line
 
 This represents emotional equilibrium
 
+
+
+# Facial Expression
+
+We can go further and assign a facial expression LILACS i supposed to make for a certain emotion
+
+![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/emotion-expression.jpg) 
 
 
 # how do you feel LILACS ?
