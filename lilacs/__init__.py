@@ -1,10 +1,9 @@
 import warnings
 warnings.filterwarnings("ignore", message="numpy.dtype size changed")
 warnings.filterwarnings("ignore", message="numpy.ufunc size changed")
-from os.path import join
-from lilacs.nlp import get_nlp, get_corefnlp
+from lilacs.nlp import get_nlp
 from lilacs.nlp.spotting import LILACSQuestionParser, BasicTeacher
-from lilacs.nodes.concept import ConceptDatabase
+from lilacs.memory.nodes.concept import ConceptDatabase
 from lilacs.nlp.parse import extract_facts, extract_entities, normalize
 from lilacs.data_sources.dictionary import extract_dictionary_connections
 from lilacs.data_sources.conceptnet import extract_conceptnet_connections
@@ -16,9 +15,9 @@ from lilacs.settings import MODELS_DIR, SENSE2VEC_MODEL
 #import sense2vec
 import time
 from profanity.profanity import contains_profanity
-from lilacs.context.emotions.tag import best_emotion
-from lilacs.context.emotions.deepmoji import get_emojis, get_emoji_scores
-from lilacs.context.core import UserEmotionContext
+from lilacs.sentience.emotions import best_emotion
+from lilacs.sentience.emotions import get_emojis
+from lilacs.sentience.context.core import UserEmotionContext
 
 
 class LILACS(object):
