@@ -124,7 +124,7 @@ However we can see that octants  4/8 and 2/6 cancel each other
 
 this allows us to trace a neutrality line
 
-![](octant_neutrality.png) 
+![](/octant_neutrality.png) 
 
 
 # how do you feel LILACS ?
