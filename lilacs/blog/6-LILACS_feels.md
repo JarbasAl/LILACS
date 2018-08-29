@@ -45,7 +45,7 @@ now lets make a place to store them and a plug a messagebus into it
 
 # Mapping neurotransmitters to emotions
 
-![](lilacs/blog/neutransmitter-emotion.jpg) 
+![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/neutransmitter-emotion.jpg) 
 
 
 
@@ -65,7 +65,7 @@ this study does not use plutchicks work, but let's try to adapt it
 
 Split into octants 
 
-![](lilacs/blog/octant_neuro.png)
+![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_neuro.png)
 
 
 dimension to neurotransmitter octant
