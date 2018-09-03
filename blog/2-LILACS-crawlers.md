@@ -1,12 +1,26 @@
-# LILACS Crawlers
+# LILACS - nervous system
 
-crawlers navigate lilacs nodes and execute actions
+Where do the internal signals flow? in a messagebus!
+
+different parts of LILACS talk to each other via websocker
+
+# message list
+
+TODO
+
+# Crawlers
+
+With so much data available, we need to have some strategies to maintain it and access the relevant one 
+
+Lets have a bunch of crawlers each with some strategy to perform a certain action
+
 
 - url finder -> search dbpedia, extract and create "link" concepts/connections
 - fact finder -> search wikipedia, extracts semi structured facts from text, create "fact" concepts/connections
 - label finder -> search dbpedia, extract and create "label" concepts/connections
-- label fixer -> removes malformed connections, references to self, and removes some invalid connections (you can not be labeled "drug" and "person" at same time)
+- maintenace -> removes malformed connections, references to self, and removes some invalid connections (you can not be labeled "drug" and "person" at same time)
 - connection finder -> search conceptnet/wordnet/dictionary
+
 # making a crawler
 
 
