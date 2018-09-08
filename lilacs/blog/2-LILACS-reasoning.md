@@ -57,11 +57,11 @@ Many reasoners use [first-order predicate logic](https://en.wikipedia.org/wiki/F
 • The inference rules for RDF-S or OWL are fixed. Therefore: No need for rule engine -> procedural algorithm sufficient
 
 
-![](/home/user/PycharmProjects/LILACS_github/lilacs/blog/onto_reason.jpg) 
+![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/onto_reason.jpg?raw=true) 
 
 We can use RDF to include rules in our ontology
 
-![](/home/user/PycharmProjects/LILACS_github/lilacs/blog/rule_inverseOf.jpg) 
+![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/rule_inverseOf.jpg?raw=true) 
 
 
 Owlready makes our lifes easy, it uses the [HermiT](http://www.hermit-reasoner.com/) reasoner
@@ -127,14 +127,14 @@ In this example, drug1, drug2 and drug3 Classes have changed! The reasoner deduc
 
 This step will be automatically performed by lilacs when committing something to long term memory to ensure consistency
 
-![](/home/user/PycharmProjects/LILACS_github/lilacs/blog/kb_inconsistency.jpg) 
+![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/kb_inconsistency.jpg?raw=true) 
 
 
 We may want to perform some **Rule-based reasoning** on our own
 
 • General rule-based inference (semantic rules)
 
-![](/home/user/PycharmProjects/LILACS_github/lilacs/blog/rules_reasoning.jpg) 
+![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/rules_reasoning.jpg?raw=true) 
     
 • Further classification: forward-chaining and backward- chaining
 
@@ -149,7 +149,7 @@ We may want to perform some **Rule-based reasoning** on our own
 
 [CWM]() is a Forward-chaining reasoner written in Python
 
-![](/home/user/PycharmProjects/LILACS_github/lilacs/blog/cwm usage.jpg) 
+![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/cwmusage.jpg?raw=true) 
 
 TODO usage from lilacs
 
