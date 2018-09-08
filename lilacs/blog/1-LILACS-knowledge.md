@@ -85,15 +85,19 @@ We can query ConceptNet [live](https://github.com/commonsense/conceptnet5/wiki/A
      edges = data["edges"]
 
 
-# WordNet
-
-TODO
-
 # Wikidata
 
 Wikidata is a free and open knowledge base that can be read and edited by both humans and machines.
 
 [A brief introduction to Wikidata](https://towardsdatascience.com/a-brief-introduction-to-wikidata-bb4e66395eb1)
+
+It exposes a [SPARQL endpoint](https://query.wikidata.org/) we can query, we can also download the [data](https://www.wikidata.org/wiki/Wikidata:Database_download)
+
+You can have an idea of what wikidata ontology looks like using this [explorer](https://lucaswerkmeister.github.io/wikidata-ontology-explorer/)
+
+# WordNet
+
+TODO
 
 
 # Mapping between each other
