@@ -6,11 +6,14 @@ What if we could populate our nodes and connections automatically?
 
 Bootstraping nodes from other databases is something we can do, but realistically we don't want to store all that data
 
-I decided to take at an hybrid approach and keep possibilities open, when possible we want to be able to query these databases, but we don't necessarily want to keep a copy of them
+we should take an hybrid approach and keep possibilities open, when possible we want to be able to query these databases, but we don't necessarily want to keep a copy of them
 
 Let's look at some of the projects out there, if you are interested in this topic read [A Comparative Survey of DBpedia, Freebase, OpenCyc, Wikidata, and YAGO](http://www.semantic-web-journal.net/system/files/swj1141.pdf)
 
 We can load most of those projects as ontologies and work with them directly using [owlready](https://owlready2.readthedocs.io/en/latest/)
+
+But we mostly will be querying their endpoints using SPARQL whenever possible
+
 
 # Cyc
 
@@ -30,28 +33,32 @@ OpenCyc Ontology Size of dump and data set: ~1.6 million triples, ~150MB uncompr
 
 owlready also understands this file format!
 
+There is no online endpoint we can query
+
 
 # UMBEL
 
-[UMBEL(http://umbel.org/)'s reference concepts form a coherent graph of relationships, organized into 31 mostly disjoint SuperTypes. Closely aligned concepts are clustered into hierarchically organized classes ("typologies") with further relatedness links.
+[UMBEL](http://umbel.org/)'s reference concepts form a coherent graph of relationships, organized into 31 mostly disjoint SuperTypes. Closely aligned concepts are clustered into hierarchically organized classes ("typologies") with further relatedness links.
 
 ![umb](http://umbel.org/imgs/umbel.graph.PNG  "umbel")
 
 UMBEL has about 65,000 formal mappings to OpenCyc, DBpedia, PROTON, GeoNames, and schema.org, and provides linkages to more than 2 million Wikipedia entities (English version).
 
-We can bootstrap from umbels [data](https://github.com/structureddynamics/umbel)
+We can bootstrap from umbels [data](https://github.com/structureddynamics/umbel) or use the [webservices](http://umbel.org/web-services/)
 
 
 # DBPedia
 
-DBpedia is a crowd-sourced community effort to extract structured content from the information created in various Wikimedia projects. This structured information resembles an open knowledge graph (OKG) which is available for everyone on the Web. A knowledge graph is a special kind of database which stores knowledge in a machine-readable form and provides a means for information to be collected, organised, shared, searched and utilised. Google uses a similar approach to create those knowledge cards during search. We hope that this work will make it easier for the huge amount of information in Wikimedia projects to be used in some new interesting ways. 
+DBpedia is a crowd-sourced community effort to extract structured content from the information created in various Wikimedia projects
 
-DBpedia data is served as Linked Data, which is revolutionizing the way applications interact with the Web. One can navigate this Web of facts with standard Web browsers, automated crawlers or pose complex queries with SQL-like query languages (e.g. SPARQL). Have you thought of asking the Web about all cities with low criminality, warm weather and open jobs? That's the kind of query we are talking about.
+DBpedia data is served as Linked Data, One can navigate this Web of facts with standard Web browsers, automated crawlers or pose complex queries with SPARQL. 
+
+Have you thought of asking the Web about all cities with low criminality, warm weather and open jobs? That's the kind of query we are talking about.
 
 
-We can query DbPedia live
+We can query DbPedia lookup api for individual concepts
 
-    # self hosted - https://github.com/dbpedia/lookup
+    # use the source - https://github.com/dbpedia/lookup
 
     import requests
     
@@ -69,8 +76,8 @@ We can query DbPedia live
         data = r.json()
         return data["results"]
         
-        
-Or we can import its [ontology](https://wiki.dbpedia.org/downloads-2016-10) directly
+
+There is a SPARQL [endpoint](http://dbpedia.org/snorql/) we can query, or we can import its [ontology](https://wiki.dbpedia.org/downloads-2016-10) directly
 
 
 # ConceptNet
@@ -87,7 +94,11 @@ We can query ConceptNet [live](https://github.com/commonsense/conceptnet5/wiki/A
 
 # Wikidata
 
-Wikidata is a free and open knowledge base that can be read and edited by both humans and machines.
+Wikidata is a free and open knowledge base that can be read and edited by both humans and machines. 
+
+"Wikibase will not be about the truth, but about statements and their references." This means that in Wikibase we do not actually model the items themselves, but statements about them. 
+
+you can read more on wikidata data model [here](https://www.mediawiki.org/wiki/Wikibase/DataModel/Primer) 
 
 [A brief introduction to Wikidata](https://towardsdatascience.com/a-brief-introduction-to-wikidata-bb4e66395eb1)
 
@@ -98,6 +109,39 @@ You can have an idea of what wikidata ontology looks like using this [explorer](
 # WordNet
 
 TODO
+
+
+# Freebase
+
+https://developers.google.com/freebase/
+
+# YAGO
+
+YAGO is a large semantic knowledge base, derived from Wikipedia, WordNet, WikiData, GeoNames, and other data sources. Currently, YAGO knows more than 17 million entities (like persons, organizations, cities, etc.) and contains more than 150 million facts about these entities.
+
+![yago](https://www.mpi-inf.mpg.de/fileadmin/_processed_/a/5/csm_yago-graph_b488494451.png "yago")
+
+YAGO is special in several ways:
+
+- The accuracy of YAGO has been manually evaluated, proving a confirmed accuracy of 95% (*). Every relation is annotated with its confidence value.
+- YAGO combines the clean taxonomy of WordNet with the richness of the Wikipedia category system, assigning the entities to more than 350,000 classes.
+- YAGO is anchored in time and space. YAGO attaches a temporal dimension and a spatial dimension to many of its facts and entities.
+- In addition to taxonomy, YAGO has thematic domains such as "music" or "science" from WordNet Domains.
+- YAGO extracts and combines entities and facts from 10 Wikipedias in different languages.
+
+You can browse the [demo](https://www.mpi-inf.mpg.de/departments/databases-and-information-systems/research/yago-naga/yago/demo/), download the [data](https://www.mpi-inf.mpg.de/departments/databases-and-information-systems/research/yago-naga/yago/downloads/)
+
+There is a SPARQL [endpoint](https://linkeddata1.calcul.u-psud.fr/sparql) available
+
+
+# WDAqua ontology
+
+The Qanary vocabulary was introduced for the first time in:
+
+[Towards a Message-Driven Vocabulary for Promoting the Interoperability of Question Answering Systems]()
+
+
+There is a live [demo](http://wdaqua-frontend.univ-st-etienne.fr), a [endpoint](http://wdaqua-frontend.univ-st-etienne.fr/faq), and we can download the [ontology](https://github.com/WDAqua/QAOntology)
 
 
 # Mapping between each other
