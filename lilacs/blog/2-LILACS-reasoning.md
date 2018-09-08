@@ -50,16 +50,27 @@ The inference rules are commonly specified by means of an ontology language, and
 
 Many reasoners use [first-order predicate logic](https://en.wikipedia.org/wiki/First-order_predicate_logic) to perform reasoning; inference commonly proceeds by forward chaining and backward chaining.
 
-Forward chaining (or forward reasoning) is one of the two main methods of reasoning when using an inference engine and can be described logically as repeated application of modus ponens. Forward chaining is a popular implementation strategy for expert systems, business and production rule systems. The opposite of forward chaining is backward chaining.
+Rule-based reasoning
 
-Forward chaining starts with the available data and uses inference rules to extract more data (from an end user, for example) until a goal is reached. An inference engine using forward chaining searches the inference rules until it finds one where the antecedent (If clause) is known to be true. When such a rule is found, the engine can conclude, or infer, the consequent (Then clause), resulting in the addition of new information to its data.[1]
-
-Inference engines will iterate through this process until a goal is reached.
+• General rule-based inference (semantic rules)
+    – A language for representing the rules
+    – A rule engine
+• Further classification: forward-chaining and backward- chaining
 
 
 ![reasoner](https://upload.wikimedia.org/wikipedia/commons/a/a3/Backward_Chaining_Frog_Color_Example.png  "bkwardreasoner")
 
-Owlready makes our lifes easier, it uses the [HermiT]() reasoner
+Ontology-based reasoning
+
+• Classification-based inference (e.g. RDF-S, OWL reasoning)
+• The inference rules for RDF-S or OWL are fixed. Therefore: No need for rule engine -> procedural algorithm sufficient
+
+
+We can use RDF to include rules in our ontology
+
+
+
+Owlready makes our lifes easy, it uses the [HermiT](http://www.hermit-reasoner.com/) reasoner
 
     >>> from owlready2 import *
     
@@ -121,6 +132,25 @@ i.e Owlready changes the Classes of Individuals and the superclasses of Classes.
 In this example, drug1, drug2 and drug3 Classes have changed! The reasoner deduced that drug2 is an Association Drug, and that drug3 is a Placebo.
 
 This step will be automatically performed by lilacs when committing something to long term memory to ensure consistency
+
+We may want to perform some reasoning on our own, lilacs also provides some tools for this
+
+Forward Reasoning
+
+– Input: rules + data
+– Output: extended data
+– Starts with available facts
+– Uses rules to derive new facts (which can be stored)
+– Stops when there is nothing else to be derived
+
+Backward Reasoning
+
+– Input: rules + data + hypothesis (statement)
+– Output: Statement is true / Statement is false
+– Goes backwards from the hypothesis to the set of axioms (our data )
+– If it can find the path to the original axioms, then the hypothesis is true (otherwise false)
+
+
 
 Other option we have to perform reasoning is the EYE reasoner
 
