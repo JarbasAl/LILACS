@@ -33,8 +33,10 @@ The same can be stated succinctly in the following way:
 But this does not cover all kinds of logic, we also have:
 
 - First-order logic (a.k.a. first-order predicate logic): First-order logic uses quantified variables over non-logical objects and allows the use of sentences that contain variables, so that rather than propositions such as Socrates is a man one can have expressions in the form "there exists X such that X is Socrates and X is a man" and there exists is a quantifier while X is a variable. This distinguishes it from propositional logic, which does not use quantifiers or relations.
-- Modal logic: also offers a variety of inferences that cannot be captured in propositional calculus. For example, from "Necessarily p" we may infer that p. From p we may infer "It is possible that p". The translation between modal logics and algebraic logics concerns classical and intuitionistic logics but with the introduction of a unary operator on Boolean or Heyting algebras, different from the Boolean operations, interpreting the possibility modality, and in the case of Heyting algebra a second operator interpreting necessity (for Boolean algebra this is redundant since necessity is the De Morgan dual of possibility). The first operator preserves 0 and disjunction while the second preserves 1 and conjunction.
-- Many-valued logics: are those allowing sentences to have values other than true and false. (For example, neither and both are standard "extra values"; "continuum logic" allows each sentence to have any of an infinite number of "degrees of truth" between true and false.) These logics often require calculational devices quite distinct from propositional calculus. When the values form a Boolean algebra (which may have more than two or even infinitely many values), many-valued logic reduces to classical logic; many-valued logics are therefore only of independent interest when the values form an algebra that is not Boolean.
+
+- Modal logic: also offers a variety of inferences that cannot be captured in propositional calculus. For example, from "Necessarily p" we may infer that p. From p we may infer "It is possible that p". 
+
+- Many-valued logics: are those allowing sentences to have values other than true and false. (For example, neither and both are standard "extra values"; "continuum logic" allows each sentence to have any of an infinite number of "degrees of truth" between true and false.) These logics often require calculational devices quite distinct from propositional calculus.
 
 I will revisit this topic when talking about [teaching LILACS]()
 
@@ -44,30 +46,22 @@ For now lets see how we can use this logic to learn more from our knowledge base
 
 A semantic reasoner, reasoning engine, rules engine, or simply a reasoner, is a piece of software able to infer logical consequences from a set of asserted facts or axioms.
  
-The notion of a semantic reasoner generalizes that of an inference engine, by providing a richer set of mechanisms to work with. 
-
 The inference rules are commonly specified by means of an ontology language, and often a description logic language. 
 
 Many reasoners use [first-order predicate logic](https://en.wikipedia.org/wiki/First-order_predicate_logic) to perform reasoning; inference commonly proceeds by forward chaining and backward chaining.
 
-Rule-based reasoning
 
-• General rule-based inference (semantic rules)
-    – A language for representing the rules
-    – A rule engine
-• Further classification: forward-chaining and backward- chaining
-
-
-![reasoner](https://upload.wikimedia.org/wikipedia/commons/a/a3/Backward_Chaining_Frog_Color_Example.png  "bkwardreasoner")
-
-Ontology-based reasoning
+**Ontology-based reasoning**
 
 • Classification-based inference (e.g. RDF-S, OWL reasoning)
 • The inference rules for RDF-S or OWL are fixed. Therefore: No need for rule engine -> procedural algorithm sufficient
 
 
+![](/home/user/PycharmProjects/LILACS_github/lilacs/blog/onto_reason.jpg) 
+
 We can use RDF to include rules in our ontology
 
+![](/home/user/PycharmProjects/LILACS_github/lilacs/blog/rule_inverseOf.jpg) 
 
 
 Owlready makes our lifes easy, it uses the [HermiT](http://www.hermit-reasoner.com/) reasoner
@@ -133,9 +127,19 @@ In this example, drug1, drug2 and drug3 Classes have changed! The reasoner deduc
 
 This step will be automatically performed by lilacs when committing something to long term memory to ensure consistency
 
-We may want to perform some reasoning on our own, lilacs also provides some tools for this
+![](/home/user/PycharmProjects/LILACS_github/lilacs/blog/kb_inconsistency.jpg) 
 
-Forward Reasoning
+
+We may want to perform some **Rule-based reasoning** on our own
+
+• General rule-based inference (semantic rules)
+
+![](/home/user/PycharmProjects/LILACS_github/lilacs/blog/rules_reasoning.jpg) 
+    
+• Further classification: forward-chaining and backward- chaining
+
+
+**Forward Reasoning**
 
 – Input: rules + data
 – Output: extended data
@@ -143,7 +147,14 @@ Forward Reasoning
 – Uses rules to derive new facts (which can be stored)
 – Stops when there is nothing else to be derived
 
-Backward Reasoning
+[CWM]() is a Forward-chaining reasoner written in Python
+
+![](/home/user/PycharmProjects/LILACS_github/lilacs/blog/cwm usage.jpg) 
+
+TODO usage from lilacs
+
+
+**Backward Reasoning**
 
 – Input: rules + data + hypothesis (statement)
 – Output: Statement is true / Statement is false
@@ -151,8 +162,13 @@ Backward Reasoning
 – If it can find the path to the original axioms, then the hypothesis is true (otherwise false)
 
 
+Euler/EYE – a backward-forward-backward chaining reasoner design enhanced with Euler path detection
 
-Other option we have to perform reasoning is the EYE reasoner
+Input: rules + data + hypothesis
+
+Output: Chain of rules that lead to the hypothesis (if the hypothesis is true)
+
+[learn to use EYE](http://n3.restdesc.org/), you can host your own [EYE server](https://github.com/RubenVerborgh/EyeServer)
 
 
 
@@ -160,7 +176,9 @@ Other option we have to perform reasoning is the EYE reasoner
 
 With so much data available, we need to have some strategies to maintain it and access the relevant connections, only then can we apply logic to it
 
-LILACS will behave like a spotlight, it will start from tagged concepts and load every connection up to N layers
+For this task i created the concept of Crawler, think of it as a spider going trough your knowledge web, but this spider can execute code as it goes!
+
+LILACS will behave like a spotlight, it will start from tagged concepts and load every connection up to N layers, as you crawl around you load more connections
 
 Tagging concepts is explained in the [next blog post]()
 
