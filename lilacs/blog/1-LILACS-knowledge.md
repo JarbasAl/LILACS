@@ -250,31 +250,22 @@ Further, LILACS loads information from these sources selectively into short term
 
 Tagging information automatically from these sources and commiting it too long term memory is covered in further blog posts
 
-Here is how you can use lilacs lib
+Here is how you can use lilacs lib to query the knowledge databases
 
-TODO
+SPARQL endpoints - when trying to answer something we most likely will want to use a SPARQL query
 
-Getting raw data
+    ...
+    
+    
+REST endpoints - if we are just populating data for specific nodes it may be better to use http querys
 
-    # online sources
+    ...
     
-    # get from dbpedia
-    
-    # get from source X
-    
-    # offline database / bootstrap
-    
-    
-Getting data as concepts / connections
+ 
+Importing the data - If we are not sure what we are looking for or want to do database comparisons it may be useful to import thee ontologies directly
 
-    # online sources
+    ...
     
-    # get concepts from X
-    
-    # get cons from X
-    
-    # offline database / bootstrap
-    
-    # get concepts from X
-    
-    # get cons from X
+Extracting new concepts and connections - Let's do some processing to fit our own ontology scheme and commit relevant data
+
+    ...
