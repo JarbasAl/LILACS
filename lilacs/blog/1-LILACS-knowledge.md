@@ -254,7 +254,9 @@ Here is how you can use lilacs lib to query the knowledge databases
 
 SPARQL endpoints - when trying to answer something we most likely will want to use a SPARQL query
 
-    ...
+i will be using [SPARQL Endpoint interface to Python](https://rdflib.github.io/sparqlwrapper/) to query the SPARQL endpoints
+
+    ... TODO lilacs usage to query every KB above
     
     
 REST endpoints - if we are just populating data for specific nodes it may be better to use http querys

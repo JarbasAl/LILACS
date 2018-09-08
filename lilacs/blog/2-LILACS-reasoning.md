@@ -4,7 +4,7 @@ How can we process data in our knowledge base?
 
 Let's talk a bit about Logic and see how we can apply it to our knowledge graph
 
-There are several kinds of logic, you can waste hours in [wikipedia](https://en.wikipedia.org/wiki/History_of_logic) [reading](https://en.wikipedia.org/wiki/Propositional_calculus) [about](https://en.wikipedia.org/wiki/First-order_logic) [it](https://en.wikipedia.org/wiki/Higher-order_logic)
+There are several kinds of logic, you can waste hours [in](https://en.wikipedia.org/wiki/Description_logic) [wikipedia](https://en.wikipedia.org/wiki/History_of_logic) [reading](https://en.wikipedia.org/wiki/Propositional_calculus) [about](https://en.wikipedia.org/wiki/First-order_logic) [it](https://en.wikipedia.org/wiki/Higher-order_logic)
 
 Logical connectives are found in natural languages. 
 
@@ -119,6 +119,12 @@ i.e Owlready changes the Classes of Individuals and the superclasses of Classes.
     I took a placebo
 
 In this example, drug1, drug2 and drug3 Classes have changed! The reasoner deduced that drug2 is an Association Drug, and that drug3 is a Placebo.
+
+This step will be automatically performed by lilacs when committing something to long term memory to ensure consistency
+
+Other option we have to perform reasoning is the EYE reasoner
+
+
 
 # Crawlers - Navigating the Short Term memory graph
 

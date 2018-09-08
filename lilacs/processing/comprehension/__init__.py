@@ -106,7 +106,7 @@ q = "What do robots that resemble humans attempt to do?"
 #print(comprehension_demo(q, p))
 # replicate walking, lifting, speech, cognition
 
-
+from pprint import pprint
 def semantic_role_labeling_demo(sentence):
     # DO NOT ABUSE, dev purposes only
     """
@@ -125,15 +125,16 @@ def semantic_role_labeling_demo(sentence):
     roles = {}
     words = r["words"]
     verbs = r["verbs"]
+    pprint(r)
     for v in verbs:
         arg0 = []
         arg1 = []
         verb = v["verb"]
         tags = v["tags"]
         for idx, t in enumerate(tags):
-            if "ARG0" in t:
+            if "I-ARGM" in t:
                 arg0.append(words[idx])
-            elif "ARG1" in t:
+            elif "I-ARG1" in t:
                 arg1.append(words[idx])
         if not len(arg0):
             continue
@@ -142,10 +143,10 @@ def semantic_role_labeling_demo(sentence):
         roles[verb] = [arg0, arg1]
     return roles
 
-t = "However, voters decided that if the stadium was such a good idea someone would build it himself, and rejected it 59% to 41%."
+t = "The keys, which were needed to access the building, were locked in the car."
 
-#print(semantic_role_labeling_demo(t))
-# {'decided': ['voters', 'that if the stadium was such a good idea someone would build it himself'], 'build': ['someone', 'it'], 'rejected': ['voters', 'it']}
+pprint(semantic_role_labeling_demo(t))
+ #{'decided': ['voters', 'that if the stadium was such a good idea someone would build it himself'], 'build': ['someone', 'it'], 'rejected': ['voters', 'it']}
 
 
 def constituency_parse_demo(sentence):

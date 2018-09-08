@@ -1,10 +1,9 @@
-# Propositional Logic
+# Learning
 
-Let's consider different kinds of logic and how to handle them
+We can tag some well structured statements and use them to generate new connections
 
 
-
-if the question is tagged as a teaching it is passed to another intent parser
+if the question is tagged as a teaching it is normalized and passed to basic teaching intent parser
 
     self.container.add_intent('instance of', ['{source} (is|are|instance) {target}'])
     self.container.add_intent('sample of', ['{source} is (sample|example) {target}'])
@@ -16,7 +15,7 @@ if the question is tagged as a teaching it is passed to another intent parser
     self.container.add_intent('created by', ['{source} is created {target}'])
     self.container.add_intent('used for', ['{source} is used {target}'])
   
-it can then be used to extract connections from text
+it is then used to extract connections from text
 
     parser = BasicTeacher()
 
@@ -98,12 +97,13 @@ it can then be used to extract connections from text
 
     """
 
-
-# Extracting Knowledge
-
 When we fail to understand we can do better than answer that we don't know, an assumption i'm going to make is that the user tried to teach us something 
 
 Which kinds of questions can we ask back to the user?
+
+This is a very simple approach, let's explore other kinds of learning we can do so we can design an user interface for them
+
+# Extracting Knowledge
 
 Let's attempt to extract facts statements from text
 
@@ -159,3 +159,71 @@ a recent paper [Context-Aware Representations for Knowledge Base Relation Extrac
         #  ('J. J. Abrams', 'genre', 'space opera epic film'),
         #  ('Star Wars VII', 'genre', 'space opera epic film')]
 
+# Machine Comprehension
+
+Machine Comprehension (MC) answers natural language questions by selecting an answer span within an evidence text. 
+
+The AllenNLP toolkit provides a reimplementation of BiDAF (Seo et al, 2017), or Bi-Directional Attention Flow, a widely used MC baseline that achieved state-of-the-art accuracies on the SQuAD dataset (Wikipedia sentences) in early 2017.
+
+Passage
+
+    "Saturn is the sixth planet from the Sun and the second-largest in the Solar System, after Jupiter. It is a gas giant with an average radius about nine times that of Earth. Although it has only one-eighth the average density of Earth, with its larger volume Saturn is just over 95 times more massive. Saturn is named after the Roman god of agriculture; its astronomical symbol represents the god's sickle."
+
+Question
+
+    "What does Saturn’s astronomical symbol represent?"
+    
+Answer
+
+    the god's sickle
+
+# Textual Entailment
+
+Textual Entailment (TE) takes a pair of sentences and predicts whether the facts in the first necessarily imply the facts in the second one. 
+
+The AllenNLP toolkit provides a reimplementation of the decomposable attention model (Parikh et al, 2017) , which was state of the art for the SNLI benchmark (short sentences about visual scenes) in 2016. Rather than pre-trained Glove vectors, this model uses ELMo embeddings, which are completely character based and improve performance by 2%
+
+Premise
+
+    "An interplanetary spacecraft is in orbit around a gas giant's icy moon."
+
+Hypothesis
+
+    "The spacecraft has the ability to travel between planets."
+
+Summary
+
+    It is likely that the premise entails the hypothesis.
+    
+    Judgement	Probability
+    Entailment	89.4%
+    Contradiction	0.8%
+    Neutral	9.8%
+    
+    
+# Semantic Role Labeling
+
+Semantic Role Labeling (SRL) recovers the latent predicate argument structure of a sentence, providing representations that answer basic questions about sentence meaning, including “who” did “what” to “whom,” etc. 
+
+The AllenNLP toolkit provides a reimplementation of a deep BiLSTM model (He et al, 2017), which is currently state of the art for PropBank SRL (Newswire sentences).
+
+We can use this to extract arguments and verbs connecting them
+
+Sentence
+
+    The keys, which were needed to access the building, were locked in the car.
+    
+Output
+
+    were: The keys , which [V: were] needed to access the building , were locked in the car .
+    needed: [ARG1: The keys] , [R-ARG1: which] were [V: needed] [ARGM-PRP: to access the building] , were locked in the car .
+    access: The keys , which were needed to [V: access] [ARG1: the building] , were locked in the car .
+    were: The keys , which were needed to access the building , [V: were] locked in the car .
+    locked: [ARG1: The keys , which were needed to access the building ,] were [V: locked] [ARGM-LOC: in the car] .
+    
+    # LILACS filters down to
+    
+    # {
+    #   'locked': ['the car', 'keys , which were needed to access the building'],
+    #   'needed': ['access the building', 'keys']
+    # }
