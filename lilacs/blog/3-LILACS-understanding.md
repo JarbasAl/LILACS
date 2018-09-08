@@ -5,14 +5,17 @@ First things first, we have talked about memory, interwebz and crawlers, but the
 How does it understand what is being asked ?
 
 
-# step 1 - normalize the text!
+# normalize the text!
 
 Text can be messy, let's clean things up using nlp techniques
+
+TODO talk more about coref
 
 - lowercase everything
 - remove extra spaces
 - expand contractions - can't => can not
 - numbers into digits - "two" => 2
+- singularize nouns - "dogs" => "dog"
 - coreference resolution - "My sister has a dog. She loves him." => "My sister has a dog. My sister loves a dog."
 
 
@@ -20,7 +23,7 @@ Text can be messy, let's clean things up using nlp techniques
         text = coreference_resolution(text)
         
         
-# step 2 - tag concepts
+# tag concepts
 
 we have memory don't we? then lets tag concepts to decide what we are talking about!!
 
@@ -40,9 +43,12 @@ then we can also perform Named Entity Recognition and tag a few more concepts
 
         concepts = NER(text)
         
+TODO talk more about NER, samples from several sources
+
+
+# classify and parse the question
+
 we still have no idea what the question is about, lets look at the grammatical structure
-
-
 
 Traditional grammar defines the object in a sentence as the entity that is acted upon by the subject. 
 
@@ -75,7 +81,7 @@ here we make a smart guess on which is the main node of the question, and the ta
             center_node = self.get_root(doc)
 
 
-Padaos will let us know if there is 1 or 2 components in a question, lets use those to improve the tagged nodes
+Regex will let us know if there is 1 or 2 components in a question, lets use those to improve the tagged nodes
 
         parse = self.regex_parse(text)
         # failsafe, use regex query
@@ -103,16 +109,17 @@ If we are still missing a target node, lets pick all the nouns of the sentence, 
                     target_node = chunks[-1]
                 elif center_node != parse["Query"]:
                     target_node = parse["Query"].replace(center_node, "").replace("  ", " ")
-
-
-# Step 3 - classify and parse the question
-
+                    
+                    
 Now that we have an idea of what the text is talking about and know what memory to access, what do we do with it?
 
-Is the user asking a question or teaching me something? 
+Is the user asking a question or teaching me something? Or is it small talk? we assumed we were being asked something
 
 This is just a pre tagging for decision making, actual answering will use other techniques, 
-i decided to use [Padaos](), a dead simple intent parser!
+
+I decided to use [Padaos](), a dead simple regex intent parser! 
+
+The reason for this choice is that i want it to miss cases it wasn't explicitly designed to handle
 
 
     from lilacs.nlp.spotting import LILACSQuestionParser
@@ -207,7 +214,7 @@ Output
     synonyms: {}
     
     
-# step 4 - learning from text
+# learning from text
 
 if the question is tagged as a teaching it is passed to another intent parser
 
@@ -303,10 +310,115 @@ it can then be used to extract connections from text
 
     """
 
-we then use nlp to formulate questions about the text
 
-    questions = parser.formulate_questions(text) 
+# General Question Answering
+
+All this was only a pre processing, it allows us to decide the next course of action
+
+This all sounds like a "train the user" situation, we will end up talking very awkwardly to our bot or more often it will miss what we are saying
+
+What can we do in this "last case scenario"? Which systems do we have in place for general question answering?
+
+TODO wolfram alpha bla bla bla
+
+
+# Multiple Choice Questions
+
+There are 2 models we can use to solve multiple answer questions
+
+- An entailment-based model that computes the entailment score for each (retrieved sentence, question+answer choice as an assertion) pair and scores each answer choice based on the highest-scoring sentence.
+- A reading comprehension model (BiDAF) that converts the retrieved sentences into a paragraph per question. The model is used to predict the best answer span and each answer choice is scored based on the overlap with the predicted span.
+
+
+Let's ask [Aristo](http://allenai.org/aristo/)
+
+     question = """Which tool should a student use to compare the masses of two small rocks?
+    (A) balance
+    (B) hand lens
+    (C) ruler
+    (D) measuring cup
+    """
+    answer = ask_aristo(question)
+    top20 = answer["top2"]
+    print(answer["answer"])
+    # A metric ruler and a balance will measure the size and mass of an object.
     
 
+You can learn about the AI2 Reasoning Challenge (ARC) [here](http://data.allenai.org/arc/) and get the base models [here](https://github.com/allenai/ARC-Solvers)
 
+The ARC dataset contains 7,787 genuine grade-school level, multiple-choice science questions, assembled to encourage research in advanced question-answering. 
+
+
+# Mathematical Questions
+
+If we tagged a question as a mathematical question
+
+TODO
+
+Let's ask [Euclid](https://allenai.org/euclid/)
+
+       t = "If 30 percent of 48 percent of a number is 288, what is the number?"
+       answer = ask_euclid(t)
+       
+       # ["2000"]
+
+
+
+# Extracting Knowledge
+
+When we fail to understand we can do better than answer that we don't know, an assumption i'm going to make is that the user tried to teach us something 
+
+Which kinds of questions can we ask back to the user?
+
+Let's attempt to extract facts statements from text
+
+There’s a python library called textacy that implements several common data extraction algorithms on top of spaCy. It’s a great starting point.
+
+One of the algorithms it implements is called Semi-structured Statement Extraction. We can use it to search the parse tree for simple statements where the subject is one of our tagged nodes and the verb is a form of “be”.
+
+    import spacy
+    import textacy.extract
+    
+    # Load the large English NLP model
+    nlp = spacy.load('en_core_web_lg')
+    
+    # The text we want to examine
+    text = """London is the capital and most populous city of England and  the United Kingdom.  
+    Standing on the River Thames in the south east of the island of Great Britain, 
+    London has been a major settlement  for two millennia.  It was founded by the Romans, 
+    who named it Londinium.
+    """
+    
+    # Parse the document with spaCy
+    doc = nlp(text)
+    
+    # Extract semi-structured statements
+    statements = textacy.extract.semistructured_statements(doc, "London")
+    
+    # Print the results
+    print("Here are the things I know about London:")
+    
+    for statement in statements:
+        subject, verb, fact = statement
+        print(f" - {fact}")
+    
+Here is what it spits out
+
+    Here are the things I know about London:
+     - the capital and most populous city of England and the United Kingdom.
+    - a major settlement for two millennia.
+    
+
+Can we extract relationships directly to improve our knowledge base?
+
+The main goal of relation extraction is to determine a type of relation between two target entities that appear together in a text
+
+a recent paper [Context-Aware Representations for Knowledge Base Relation Extraction](https://github.com/UKPLab/emnlp2017-relation-extraction) allows us to extract possible relations, [demo here](http://semanticparsing.ukp.informatik.tu-darmstadt.de:5000/relation-extraction/static/index.html)
+
+        t = "Star Wars VII is an American space opera epic film directed by  J. J. Abrams."
+        pprint(relation_extraction(t))
+        
+        # [('J. J. Abrams', 'notable work', 'Star Wars VII'),
+        #  ('J. J. Abrams', 'genre', 'space opera epic film'),
+        #  ('Star Wars VII', 'genre', 'space opera epic film')]
 

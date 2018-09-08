@@ -45,7 +45,7 @@ now lets make a place to store them and a plug a messagebus into it
 
 # Mapping neurotransmitters to emotions
 
-![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/neutransmitter-emotion.jpg) 
+![](https://github.com/JarbasAl/LILACS/blob/master/blog/neutransmitter-emotion.jpg) 
 
 
 
@@ -65,15 +65,15 @@ this study does not use plutchicks work, but let's try to adapt it
 
 Split into octants 
 
-![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_neuro.png)
+![](https://github.com/JarbasAl/LILACS/blob/master/blog/octant_neuro.png)
 
 
-dimension to neurotransmitter octant
+lets assign an emotional dimension to each neurotransmitter octant
 
-![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_dimension.png)
+![](https://github.com/JarbasAl/LILACS/blob/master/blog/octant_dimension.png)
 
 
-| dimension/octant|     1     |       2      |      3     |     4      |   5    |    6    |  7  |  8 |
+| dimension/quadrant|     1     |       2      |      3     |     4      |   5    |    6    |  7  |  8 |
 |:--------------:|:----------:|:------------:|:----------:|:------------:|:--------:|:---------:|:---------:|:---------:|
 |   sensitivity  |    -    |      +1   |   -    |    -    |   -    |   -1    | -    |   -    | 
 |    attention   |  +1 | - |    -    |     -   |   -   |   -    |  -1    |   -    | 
@@ -84,36 +84,35 @@ each octant/column represents a base emotion
 
 
 		
-![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_basic_emo.png)
+![](https://github.com/JarbasAl/LILACS/blob/master/blog/octant_basic_emo.png)
 
 
 we can assign valence, some octants are positive and others are negative
 
 
-![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_valence.png)
+![](https://github.com/JarbasAl/LILACS/blob/master/blog/octant_valence.png)
         
         
-lets define the dimensions as the vector of the octant diagonals, this gives us a direction
+lets define the dimensions as the unitary vector of the octant diagonals, these simply represent a direction
 
 		    
-![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_pleasantness.png) 
-![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_aptitude.png) 
-![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_attention.png) 
-![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_sensitivity.png) 
+![](https://github.com/JarbasAl/LILACS/blob/master/blog/octant_pleasantness.png) 
+![](https://github.com/JarbasAl/LILACS/blob/master/blog/octant_aptitude.png) 
+![](https://github.com/JarbasAl/LILACS/blob/master/blog/octant_attention.png) 
+![](https://github.com/JarbasAl/LILACS/blob/master/blog/octant_sensitivity.png) 
             
-now we can work with emotion vectors in the neuro transmitter space
+now we can work with emotion vectors in the neuro transmitter space to determine LILACS emotions
 
-![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_emotion_vec.png) 
+![](https://github.com/JarbasAl/LILACS/blob/master/blog/octant_emotion_vec.png) 
 
 
-We can also sum emotion vector to create feelings
+We can also sum emotion vectors to create feelings
 
-![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_feelings.png) 
+![](https://github.com/JarbasAl/LILACS/blob/master/blog/octant_feelings.png) 
 
 
 Since we are working with vectors we can also multiply vectors
 
-![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_cross_product.png) 
 
 
 
@@ -125,17 +124,7 @@ However we can see that octants  4/8 and 2/6 cancel each other
 
 this allows us to trace a neutrality line
 
-![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/octant_neutrality.png) 
-
-This represents emotional equilibrium
-
-
-
-# Facial Expression
-
-We can go further and assign a facial expression LILACS i supposed to make for each octant
-
-![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/emotion-expression.jpg) 
+![](https://github.com/JarbasAl/LILACS/blob/master/blog/octant_neutrality.png) 
 
 
 # how do you feel LILACS ?

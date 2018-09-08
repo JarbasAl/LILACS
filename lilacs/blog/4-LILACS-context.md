@@ -7,8 +7,26 @@ What is a context for LILACS?
 
 contexts are fine descriptors, such as time and noise, but also higher-level abstractions like events, locations, names of databases, and so forth.
 
+A context will received the parsed data from the understanding step, and it can then manipulate that data 
 
-Contexts can execute changes in the parsed data, for what kind of changes ?
+Each context object returns mutated data, and optionally some bias to influence the final decision
+
+    def execute(self, data=None):
+        for change in self.accuracy_changes:
+            data, emotions = change.execute(data)
+            self.emotions += emotions
+        for change in self.availability_changes:
+            data, emotions = change.execute(data)
+            self.emotions += emotions
+        for change in self.influence_changes:
+            data, emotions = change.execute(data)
+            self.emotions += emotions
+        for change in self.meaning_changes:
+            data, emotions = change.execute(data)
+            self.emotions += emotions
+        return data, self.emotions
+        
+Contexts can execute changes in the parsed data, what kind of changes ?
 
 
 # meaning changes
@@ -38,30 +56,13 @@ cues may be recognised more or less reliably in different contexts, often due to
         
 # Availability Changes
 
-    The same input cues may be abundant in some situations and missing in others.
-        Most often this happens in uncontrolled conditions: for example, results of video analysis may be unavailable
-        if users bypass a camera. Social factors may cause incomplete data, too: if it is polite to stay silent,
-        audio cues will be unavailable.
+The same input cues may be abundant in some situations and missing in others.
+Most often this happens in uncontrolled conditions: for example, results of video analysis may be unavailable
+if users bypass a camera. Social factors may cause incomplete data, too: if it is polite to stay silent,
+audio cues will be unavailable.
         
  
-A context will received the parsed data from the understanding step, and it can then manipulate that data 
 
-Each context object returns mutated data, and optionally some bias to influence the final decision
-
-    def execute(self, data=None):
-        for change in self.accuracy_changes:
-            data, emotions = change.execute(data)
-            self.emotions += emotions
-        for change in self.availability_changes:
-            data, emotions = change.execute(data)
-            self.emotions += emotions
-        for change in self.influence_changes:
-            data, emotions = change.execute(data)
-            self.emotions += emotions
-        for change in self.meaning_changes:
-            data, emotions = change.execute(data)
-            self.emotions += emotions
-        return data, self.emotions
        
        
 What kind of contexts can LILACS track automatically?

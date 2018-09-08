@@ -1,28 +1,15 @@
-# LILACS - nervous system
+# LILACS - Reasoning
 
-Where do the internal signals flow? in a messagebus!
-
-different parts of LILACS talk to each other via websocker
-
-# message list
-
-TODO
-
-# Crawlers
-
-With so much data available, we need to have some strategies to maintain it and access the relevant one 
-
-Lets have a bunch of crawlers each with some strategy to perform a certain action
+How can we process data in our knowledge base?
 
 
-- url finder -> search dbpedia, extract and create "link" concepts/connections
-- fact finder -> search wikipedia, extracts semi structured facts from text, create "fact" concepts/connections
-- label finder -> search dbpedia, extract and create "label" concepts/connections
-- maintenace -> removes malformed connections, references to self, and removes some invalid connections (you can not be labeled "drug" and "person" at same time)
-- connection finder -> search conceptnet/wordnet/dictionary
+# Crawlers - navigating Short Term memory
+
+With so much data available, we need to have some strategies to maintain it and access the relevant connections only
+
+
 
 # making a crawler
-
 
 to make a crawler override the base class, main methods that you need to implement are choose_next_node and execute_action
 
@@ -87,7 +74,7 @@ to make a crawler override the base class, main methods that you need to impleme
     print(c.total_steps)
     
 
-# output
+output of this crawl
     
     ** current elon musk
     ** new cons [23: 24->25, 24: 24->26, 25: 24->27, 26: 24->28, 27: 24->29, 28: 24->30, 29: 24->31, 30: 24->32, 31: 24->33, 32: 24->34, 33: 24->35, 34: 24->36, 35: 24->37, 36: 24->38, 37: 24->39, 38: 24->40, 39: 24->41, 40: 24->42, 41: 24->43]
@@ -119,3 +106,26 @@ to make a crawler override the base class, main methods that you need to impleme
     ** dead end!
     ['elon musk', 'demons in christianity', 'a symbol of virtuous characteristics and liberty', 'belief', 'person', 'satan', 'demons', 'an important aspect of mundane life, according to eric schwitzgebel in the _stanford encyclopedia of philosophy', 'cognition', 'evil spirit', 'devil', 'angels', 'angel', 'psychological feature', 'Figure', 'fallen angels', 'an entity in the abrahamic religions that seduces humans into sin', 'abstraction', 'individual angels', 'spiritual being', 'the personification and archetype of evil in various cultures', 'content', 'thing', 'spirit']
     24
+    
+    
+# Useful crawlers
+
+Lets have a bunch of sample crawlers each with some strategy to perform a certain action on short memory nodes
+
+- url finder -> search dbpedia, extract and create "link" concepts/connections
+- fact finder -> search wikipedia, extracts semi structured facts from text, create "fact" concepts/connections
+- label finder -> search dbpedia, extract and create "label" concepts/connections
+- maintenace -> removes malformed connections, references to self, and removes some invalid connections (you can not be labeled "drug" and "person" at same time)
+- connection finder -> search conceptnet/wordnet/dictionary
+
+TODO
+
+- long term memory candidate seeker - marks connections to be commited to long term memory
+- long term memory reader - loads long term memory concepts into short memory
+
+
+
+# Answering What
+
+TODO sample crawling for common types of questions
+
