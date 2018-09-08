@@ -11,6 +11,8 @@ A context will received the parsed data from the understanding step, and it can 
 
 Each context object returns mutated data, and optionally some bias to influence the final decision
 
+Ignore the bias for now, im calling emotions from now on!
+
     def execute(self, data=None):
         for change in self.accuracy_changes:
             data, emotions = change.execute(data)

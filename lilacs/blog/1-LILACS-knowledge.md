@@ -91,7 +91,9 @@ TODO
 
 # Wikidata
 
-TODO
+Wikidata is a free and open knowledge base that can be read and edited by both humans and machines.
+
+[A brief introduction to Wikidata](https://towardsdatascience.com/a-brief-introduction-to-wikidata-bb4e66395eb1)
 
 
 # Mapping between each other
