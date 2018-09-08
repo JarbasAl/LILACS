@@ -56,6 +56,9 @@ Forward chaining starts with the available data and uses inference rules to extr
 
 Inference engines will iterate through this process until a goal is reached.
 
+
+![reasoner](https://upload.wikimedia.org/wikipedia/commons/a/a3/Backward_Chaining_Frog_Color_Example.png  "bkwardreasoner")
+
 Owlready makes our lifes easier, it uses the [HermiT]() reasoner
 
     >>> from owlready2 import *
