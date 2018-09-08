@@ -1,6 +1,8 @@
 # LILACS - reactions
 
-now we gave it emotions, what good can that possibly do? This post will not tell answer why bots should have emotions, but it will tell you what they are good for
+now we gave it emotions, what good can that possibly do? 
+
+This post will not tell answer why bots should have emotions, but it will tell you how they are used
 
 Everything in this post is two sided, it works for reading humans, but i will focus on LILACS own emotions!
 

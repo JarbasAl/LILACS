@@ -1,9 +1,10 @@
-# LILACS - Neurotransmitters
+# LILACS - Chaos
 
+I wanted a system that does not always behave the same, and i wanted it to have some sort of drive behind it's actions
 
-We have tried to make bots understand emotions, but can they have them?
+We have tried to make bots understand emotions, can they have them as a source of internal chaos? 
 
-It would be fun to try, but why? this post does not care about that, this is about the How?
+It would be fun to try, but why? this post does not care about that, this is about the How
 
 Lets have some fun, animals have neurotransmitters, let's copy nature and give 3 of them to LILACS
 
@@ -115,7 +116,6 @@ Since we are working with vectors we can also multiply vectors
 
 
 
-
 # Neutrality
 
 neutrality would be a lack of emotion, in this octant space that is the center of the cube
@@ -134,27 +134,20 @@ TODO
 *"i feel 95% boredom and 5% annoyance"*
 
 
-
-Since we got here let's start building a freewill module
-
-
-Neutrality is point zero, prefer reactions that take you towards neutrality
-
-
-
-# what for ?
-
 These are used to calculate current feeling
 
-Current feeling is used to select reaction (emotion algebra is used to add bias)
+Current feeling is used to select a reaction to encountered situations
 
-Freewill module selects reaction to go towards Neutrality
+[Freewill module]() selects reaction to go towards Neutrality
 
-in skills you can:
-- produce/decrease these to influence emotional reaction
-- use this for reinforcement learning 
-
+We now have a bot with simulated feelings, in permanent disarray trying to achieve a fictional neutrality and always doing something because of it
 
 # usage
+
+in skills you can:
+
+- produce/decrease neurotransmitters to influence emotional reaction
+- use this for reinforcement learning maybe ?
+
 
 TODO

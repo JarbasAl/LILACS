@@ -1,8 +1,16 @@
 import requests
 
+def ask_wdaqua(text):
+    url = "https://wdaqua-core1.univ-st-etienne.fr/gerbil"
+    data = {"query": text}
+    r = requests.post(url, data=data)
+    data = r.json()
+    # TODO send sparql query
+
+#t = "Who is the wife of Barack Obama"
+#print(ask_wdaqua(t))
+
 # https://github.com/allenai/ARC-Solvers
-
-
 def IKE():
     # https://github.com/allenai/ikev
     pass
@@ -41,7 +49,7 @@ def ask_aristo(text, raw=False):
 
 
 t = "If 30 percent of 48 percent of a number is 288, what is the number?"
-print(ask_euclid(t))
+#print(ask_euclid(t))
 
 t = """Which tool should a student use to compare the masses of two small rocks?
 (A) balance

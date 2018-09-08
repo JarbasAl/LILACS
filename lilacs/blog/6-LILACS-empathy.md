@@ -1,4 +1,4 @@
-# LILACS - EMOTIONS
+# LILACS - Empathy
 
 do you want your bot to pass the turing test?
 

@@ -37,6 +37,8 @@ If you want to dive deeper into the concept of SPARQL, I recommend [this Youtube
 
 We will be working with ontologies, lets use the owlready [python package](https://owlready2.readthedocs.io/en/latest/) to make our lives easier
 
+Owlready2 currently reads the following file format: RDF/XML, OWL/XML, NTriples. The file format is automatically detected.
+
 Long term memory for LILACS is a permanent database of facts known to be correct, every concept and connection stored here must be verified
 
 Some words have different meanings depending on context, we can load different "worlds" depending on the task, each world is a different ontology
