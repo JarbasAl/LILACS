@@ -77,28 +77,6 @@ What can we do with it?
     test_pizza.has_topping.append(onto.MeatTopping())
     
     
-# Defining Truth
-
-for LILACS truth is a connection that is part of the long term memory, there is no questioning this connection when deducing facts
-
-Discovery is a process of navigating short term memory, Truths must be approved by user before being commited to long term memory
-
-How do we discover and define a truth? if it comes from a trusted source we accept it!
-
-We can check for inconsistencies with our reasoning engine and not allow additions until these are solved
-
-In case of inconsistent ontology, an OwlReadyInconsistentOntologyError is raised.
-
-Inconsistent classes may occur without making the entire ontology inconsistent, as long as these classes have no individuals. Inconsistent classes are inferred as equivalent to Nothing. They can be obtained as follows:
-
-    list(default_world.inconsistent_classes())
-
-In addition, the consistency of a given class can be tested by checking for Nothing in its equivalent classes, as follows:
-
-    if Nothing in Drug.equivalent_to:
-          print("Drug is inconsistent!")
-          
-
 
 # Short term memory
 
@@ -130,7 +108,44 @@ At the same time we will load concepts from our long term memory as needed and p
     def total_connections(db):
         return db.total_connections()
 
+
+While i call this short term memory it more like unprocessed memory, while not meant to be permanent it can still be stored and retrieved later
+
 Fun experiment, save daily snapshots of this db and start fresh, you have the daily log of concepts lilacs explored, make visualization and tweet
 
 
+# Short vs Long term
+
+for LILACS truth is a connection that is part of the long term memory, there is no questioning this connection when deducing facts
+
+Discovery is a process of navigating short term memory, Truths must be approved by user before being committed to long term memory
+
+|     Memory    | Short Term |   Long Term  | 
+|:-------------:|:----------:|:------------:|
+| Database      |      SQL	 |      RDF     |
+| Speed	        |      Fast  |	    Slow    |
+| Consistency   |      ?     |	    Yes     |
+| Accuracy	    |      ?	 |      Yes     |
+| User Friendly |      Yes	 |      No      |
+| Automatic Reasoning| No    |	    Yes     |
+| Permanent	    |      No	 |      Yes     |
+| Memory Usage  |	   small |	    high    |
+| Python backend|	   SQL Alchemy|	OWLready|
+
+
+How do we discover and define a truth? if it comes from a trusted source we accept it!
+
+We can check for inconsistencies with our reasoning engine and not allow additions until these are solved
+
+In case of inconsistent ontology, an OwlReadyInconsistentOntologyError is raised.
+
+Inconsistent classes may occur without making the entire ontology inconsistent, as long as these classes have no individuals. Inconsistent classes are inferred as equivalent to Nothing. They can be obtained as follows:
+
+    list(default_world.inconsistent_classes())
+
+In addition, the consistency of a given class can be tested by checking for Nothing in its equivalent classes, as follows:
+
+    if Nothing in Drug.equivalent_to:
+          print("Drug is inconsistent!")
+          
 

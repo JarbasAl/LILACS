@@ -54,6 +54,7 @@ Many reasoners use [first-order predicate logic](https://en.wikipedia.org/wiki/F
 **Ontology-based reasoning**
 
 • Classification-based inference (e.g. RDF-S, OWL reasoning)
+
 • The inference rules for RDF-S or OWL are fixed. Therefore: No need for rule engine -> procedural algorithm sufficient
 
 
@@ -132,33 +133,38 @@ This step will be automatically performed by lilacs when committing something to
 
 We may want to perform some **Rule-based reasoning** on our own
 
-• General rule-based inference (semantic rules)
 
 ![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/rules_reasoning.jpg?raw=true) 
     
-• Further classification: forward-chaining and backward- chaining
 
 
 **Forward Reasoning**
 
 – Input: rules + data
+
 – Output: extended data
+
 – Starts with available facts
+
 – Uses rules to derive new facts (which can be stored)
+
 – Stops when there is nothing else to be derived
 
 [CWM]() is a Forward-chaining reasoner written in Python
 
 ![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/cwmusage.jpg?raw=true) 
 
-TODO usage from lilacs
+    TODO usage from lilacs
 
 
 **Backward Reasoning**
 
 – Input: rules + data + hypothesis (statement)
+
 – Output: Statement is true / Statement is false
+
 – Goes backwards from the hypothesis to the set of axioms (our data )
+
 – If it can find the path to the original axioms, then the hypothesis is true (otherwise false)
 
 
@@ -170,7 +176,7 @@ Output: Chain of rules that lead to the hypothesis (if the hypothesis is true)
 
 [learn to use EYE](http://n3.restdesc.org/), you can host your own [EYE server](https://github.com/RubenVerborgh/EyeServer)
 
-
+    TODO LILACS usage
 
 # Crawlers - Navigating the Short Term memory graph
 
