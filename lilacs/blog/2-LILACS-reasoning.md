@@ -459,13 +459,25 @@ TODO code
 
 # question_type: how
 
-how to questions are hard to answer, but we can use wikihow!
 
-in here i cheated a bit and skipped our knowledge base
+in here i cheated a bit and skipped our knowledge base, how to questions are hard to answer, but we can use [wikihow](https://github.com/JarbasAI/PyWikiHow)!
+
 
     Input: how to boil an egg
     
-    TODO output
+    How to Hardboil Eggs in a Microwave
+    step 0 : Place your eggs in a microwave safe bowl.
+    http://pad1.whstatic.com/images/thumb/b/b2/Hardboil-Eggs-in-a-Microwave-Step-1-Version-3.jpg/aid238320-v4-728px-Hardboil-Eggs-in-a-Microwave-Step-1-Version-3.jpg
+    step 1 : Add water to the bowl.
+    http://pad2.whstatic.com/images/thumb/a/a5/Hardboil-Eggs-in-a-Microwave-Step-2-Version-3.jpg/aid238320-v4-728px-Hardboil-Eggs-in-a-Microwave-Step-2-Version-3.jpg
+    step 2 : Pour one tablespoon of salt into the bowl.
+    http://pad1.whstatic.com/images/thumb/5/53/Hardboil-Eggs-in-a-Microwave-Step-3-Version-3.jpg/aid238320-v4-728px-Hardboil-Eggs-in-a-Microwave-Step-3-Version-3.jpg
+    step 3 : Cook the eggs for up to 12 minutes.
+    http://pad3.whstatic.com/images/thumb/9/9b/Hardboil-Eggs-in-a-Microwave-Step-4-Version-3.jpg/aid238320-v4-728px-Hardboil-Eggs-in-a-Microwave-Step-4-Version-3.jpg
+    step 4 : Let the eggs cool down before you touch them.
+    http://pad2.whstatic.com/images/thumb/1/10/Hardboil-Eggs-in-a-Microwave-Step-5-Version-3.jpg/aid238320-v4-728px-Hardboil-Eggs-in-a-Microwave-Step-5-Version-3.jpg
+    step 5 : Enjoy your hard-boiled eggs.
+    http://pad1.whstatic.com/images/thumb/8/80/Hardboil-Eggs-in-a-Microwave-Step-6-Version-3.jpg/aid238320-v4-728px-Hardboil-Eggs-in-a-Microwave-Step-6-Version-3.jpg
 
 
 TODO code
