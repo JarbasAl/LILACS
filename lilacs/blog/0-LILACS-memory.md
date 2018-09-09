@@ -41,15 +41,24 @@ Owlready2 currently reads the following file format: RDF/XML, OWL/XML, NTriples.
 
 Long term memory for LILACS is a permanent database of facts known to be correct, every concept and connection stored here must be verified
 
-Some words have different meanings depending on context, we can load different "worlds" depending on the task, each world is a different ontology
-
-This will be explored further in [other blog post]()
-
 What is an ontology?
 
-    TODO
-    
-What can we do with it?
+If you are processing text, "Jarbas" is a "Noun" and also a "Word"
+
+But if you are talking about persons "Jarbas" is a "Person"
+
+Some words have different properties depending on context, LILACS works with a default "world", if needed you can load different ones depending on the task, each world is a different ontology
+
+you may work with a grammar ontology, or with the foaf ontology
+
+ontologies are useful because they encode properties and relationships, they can even include rules as explored in [the reasoning blog post]()
+
+An ontology does not define what the data is, but it defines what it can be, it tells you have attributes and relationships of things
+
+If you want to learn more about ontologies i recommend this excellent [youtube video](https://www.youtube.com/watch?v=bxVqppNWSyE) (19 mins)
+
+
+How do we use an ontology?
 
     # Load an ontology from a local repository, or from Internet:
 
@@ -76,13 +85,76 @@ What can we do with it?
     
     test_pizza.has_topping.append(onto.MeatTopping())
     
-    
+
+# Default Ontologies
+
+Think of this as specialized kinds of concepts with pre defined properties and allowed relationships
+
+LILACS includes the following ontologies by default:
+
+[Event ontology](http://motools.sourceforge.net/event/event.html#event)
+
+This ontology deals with the notion of reified events. It defines one main Event concept. An event may have a location, a time, active agents, factors and products, as depicted below.
+
+![event](http://motools.sourceforge.net/event/event.png "events")
+
+[Timeline ontology](http://motools.sourceforge.net/timeline/timeline.html)
+
+This ontology deals with the notion of reified events. It defines one main Event concept. An event may have a location, a time, active agents, factors and products, as depicted below.
+
+![time](http://motools.sourceforge.net/timeline/timeline.png "time")
+
+[Expression of Core FRBR Concepts](http://vocab.org/frbr/core.html)
+
+This vocabulary is an expression in RDF of the concepts and relations described in the IFLA report on the Functional Requirements for Bibliographic Records (FRBR). [en]
+It includes RDF classes for the group 1, 2 and 3 entities described by the FRBR report and properties corresponding to the core relationships between those entities.
+
+![coree](https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/FRBR-Group-1-entities-and-basic-relations.svg/220px-FRBR-Group-1-entities-and-basic-relations.svg.png
+ "tcoe")
+
+
+[FOAF](http://www.foaf-project.org/) 
+
+Friend of a Friend, this ontology is used to describe people and social relationship on the Web. 
+It is mostly focused on people's existence in the virtual world, with many properties related to online activity or identity
+Nothing about family relations, physical address... It provides similar information on organisations or groups with a similar focus on their existence on the Web (work place webpage, etc). 
+It is particularly well suited for describing people on Web-based Social platforms (facebook, twitter, blogspot, ...).
+
+![foaf](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/foaf.jpg?raw=true "foaf")
+
+[SIOC](http://rdfs.org/sioc/spec/) 
+
+Socially Interconnected Online Communities,  this ontology is used to describe online communities such as forums, blogs, mailing lists, wikis. It complements FOAF by stressing on the description of the products of those communities (posts, replies, threads, etc).
+
+![sio](http://rdfs.org/sioc/spec/img/main_classes_properties.png "sioc")
+
+
+[Music](http://musicontology.com/)
+
+this ontology is used to describe information related to the music industry. It does not provide any means to describe in detail the music itself (notes, instruments, rythms, etc) but focus more on releases, live events, albums, artists, tracks that characterise most of the business-related information about music that can be found on the Web.
+
+
+[Good relations](http://purl.org/goodrelations/) 
+
+The goal of GoodRelations is to define a data structure for e-commerce that is industry-neutral, valid across the different stages of the value chain and syntax-neutral
+
+This is achieved by using just four entities for representing e-commerce scenarios:
+
+- An agent (e.g. a person or an organization),
+- An object (e.g. a camcorder, a house, a car,...) or service (e.g. a haircut),
+- A promise (offer) to transfer some rights (ownership, temporary usage, a certain license, ...) on the object or to provide the service for a certain compensation (e.g. an amount of money), made by the agent and related to the object or service, and
+- A location from which this offer is available (e.g. a store, a bus stop, a gas station,...).
+   
 
 # Short term memory
 
-All pieces of data that come to LILACS, (i e, user speech) will be pre processed, some of that data may not be present in our long term memory but we still need to tag it and work with it
+All pieces of data that come to LILACS, (i e, user speech) will be pre processed
 
-we don't want to add unverified data to our ontology, we will be using sql alchemy and maintain a sql database of runtime concepts!
+some of that data may not be present in our long term memory but we still need to tag it and work with it
+
+we don't even know what ontology we should use most of the time
+
+we will be using sql alchemy and maintain a sql database of runtime concepts!
 
 At the same time we will load concepts from our long term memory as needed and process everything together
 
@@ -133,9 +205,13 @@ Discovery is a process of navigating short term memory, Truths must be approved 
 | Python backend|	   SQL Alchemy|	OWLready|
 
 
-How do we discover and define a truth? if it comes from a trusted source we accept it!
+How do we discover and define a truth? 
 
-We can check for inconsistencies with our reasoning engine and not allow additions until these are solved
+if it comes from a trusted source we accept it! A trusted source can be user input, or mirroring dbpedia connections
+
+Further blog posts will explore how to generate possible truths in short term memory and ask the user about it before committing to long term memory
+
+We can check for inconsistencies with our [reasoning engine]() and not allow additions to our world ontology until these are solved
 
 In case of inconsistent ontology, an OwlReadyInconsistentOntologyError is raised.
 
@@ -149,65 +225,3 @@ In addition, the consistency of a given class can be tested by checking for Noth
           print("Drug is inconsistent!")
           
           
-Nothing says we must have a single memory bank / ontology, we can further split our memory into different databases
-
-There is a list of [good ontologies](https://www.w3.org/wiki/Good_Ontologies) that are fully documented, dereferenceable, used by independent data providers and possibly supported by existing tools. In order to be in this list, the ontology must have a documentation page which describes the ontology itself, as well as all the terms defined by the ontology. It must also be used by 2 (verifiable) independent datasets (not coming from the same provider nor interdependent providers).
-
-# Default Ontologies
-
-LILACS includes the following ontologies by default:
-
-[Event ontology](http://motools.sourceforge.net/event/event.html#event)
-
-This ontology deals with the notion of reified events. It defines one main Event concept. An event may have a location, a time, active agents, factors and products, as depicted below.
-
-![event](http://motools.sourceforge.net/event/event.png "events")
-
-
-[Timeline ontology](http://motools.sourceforge.net/timeline/timeline.html)
-
-This ontology deals with the notion of reified events. It defines one main Event concept. An event may have a location, a time, active agents, factors and products, as depicted below.
-
-![time](http://motools.sourceforge.net/timeline/timeline.png "time")
-
-
-[Expression of Core FRBR Concepts](http://vocab.org/frbr/core.html)
-
-This vocabulary is an expression in RDF of the concepts and relations described in the IFLA report on the Functional Requirements for Bibliographic Records (FRBR). [en]
-It includes RDF classes for the group 1, 2 and 3 entities described by the FRBR report and properties corresponding to the core relationships between those entities.
-
-![coree](https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/FRBR-Group-1-entities-and-basic-relations.svg/220px-FRBR-Group-1-entities-and-basic-relations.svg.png
- "tcoe")
-
-
-[FOAF](http://www.foaf-project.org/) 
-
-Friend of a Friend, this ontology is used to describe people and social relationship on the Web. 
-It is mostly focused on people's existence in the virtual world, with many properties related to online activity or identity
-Nothing about family relations, physical address... It provides similar information on organisations or groups with a similar focus on their existence on the Web (work place webpage, etc). 
-It is particularly well suited for describing people on Web-based Social platforms (facebook, twitter, blogspot, ...).
-
-![foaf](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/foaf.jpg?raw=true "foaf")
-
-[SIOC](http://rdfs.org/sioc/spec/) 
-
-Socially Interconnected Online Communities,  this ontology is used to describe online communities such as forums, blogs, mailing lists, wikis. It complements FOAF by stressing on the description of the products of those communities (posts, replies, threads, etc).
-
-![sio](http://rdfs.org/sioc/spec/img/main_classes_properties.png "sioc")
-
-
-[Music](http://musicontology.com/)
-
-this ontology is used to describe information related to the music industry. It does not provide any means to describe in detail the music itself (notes, instruments, rythms, etc) but focus more on releases, live events, albums, artists, tracks that characterise most of the business-related information about music that can be found on the Web.
-
-
-[Good relations](http://purl.org/goodrelations/) 
-
-The goal of GoodRelations is to define a data structure for e-commerce that is industry-neutral, valid across the different stages of the value chain and syntax-neutral
-
-This is achieved by using just four entities for representing e-commerce scenarios:
-
-- An agent (e.g. a person or an organization),
-- An object (e.g. a camcorder, a house, a car,...) or service (e.g. a haircut),
-- A promise (offer) to transfer some rights (ownership, temporary usage, a certain license, ...) on the object or to provide the service for a certain compensation (e.g. an amount of money), made by the agent and related to the object or service, and
-- A location from which this offer is available (e.g. a store, a bus stop, a gas station,...).
