@@ -150,12 +150,6 @@ We may want to perform some **Rule-based reasoning** on our own
 
 – Stops when there is nothing else to be derived
 
-[CWM]() is a Forward-chaining reasoner written in Python
-
-![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/cwmusage.jpg?raw=true) 
-
-    TODO usage from lilacs
-
 
 **Backward Reasoning**
 
@@ -168,15 +162,62 @@ We may want to perform some **Rule-based reasoning** on our own
 – If it can find the path to the original axioms, then the hypothesis is true (otherwise false)
 
 
-Euler/EYE – a backward-forward-backward chaining reasoner design enhanced with Euler path detection
+[CWM]() is a Forward-chaining reasoner written in Python
 
-Input: rules + data + hypothesis
+![](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/cwmusage.jpg?raw=true) 
 
-Output: Chain of rules that lead to the hypothesis (if the hypothesis is true)
+    TODO usage from lilacs
+    
+    
+Euler/EYE – a Semibackward chaining reasoner design enhanced with Euler path detection
+
+Semibackward chaining is backward chaining for rules using <= in N3 and forward chaining for rules using => in N3.
 
 [learn to use EYE](http://n3.restdesc.org/), you can host your own [EYE server](https://github.com/RubenVerborgh/EyeServer)
 
-    TODO LILACS usage
+EYE REST api can easily used from lilacs
+
+    from lilacs.processing.comprehension.reasoning import EYE_rest
+    
+    data = """@prefix ppl: <http://example.org/people#>.
+    @prefix foaf: <http://xmlns.com/foaf/0.1/>.
+    
+    ppl:Cindy foaf:knows ppl:John.
+    ppl:Cindy foaf:knows ppl:Eliza.
+    ppl:Cindy foaf:knows ppl:Kate.
+    ppl:Eliza foaf:knows ppl:John.
+    ppl:Peter foaf:knows ppl:John."""
+    
+    rules = """@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+    
+    {
+        ?personA foaf:knows ?personB.
+    }
+    =>
+    {
+        ?personB foaf:knows ?personA.
+    }."""
+    
+    
+    result = EYE_rest(data, rules)
+    print(result)
+    
+    # output
+    
+    # 'PREFIX ppl: <http://example.org/people#>\n'
+    # 'PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n'
+    # '\n'
+    # 'ppl:Cindy foaf:knows ppl:John.\n'
+    # 'ppl:Cindy foaf:knows ppl:Eliza.\n'
+    # 'ppl:Cindy foaf:knows ppl:Kate.\n'
+    # 'ppl:Eliza foaf:knows ppl:John.\n'
+    # 'ppl:Peter foaf:knows ppl:John.\n'
+    # 'ppl:John foaf:knows ppl:Cindy.\n'
+    # 'ppl:Eliza foaf:knows ppl:Cindy.\n'
+    # 'ppl:Kate foaf:knows ppl:Cindy.\n'
+    # 'ppl:John foaf:knows ppl:Eliza.\n'
+    # 'ppl:John foaf:knows ppl:Peter.\n'
+
 
 # Crawlers - Navigating the Short Term memory graph
 
