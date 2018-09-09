@@ -8,7 +8,7 @@ So lets do the same for LILACS, that's also almost like humans do, we store some
 
 The connections and concepts can be anything
 
-# Idea and Concept of SPARQL
+# Idea and Concept of RDF / SPARQL
 
 SPARQL is a query language for RDF databases. In contrast to relational databases like SQL, items are not part of any tables. Instead, items are linked with each other like a graph or network:
 
@@ -148,4 +148,52 @@ In addition, the consistency of a given class can be tested by checking for Noth
     if Nothing in Drug.equivalent_to:
           print("Drug is inconsistent!")
           
+          
+Nothing says we must have a single memory bank / ontology, we can further split our memory into different databases
 
+There is a list of [good ontologies](https://www.w3.org/wiki/Good_Ontologies) that are fully documented, dereferenceable, used by independent data providers and possibly supported by existing tools. In order to be in this list, the ontology must have a documentation page which describes the ontology itself, as well as all the terms defined by the ontology. It must also be used by 2 (verifiable) independent datasets (not coming from the same provider nor interdependent providers).
+
+LILACS includes the following ontologies by default:
+
+[Event ontology](http://motools.sourceforge.net/event/event.html#event)
+
+This ontology deals with the notion of reified events. It defines one main Event concept. An event may have a location, a time, active agents, factors and products, as depicted below.
+
+![event](http://motools.sourceforge.net/event/event.png "events")
+
+
+[Timeline ontology](http://motools.sourceforge.net/timeline/timeline.html)
+
+This ontology deals with the notion of reified events. It defines one main Event concept. An event may have a location, a time, active agents, factors and products, as depicted below.
+
+![time](http://motools.sourceforge.net/timeline/timeline.png "time")
+
+
+[FOAF](http://www.foaf-project.org/) 
+
+Friend of a Friend, this ontology is used to describe people and social relationship on the Web. It is mostly focused on people's existence in the virtual world, with many properties related to online activity or identity: foaf:mbox, foaf:skypeID, foaf:msnID, foaf:geekcode, etc. Nothing about family relations, physical address... It provides similar information on organisations or groups with a similar focus on their existence on the Web (work place webpage, etc). It is particularly well suited for describing people on Web-based Social platforms (facebook, twitter, blogspot, ...).
+
+![foaf](/blog/foaf.jpg "foaf")
+
+[SIOC](http://rdfs.org/sioc/spec/) 
+
+Socially Interconnected Online Communities,  this ontology is used to describe online communities such as forums, blogs, mailing lists, wikis. It complements FOAF by stressing on the description of the products of those communities (posts, replies, threads, etc).
+
+![sio](http://rdfs.org/sioc/spec/img/main_classes_properties.png "sioc")
+
+
+[Music](http://musicontology.com/)
+
+this ontology is used to describe information related to the music industry. It does not provide any means to describe in detail the music itself (notes, instruments, rythms, etc) but focus more on releases, live events, albums, artists, tracks that characterise most of the business-related information about music that can be found on the Web.
+
+
+[Good relations](http://purl.org/goodrelations/) 
+
+The goal of GoodRelations is to define a data structure for e-commerce that is industry-neutral, valid across the different stages of the value chain and syntax-neutral
+
+This is achieved by using just four entities for representing e-commerce scenarios:
+
+- An agent (e.g. a person or an organization),
+- An object (e.g. a camcorder, a house, a car,...) or service (e.g. a haircut),
+- A promise (offer) to transfer some rights (ownership, temporary usage, a certain license, ...) on the object or to provide the service for a certain compensation (e.g. an amount of money), made by the agent and related to the object or service, and
+- A location from which this offer is available (e.g. a store, a bus stop, a gas station,...).
