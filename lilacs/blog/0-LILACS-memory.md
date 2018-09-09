@@ -153,6 +153,8 @@ Nothing says we must have a single memory bank / ontology, we can further split 
 
 There is a list of [good ontologies](https://www.w3.org/wiki/Good_Ontologies) that are fully documented, dereferenceable, used by independent data providers and possibly supported by existing tools. In order to be in this list, the ontology must have a documentation page which describes the ontology itself, as well as all the terms defined by the ontology. It must also be used by 2 (verifiable) independent datasets (not coming from the same provider nor interdependent providers).
 
+# Default Ontologies
+
 LILACS includes the following ontologies by default:
 
 [Event ontology](http://motools.sourceforge.net/event/event.html#event)
@@ -178,13 +180,14 @@ It includes RDF classes for the group 1, 2 and 3 entities described by the FRBR 
  "tcoe")
 
 
-
-
 [FOAF](http://www.foaf-project.org/) 
 
-Friend of a Friend, this ontology is used to describe people and social relationship on the Web. It is mostly focused on people's existence in the virtual world, with many properties related to online activity or identity: foaf:mbox, foaf:skypeID, foaf:msnID, foaf:geekcode, etc. Nothing about family relations, physical address... It provides similar information on organisations or groups with a similar focus on their existence on the Web (work place webpage, etc). It is particularly well suited for describing people on Web-based Social platforms (facebook, twitter, blogspot, ...).
+Friend of a Friend, this ontology is used to describe people and social relationship on the Web. 
+It is mostly focused on people's existence in the virtual world, with many properties related to online activity or identity
+Nothing about family relations, physical address... It provides similar information on organisations or groups with a similar focus on their existence on the Web (work place webpage, etc). 
+It is particularly well suited for describing people on Web-based Social platforms (facebook, twitter, blogspot, ...).
 
-![foaf](/blog/foaf.jpg "foaf")
+![foaf](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/foaf.jpg?raw=true "foaf")
 
 [SIOC](http://rdfs.org/sioc/spec/) 
 
