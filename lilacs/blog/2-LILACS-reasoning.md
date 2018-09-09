@@ -385,20 +385,48 @@ we could use a crawler here, but we can just query our knowledge base
     
 TODO code
     
-          
+
+# question_type: describe
+    
+this is what "what" would probably look like if we didnt go for wikipedia
+
+    Input: describe cow
+    Speak: cow is animal
+    Speak: cow is living being
+    
+TODO code
+
+# question_type: is a
+
+is X a Y
+
+    Input: are frogs also animals
+    Speak: answer to is frog a animal is True
+    
+TODO code
+
+# question_type: same as
+
+is X same as Y
+
+    Input: are dogs same as animals
+    Speak: answer to is dog equal to animals is False
+    
+TODO code
+
 # question_type: common
 
 What do node X and Y have in common?
 
 There are many ways to do this, we can have 2 crawlers following the "is instance of" connections from both concepts and compare the crawl_list
     
-    ...  TODO output
+    Input: what do frogs and humans have in common
+    Speak: frog are animal like human
+    Speak: frog are living being like human
     
 TODO code
   
 Or we can use our knowledge base directly
-
-        ...  TODO output
     
 TODO code
 
@@ -413,6 +441,15 @@ What is the X of Y
     
 TODO code
 
+
+# question_type: path to
+
+    Input: Why are frogs living beings
+    Speak: answer to is frog a living being is True
+    Speak: frog is animal
+    Speak: animal is living being
+
+TODO code
 
 # question_type: when
 
