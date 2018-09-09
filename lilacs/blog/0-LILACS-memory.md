@@ -169,6 +169,17 @@ This ontology deals with the notion of reified events. It defines one main Event
 ![time](http://motools.sourceforge.net/timeline/timeline.png "time")
 
 
+[Expression of Core FRBR Concepts](http://vocab.org/frbr/core.html)
+
+This vocabulary is an expression in RDF of the concepts and relations described in the IFLA report on the Functional Requirements for Bibliographic Records (FRBR). [en]
+It includes RDF classes for the group 1, 2 and 3 entities described by the FRBR report and properties corresponding to the core relationships between those entities.
+
+![coree](https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/FRBR-Group-1-entities-and-basic-relations.svg/220px-FRBR-Group-1-entities-and-basic-relations.svg.png
+ "tcoe")
+
+
+
+
 [FOAF](http://www.foaf-project.org/) 
 
 Friend of a Friend, this ontology is used to describe people and social relationship on the Web. It is mostly focused on people's existence in the virtual world, with many properties related to online activity or identity: foaf:mbox, foaf:skypeID, foaf:msnID, foaf:geekcode, etc. Nothing about family relations, physical address... It provides similar information on organisations or groups with a similar focus on their existence on the Web (work place webpage, etc). It is particularly well suited for describing people on Web-based Social platforms (facebook, twitter, blogspot, ...).
