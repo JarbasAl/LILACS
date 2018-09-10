@@ -1,7 +1,6 @@
 from __future__ import print_function
 import wptools
 from lilacs.memory.nodes.concept import ConceptDatabase
-from lilacs.nlp.parse import extract_facts
 
 __author__ = 'jarbas'
 
@@ -22,12 +21,6 @@ def extract_wikipedia_connections(subject, save=False, db=None, nlp=None):
         connections.append({"link": link, "con_strength": 80})
         if save:
             db.add_connection(subject, link, "link")
-
-    facts = extract_facts(subject, data["summary"], nlp=nlp)
-    for f in facts:
-        connections.append({"fact": f, "con_strength": 90})
-        if save:
-            db.add_connection(subject, f, "fact")
 
     return connections
 

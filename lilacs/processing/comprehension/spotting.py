@@ -1,10 +1,29 @@
 import spotlight
+import requests
 from lilacs.settings import SPOTLIGHT_URL
 from padaos import IntentContainer
-from lilacs.nlp import get_nlp
-from lilacs.nlp.parse import normalize, extract_facts
+from lilacs.processing.nlp import get_nlp
+from lilacs.processing.nlp.parse import normalize
 from spacy.parts_of_speech import VERB
-from textblob import TextBlob
+
+
+# use the source https://cogcomp.org/page/demo_view/Wikifier
+def wikifier(text):
+    url = "https://cogcomp.org/demo_files/Wikifier.php"
+    data = {"lang": "en", "text": text}
+    r = requests.post(url, data=data)
+    return r.json()
+
+def spotlight_annotate(text):
+    return spotlight.annotate(SPOTLIGHT_URL, text)
+
+
+def dandelion_annotate(text):
+    from lilacs.settings import DANDELION_API
+    from dandelion import DataTXT
+    datatxt = DataTXT(app_id=DANDELION_API, app_key=DANDELION_API)
+    response = datatxt.nex(text)
+    return response.annotations
 
 
 class BasicTeacher(object):
@@ -108,6 +127,11 @@ class BasicQuestionParser(BasicTeacher):
             data["Query1"] = entities["first_query"]
             data["Query2"] = entities["second_query"]
         return data
+
+
+
+
+
 
 
 class LILACSQuestionParser(BasicQuestionParser):
@@ -311,6 +335,7 @@ def spot_concepts(text):
 
 
 def formulate_questions(text_corpus, verbose=False):
+    from textblob import TextBlob
     questions = []
     text_corpus = text_corpus.replace(",",".").replace(";",".").replace("\n",". ")
     for line in text_corpus.split("."):
@@ -483,14 +508,13 @@ def test_teacher():
         print("normalized_text:", data.get("normalized_text"))
 
 
-if __name__ == '__main__':
-    corpus = """T he Citânia de Briteiros is an archaeological site of the Castro culture located in the Portuguese civil parish of Briteiros São Salvador e Briteiros Santa Leocádia in the municipality of Guimarães; important for its size, "urban" form and developed architecture, it is one of the more excavated sites in northwestern Iberian Peninsula. Although primarily known as the remains of an Iron Age proto-urban hill fort (or oppidum), the excavations at the site have revealed evidence of sequential settlement, extending from the Bronze to Middle Ages."""
+#if __name__ == '__main__':
+    #corpus = """The Citânia de Briteiros is an archaeological site of the Castro culture located in the Portuguese civil parish of Briteiros São Salvador e Briteiros Santa Leocádia in the municipality of Guimarães; important for its size, "urban" form and developed architecture, it is one of the more excavated sites in northwestern Iberian Peninsula. Although primarily known as the remains of an Iron Age proto-urban hill fort (or oppidum), the excavations at the site have revealed evidence of sequential settlement, extending from the Bronze to Middle Ages."""
     #corpus = normalize(corpus)
-    print(formulate_questions(corpus))
-    corpus = """The African wild dog (Lycaon pictus), also known as African hunting dog, African painted dog, painted hunting dog, or painted wolf, is a canid native to sub-Saharan Africa. It is the largest of its family in Africa, and the only extant member of the genus Lycaon, which is distinguished from Canis by its fewer toes and its dentition, which is highly specialised for a hypercarnivorous diet. It was classified as endangered by the IUCN in 2016, as it had disappeared from much of its original range. The 2016 population was estimated at roughly 39 subpopulations containing 6,600 adults, only 1,400 of which were reproducing adults.[2] The decline of these populations is ongoing, due to habitat fragmentation, human persecution, and disease outbreaks.
-    The African wild dog is a highly social animal, living in packs with separate dominance hierarchies for males and females. Uniquely among social carnivores, the females rather than the males scatter from the natal pack once sexually mature, and the young are allowed to feed first on carcasses. The species is a specialised diurnal hunter of antelopes, which it catches by chasing them to exhaustion. Like other canids, it regurgitates food for its young, but this action is also extended to adults, to the point of being the bedrock of African wild dog social life.[3][4][5] It has few natural predators, though lions are a major source of mortality, and spotted hyenas are frequent kleptoparasites.
-    Although not as prominent in African folklore or culture as other African carnivores, it has been respected in several hunter-gatherer societies, particularly those of the predynastic Egyptians and the San people."""
-    print(normalize(corpus))
-    print(extract_facts("dog", corpus, norm=False))
-    test_teacher()
-    test_qp()
+    #print(formulate_questions(corpus))
+    #corpus = """The African wild dog (Lycaon pictus), also known as African hunting dog, African painted dog, painted hunting dog, or painted wolf, is a canid native to sub-Saharan Africa. It is the largest of its family in Africa, and the only extant member of the genus Lycaon, which is distinguished from Canis by its fewer toes and its dentition, which is highly specialised for a hypercarnivorous diet. It was classified as endangered by the IUCN in 2016, as it had disappeared from much of its original range. The 2016 population was estimated at roughly 39 subpopulations containing 6,600 adults, only 1,400 of which were reproducing adults.[2] The decline of these populations is ongoing, due to habitat fragmentation, human persecution, and disease outbreaks.
+    #The African wild dog is a highly social animal, living in packs with separate dominance hierarchies for males and females. Uniquely among social carnivores, the females rather than the males scatter from the natal pack once sexually mature, and the young are allowed to feed first on carcasses. The species is a specialised diurnal hunter of antelopes, which it catches by chasing them to exhaustion. Like other canids, it regurgitates food for its young, but this action is also extended to adults, to the point of being the bedrock of African wild dog social life.[3][4][5] It has few natural predators, though lions are a major source of mortality, and spotted hyenas are frequent kleptoparasites.
+    #Although not as prominent in African folklore or culture as other African carnivores, it has been respected in several hunter-gatherer societies, particularly those of the predynastic Egyptians and the San people."""
+    #print(normalize(corpus))
+    #test_teacher()
+    #est_qp()

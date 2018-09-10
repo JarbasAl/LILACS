@@ -3,8 +3,8 @@
 import requests
 
 
-def dbpedia_keyword_api(concept):
-    url = "http://lookup.dbpedia.org/api/search/KeywordSearch?QueryClass=place&QueryString=" + concept
+def dbpedia_keyword_api(concept, category=""):
+    url = "http://lookup.dbpedia.org/api/search/KeywordSearch?QueryClass=" + category +"&QueryString=" + concept
     r = requests.get(url, headers={"Accept": "application/json"})
     data = r.json()
     return data["results"]

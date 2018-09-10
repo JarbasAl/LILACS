@@ -50,5 +50,3 @@ def test():
     for t in TEST_SENTENCES:
         print(best_emotion(t))
 
-
-test()

@@ -1,9 +1,8 @@
 from builtins import str
-from lilacs.nlp import get_nlp
-import textacy.extract
-from lilacs.nlp.inflect import singularize as make_singular
+from lilacs.processing.nlp import get_nlp
+from lilacs.processing.nlp.inflect import singularize as make_singular
 from lilacs.util import NUM_STRING_EN
-from lilacs.sentience.emotions import EMOTION_NAMES
+from lilacs.processing.comprehension import replace_coreferences
 from spacy.parts_of_speech import NOUN, VERB
 import requests
 
@@ -14,6 +13,25 @@ def normalize(text, remove_articles=True, solve_corefs=True, coref_nlp=None, nlp
     text = singularize(text, nlp=nlp)
     words = text.split()  # this also removed extra spaces
     normalized = ""
+    # split punctuation into individual words
+    punctuation = [",", ".", ";", "!", "#", "$", "%", "&", "/", "(", ")", "=", "?", "«",
+                   "»", "<", ">", "[", "]", "{", "}", "@", '"', "'"]
+    symbols_to_remove = ["(", ")", "[", "]", "#", "<", ">", "{", "}"]
+    new_words = []
+    for s in punctuation:
+        for word in words:
+            if word.startswith(s):
+                if s not in symbols_to_remove:
+                    new_words.append(s)
+                new_words.append(word[1:])
+            elif word.endswith(s):
+                new_words.append(word[:-1])
+                if s not in symbols_to_remove:
+                    new_words.append(s)
+            else:
+                new_words.append(word)
+    words = new_words
+
     for word in words:
         if remove_articles and word in ["the", "a", "an"]:
             continue
@@ -78,9 +96,9 @@ def normalize(text, remove_articles=True, solve_corefs=True, coref_nlp=None, nlp
         normalized += " " + word
 
     if solve_corefs:
-        text = replace_coreferences(normalized[1:], coref_nlp)
+        normalized = replace_coreferences(normalized[1:], coref_nlp)
     # strip the initial space
-    return text
+    return normalized
 
 
 def is_negated_verb(token):
@@ -132,4 +150,4 @@ def dependency_tree(text, nlp=None):
 
 if __name__ == "__main__":
     print(singularize("dogs are awesome animals"))
-    print(extract_entities("i ate cheese earlier this week, i hate it"))
+    #print(extract_entities("i ate cheese earlier this week, i hate it"))

@@ -2194,4 +2194,3 @@ def test():
     #['Annoyance', 'Outrage', 'boredom', 'Annoyance', 'Cynicism']
     #['Zeal', 'Delight', 'Optimism', 'Serenity', 'Bemusement']
 
-test()

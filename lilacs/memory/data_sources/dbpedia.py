@@ -9,7 +9,7 @@ import pickle
 import re
 from SPARQLWrapper import SPARQLWrapper, JSON
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
-from lilacs.data_sources.resources import OWL_FILE
+from lilacs.memory.data_sources.resources import OWL_FILE
 
 
 class DbpediaOntology(object):

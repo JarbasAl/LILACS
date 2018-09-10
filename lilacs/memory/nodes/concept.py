@@ -11,10 +11,10 @@ from os.path import join
 class ConceptDatabase(object):
     path = 'concepts.db'
     path = "sqlite:///" + join(DATABASE_DIR, path)
-    db = create_engine(path)
-    Base.metadata.create_all(db)
 
     def __init__(self, debug=False):
+        self.db = create_engine(self.path)
+        Base.metadata.create_all(self.db)
         self.db.echo = debug
         Session = sessionmaker(bind=self.db)
         self.session = Session()

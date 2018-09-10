@@ -1,27 +1,28 @@
 import warnings
 warnings.filterwarnings("ignore", message="numpy.dtype size changed")
 warnings.filterwarnings("ignore", message="numpy.ufunc size changed")
-from lilacs.nlp import get_nlp
-from lilacs.nlp.spotting import LILACSQuestionParser, BasicTeacher
+from lilacs.processing.nlp import get_nlp
+from lilacs.processing.comprehension.spotting import LILACSQuestionParser, BasicTeacher
 from lilacs.memory.nodes.concept import ConceptDatabase
-from lilacs.nlp.parse import extract_facts, extract_entities, normalize
-from lilacs.data_sources.dictionary import extract_dictionary_connections
-from lilacs.data_sources.conceptnet import extract_conceptnet_connections
-from lilacs.data_sources.dbpedia import DbpediaEnquirer
-from lilacs.data_sources.reddit_hivemind import get_similar
-from lilacs.data_sources.wikidata import extract_wikidata_connections
-from lilacs.data_sources.wikipedia import extract_wikipedia_connections
+from lilacs.processing.comprehension.NER import spacy_NER_demo as extract_entities
+from lilacs.processing.nlp.parse import normalize
+from lilacs.memory.data_sources.dictionary import extract_dictionary_connections
+from lilacs.memory.data_sources.conceptnet import extract_conceptnet_connections
+from lilacs.memory.data_sources.dbpedia import DbpediaEnquirer
+from lilacs.processing.nlp.word_vectors import similar_sense2vec_demo as get_similar
+from lilacs.memory.data_sources.wikidata import extract_wikidata_connections
+from lilacs.memory.data_sources.wikipedia import extract_wikipedia_connections
 from lilacs.settings import MODELS_DIR, SENSE2VEC_MODEL
 #import sense2vec
 import time
 from profanity.profanity import contains_profanity
-from lilacs.sentience.emotions import best_emotion
-from lilacs.sentience.emotions import get_emojis
+from lilacs.sentience.emotions.tag import best_emotion
+from lilacs.sentience.emotions.deepmoji import get_emojis
 from lilacs.sentience.context.core import UserEmotionContext
 
 
-class LILACS(object):
-    nlp = get_nlp()
+class LILACSReactor(object):
+    nlp = None
     coref_nlp = None
     teacher = BasicTeacher()
     parser = LILACSQuestionParser()
@@ -45,6 +46,14 @@ class LILACS(object):
             "map": []
         }
         self._build_base_reactions()
+
+    def bind(self, s2v=None, nlp=None, coref_nlp=None):
+        if s2v is not None and LILACSReactor.s2v is None:
+            LILACSReactor.s2v = s2v
+        if nlp is not None and LILACSReactor.nlp is None:
+            LILACSReactor.nlp = nlp
+        if coref_nlp is not None and LILACSReactor.coref_nlp is None:
+            LILACSReactor.coref_nlp = coref_nlp
 
     def _build_base_reactions(self):
         # when teaching, retain or repeat, base = serenity
@@ -230,17 +239,6 @@ class LILACS(object):
     def normalize(self, text):
         return normalize(text, True, True, self.coref_nlp)
 
-    def extract_named_entities(self, text):
-        ents = extract_entities(text)
-        self.status_update("NER", ents)
-        return ents
-
-    def extract_facts(self, subject, text):
-        text = self.normalize(text)
-        facts = extract_facts(subject, text, self.nlp)
-        self.status_update("extract_facts", facts)
-        return facts
-
     # data aquisition
     def get_related_entities(self, subject, sense="auto"):
         data = get_similar(subject, sense)
@@ -266,7 +264,7 @@ class LILACS(object):
         #    c = ("related", c[0], c[1])
         #    print(c)
 
-    # nodes
+    # short term memory
     def add_node(self, subject, description="", node_type="idea"):
         self.db.add_concept(subject, description, type=node_type)
 
@@ -291,5 +289,5 @@ class LILACS(object):
 
 
 if __name__ == "__main__":
-    l = LILACS()
+    l = LILACSReactor()
     l.populate_node("elon musk")

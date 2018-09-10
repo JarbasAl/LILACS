@@ -1,7 +1,7 @@
 from lilacs.processing.crawlers import BaseCrawler
 import random
 
-from lilacs.data_sources.dbpedia import DbpediaEnquirer, DbpediaOntology
+from lilacs.memory.data_sources.dbpedia import DbpediaEnquirer, DbpediaOntology
 from lilacs.memory.nodes import Concept
 
 
@@ -50,7 +50,7 @@ class DBpediaBaseCrawler(BaseCrawler):
         for c, t in cons:
             c = self.db.add_connection_by_id(self.current_node.id, t, c)
             new_cons.append(c)
-        print("** new cons", [(c.type, c.target_concept[0].name) for c in new_cons])
+        print("** new cons", [(c.type, c.target[0].name) for c in new_cons])
         return [c for c in new_cons if c is not None]
 
     def default_node(self, start_node=None):

@@ -2,22 +2,7 @@
 import requests
 
 
-def extract_facts(subject, text, nlp=None, coref_nlp=None, norm=True):
-    from lilacs.processing.nlp import get_nlp
-    from lilacs.processing.nlp.parse import normalize
-    import textacy.extract
-    facts = []
-    nlp = nlp or get_nlp()
-    # Parse the document with spaCy
-    if norm:
-        text = normalize(text, remove_articles=False, coref_nlp=coref_nlp)
-    doc = nlp(text)
-    # Extract semi-structured statements
-    statements = textacy.extract.semistructured_statements(doc, subject)
-    for statement in statements:
-        subject, verb, fact = statement
-        facts.append(fact)
-    return facts
+from pprint import pprint
 
 
 def replace_coreferences(text, nlp=None):
@@ -34,25 +19,97 @@ def replace_coreferences(text, nlp=None):
     # London has been a major settlement  for two millennia.  London was founded by the Romans,
     # who named London Londinium.
     # """
-    if nlp:
+    if nlp is not None:
         doc = nlp(text)
         text = doc._.coref_resolved
     else:
-        try:
-            params = {"text": text}
-            text = requests.get("https://coref.huggingface.co/coref", params=params).json()["corefResText"]
-        except Exception as e:
-            print(e)
+        # neural coref catches "It" but fails for the "who" in romans
+        # it also fails on long texts ocasionally
+        text = neuralcoref_demo(text)
+        # cogcomp catches some more stuff
+        text = cogcomp_coref_resolution(text)
     return text
 
 
 def neuralcoref_demo(text):
     try:
-        params = {"text": text}
-        text = requests.get("https://coref.huggingface.co/coref", params=params).json()["corefResText"]
+        params = {"text": text.replace(".", ",").replace("\n", ", ")}
+        r = requests.get("https://coref.huggingface.co/coref", params=params).json()
+        text = r["corefResText"] or text
     except Exception as e:
         print(e)
     return text
+
+
+# use the source https://cogcomp.org/page/demo_view/Coref
+def cogcomp_demo(text):
+    url = "https://cogcomp.org/demo_files/Coref.php"
+    data = {"lang": "en", "text": text}
+    r = requests.post(url, json=data)
+    return r.json()
+
+
+def cogcomp_coref_nodes(text):
+    data = cogcomp_demo(text)
+    nodes = data["nodes"]
+    ents = []
+    for n in nodes:
+        if n["NameEntType"] == "unknown":
+            continue
+        if (n["name"], n["NameEntType"]) not in ents:
+            ents.append((n["name"], n["NameEntType"]))
+    return ents
+
+
+def cogcomp_coref_resolution(text):
+    replaces = ["he", "she", "it", "they", "them", "these", "whom", "whose", "who", "its", "it's"]
+    data = cogcomp_demo(text)
+    links = data["links"]
+    node_ids = {}
+    replace_map = {}
+    for n in data["nodes"]:
+        node_ids[int(n["id"])] = n["name"]
+    for l in links:
+        # only replace some stuff
+        if node_ids[l["target"]].lower() not in replaces:
+            continue
+        replace_map[node_ids[l["target"]]] = node_ids[l["source"]]
+    for r in replace_map:
+        text = text.replace(r, replace_map[r])
+    return text
+
+
+def cogcomp_coref_triples(text):
+    ignores = ["he", "she", "it", "they", "them", "these", "whom", "whose", "who", "its", "it's"]
+    triples = []
+    text = cogcomp_coref_resolution(text)
+    data = cogcomp_demo(text)
+    links = data["links"]
+    node_ids = {}
+    for n in data["nodes"]:
+        node_ids[int(n["id"])] = n["name"]
+    for l in links:
+        if l["source"] not in node_ids.keys() or l["target"] not in node_ids.keys():
+            continue
+        if node_ids[l["source"]] in ignores or node_ids[l["target"]] in ignores:
+            continue
+        if node_ids[l["source"]].lower() == node_ids[l["target"]].lower():
+            continue
+        triple = (node_ids[l["source"]], "is", node_ids[l["target"]])
+        if triple not in triples:
+            triples.append(triple)
+    return triples
+
+text = "London is the capital and most populous city of England and the United Kingdom. Standing on the River Thames in the south east of the island of Great Britain, London has been a major settlement for two millennia. It was founded by the Romans, who named it Londinium. London's ancient core, the City of London, which covers an area of only 1.12 square miles, largely retains its medieval boundaries. Since at least the 19th century, London has also referred to the metropolis around this core, historically split between Middlesex, Essex, Surrey, Kent and Hertfordshire, which today largely makes up Greater London, a region governed by the Mayor of London and the London Assembly."
+
+#pprint(cogcomp_coref_triples(text))
+"""
+[('London', 'is', 'the capital'),
+ ('the capital', 'is', 'most populous city of England and the United Kingdom'),
+ ('London', 'is', 'the City of London'),
+ ('London', 'is', 'a region governed by the Mayor of London and the London Assembly')]
+"""
+#print(replace_coreferences(text))
 
 
 def textual_entailment_demo(premise, hypothesis):
@@ -106,7 +163,7 @@ q = "What do robots that resemble humans attempt to do?"
 #print(comprehension_demo(q, p))
 # replicate walking, lifting, speech, cognition
 
-from pprint import pprint
+
 def semantic_role_labeling_demo(sentence):
     # DO NOT ABUSE, dev purposes only
     """
@@ -125,7 +182,6 @@ def semantic_role_labeling_demo(sentence):
     roles = {}
     words = r["words"]
     verbs = r["verbs"]
-    pprint(r)
     for v in verbs:
         arg0 = []
         arg1 = []
@@ -145,7 +201,7 @@ def semantic_role_labeling_demo(sentence):
 
 t = "The keys, which were needed to access the building, were locked in the car."
 
-pprint(semantic_role_labeling_demo(t))
+#pprint(semantic_role_labeling_demo(t))
  #{'decided': ['voters', 'that if the stadium was such a good idea someone would build it himself'], 'build': ['someone', 'it'], 'rejected': ['voters', 'it']}
 
 
@@ -167,7 +223,7 @@ def constituency_parse_demo(sentence):
 
 t = "James went to the corner shop to buy some eggs, milk and bread for breakfast."
 
-#from pprint import pprint
+from pprint import pprint
 #pprint(constituency_parse_demo(t))
 
 # TODO parse response
@@ -176,7 +232,9 @@ def allennlp_coref_demo(text):
         url = "http://demo.allennlp.org/predict/coreference-resolution"
         data = {"document": text}
         r = requests.post(url, json=data).json()
-        print(r.text)
+        pprint(r)
     except Exception as e:
         print(e)
     return text
+
+

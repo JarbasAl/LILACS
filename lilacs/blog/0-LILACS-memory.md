@@ -90,7 +90,19 @@ How do we use an ontology?
 
 Think of this as specialized kinds of concepts with pre defined properties and allowed relationships
 
+Visualize the FOAF ontology at [WebVOWL](http://www.visualdataweb.de/webvowl/)
+
 LILACS includes the following ontologies by default:
+
+[FOAF](http://www.foaf-project.org/) 
+
+Friend of a Friend, this ontology is used to describe people and social relationship on the Web. 
+It is mostly focused on people's existence in the virtual world, with many properties related to online activity or identity
+Nothing about family relations, physical address... It provides similar information on organisations or groups with a similar focus on their existence on the Web (work place webpage, etc). 
+It is particularly well suited for describing people on Web-based Social platforms (facebook, twitter, blogspot, ...).
+
+![foaf](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/foaf.jpg?raw=true "foaf")
+
 
 [Event ontology](http://motools.sourceforge.net/event/event.html#event)
 
@@ -113,14 +125,6 @@ It includes RDF classes for the group 1, 2 and 3 entities described by the FRBR 
  "tcoe")
 
 
-[FOAF](http://www.foaf-project.org/) 
-
-Friend of a Friend, this ontology is used to describe people and social relationship on the Web. 
-It is mostly focused on people's existence in the virtual world, with many properties related to online activity or identity
-Nothing about family relations, physical address... It provides similar information on organisations or groups with a similar focus on their existence on the Web (work place webpage, etc). 
-It is particularly well suited for describing people on Web-based Social platforms (facebook, twitter, blogspot, ...).
-
-![foaf](https://github.com/JarbasAl/LILACS/blob/emotional_lilacs/lilacs/blog/foaf.jpg?raw=true "foaf")
 
 [SIOC](http://rdfs.org/sioc/spec/) 
 
