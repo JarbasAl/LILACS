@@ -1,6 +1,21 @@
 
 # LILACS ( Lilacs Is a Learning And Comprehension Subsystem )
 
+you are a curious one, this is a toy project, dont expect to use it
+
+there's lots of non sense and TODOS
+
+nothing is ready
+
+you cant use it if it is not ready
+
+there are no docs
+
+there is no purpose
+
+im taking notes as i go, read on if you must
+
+
 - [memory](lilacs/blog/0-LILACS-memory.md)
 - [data](lilacs/blog/1-LILACS-data.md)
 - [nervous system](lilacs/blog/2-LILACS-crawlers.md)
@@ -9,7 +24,7 @@
 - [emotions](lilacs/blog/5-LILACS-emotions.md)
 - [neurotransmitters](lilacs/blog/6-LILACS_feels.md)
 - [reactions](lilacs/blog/7-LILACS-reactions.md)
-- [references](lilacs/blog/8-LILACS-referen8-LILACS-referencesces.md)
+- [references](lilacs/blog/8-LILACS-references.md)
 
 
 # LILACS for analyzing emotions
@@ -124,6 +139,7 @@ detect emotions, politeness, sentiment and assign emojis
 
     """
     
+
 # LILACS for analyzing text
 
 ask LILACS things about text
@@ -277,113 +293,7 @@ Extract entities and external data about them from text
         #   'state': 'England',
         #   'status': 'OK',
         #   'type': 'city'},
-        #  {'accuracy': 0.993048074613031,
-        #   'address': 'England, UK',
-    
-        #   ...
-    
-        #  {'accuracy': 0.879660058396959,
-        #   'address': 'City of London, London, Greater London, England, EC2V 5AE, UK',
-        #   'bbox': {'northeast': [51.6756177, 0.0680017],
-        #            'southwest': [51.3556177, -0.2519983]},
-        #   'city': 'City of London',
-        #   'confidence': 1,
-        #   'country': 'UK',
-        #   'country_code': 'gb',
-        #   'county': 'London',
-        #   'icon': 'https://nominatim.openstreetmap.org/images/mapicons/poi_place_city.p.20.png',
-        #   'importance': 0.879660058396959,
-        #   'lat': 51.5156177,
-        #   'lng': -0.0919983,
-        #   'ok': True,
-        #   'osm_id': '27365030',
-        #   'osm_type': 'node',
-        #   'place_id': '141740',
-        #   'place_rank': '16',
-        #   'postal': 'EC2V 5AE',
-        #   'quality': 'city',
-        #   'raw': {'address': {'city': 'City of London',
-        #                       'country': 'UK',
-        #                       'country_code': 'gb',
-        #                       'county': 'London',
-        #                       'postcode': 'EC2V 5AE',
-        #                       'state': 'England',
-        #                       'state_district': 'Greater London'},
-        #           'boundingbox': ['51.3556177',
-        #                           '51.6756177',
-        #                           '-0.2519983',
-        #                           '0.0680017'],
-        #           'category': 'place',
-        #           'display_name': 'City of London, London, Greater London, England, '
-        #                           'EC2V 5AE, UK',
-        #           'icon': 'https://nominatim.openstreetmap.org/images/mapicons/poi_place_city.p.20.png',
-        #           'importance': 0.879660058396959,
-        #           'lat': '51.5156177',
-        #           'licence': 'Data © OpenStreetMap contributors, ODbL 1.0. '
-        #                      'https://osm.org/copyright',
-        #           'lon': '-0.0919983',
-        #           'osm_id': '27365030',
-        #           'osm_type': 'node',
-        #           'place_id': '141740',
-        #           'place_rank': '16',
-        #           'type': 'city'},
-        #   'region': 'England',
-        #   'state': 'England',
-        #   'status': 'OK',
-        #   'type': 'city'},
-    
-        #   ...
-    
-        #  {'accuracy': 0.7819360330017749,
-        #   'address': 'Kent, South East, England, UK',
-        #   'bbox': {'northeast': [51.4822724, 1.4517689],
-        #            'southwest': [50.9104763, 0.0335249]},
-        #   'confidence': 1,
-        #   'country': 'UK',
-        #   'country_code': 'gb',
-        #   'county': 'Kent',
-        #   'icon': 'https://nominatim.openstreetmap.org/images/mapicons/poi_boundary_administrative.p.20.png',
-        #   'importance': 0.7819360330017749,
-        #   'lat': 51.2474823,
-        #   'lng': 0.7105077,
-        #   'ok': True,
-        #   'osm_id': '172385',
-        #   'osm_type': 'relation',
-        #   'place_id': '198778295',
-        #   'place_rank': '12',
-        #   'quality': 'administrative',
-        #   'raw': {'address': {'country': 'UK',
-        #                       'country_code': 'gb',
-        #                       'county': 'Kent',
-        #                       'state': 'England',
-        #                       'state_district': 'South East'},
-        #           'boundingbox': ['50.9104763', '51.4822724', '0.0335249', '1.4517689'],
-        #           'category': 'boundary',
-        #           'display_name': 'Kent, South East, England, UK',
-        #           'icon': 'https://nominatim.openstreetmap.org/images/mapicons/poi_boundary_administrative.p.20.png',
-        #           'importance': 0.7819360330017749,
-        #           'lat': '51.2474823',
-        #           'licence': 'Data © OpenStreetMap contributors, ODbL 1.0. '
-        #                      'https://osm.org/copyright',
-        #           'lon': '0.7105077',
-        #           'osm_id': '172385',
-        #           'osm_type': 'relation',
-        #           'place_id': '198778295',
-        #           'place_rank': '12',
-        #           'type': 'administrative'},
-        #   'region': 'England',
-        #   'state': 'England',
-        #   'status': 'OK',
-        #   'type': 'administrative'},
-        #  {'accuracy': 0.743998870648923,
-        #   'address': 'Hertfordshire, East of England, England, UK',
-        #   'bbox': {'northeast': [52.0805364, 0.195567],
-        #            'southwest': [51.5995828, -0.7457892]},
-        #   'confidence': 1,
-        #   'country': 'UK',
-        #   'country_code': 'gb',
-        #   'county': 'Hertfordshire',
-    
+       
         #   ...
     
         #   }]
@@ -410,48 +320,6 @@ Extract entities and external data about them from text
                   'types': ''},
                 
                  ...
-                
-                
-                 {'URI': 'http://dbpedia.org/resource/Roman_Britain',
-                  'offset': 241,
-                  'percentageOfSecondRank': 0.027343760304466284,
-                  'similarityScore': 0.9715019889945219,
-                  'support': 6051,
-                  'surfaceForm': 'Romans',
-                  'types': 'Wikidata:Q3455524,Schema:Place,Schema:AdministrativeArea,DBpedia:Region,DBpedia:PopulatedPlace,DBpedia:Place,DBpedia:Location,DBpedia:AdministrativeRegion'},
-                 {'URI': 'http://dbpedia.org/resource/Londinium',
-                  'offset': 262,
-                  'percentageOfSecondRank': 1.806786374851336e-09,
-                  'similarityScore': 0.9999999981931751,
-                  'support': 450,
-                  'surfaceForm': 'Londinium',
-                  'types': ''},
-                 {'URI': 'http://dbpedia.org/resource/Greater_London',
-                  'offset': 273,
-                  'percentageOfSecondRank': 2.0763189316436016e-05,
-                  'similarityScore': 0.9999778324259112,
-                  'support': 4571,
-                  'surfaceForm': 'London',
-                  'types': 'Wikidata:Q3455524,Schema:Place,Schema:AdministrativeArea,DBpedia:Region,DBpedia:PopulatedPlace,DBpedia:Place,DBpedia:Location,DBpedia:AdministrativeRegion'},
-                
-                ....
-                
-                 {'URI': 'http://dbpedia.org/resource/Middle_Ages',
-                  'offset': 394,
-                  'percentageOfSecondRank': 0.0003615768940138939,
-                  'similarityScore': 0.9995167139063358,
-                  'support': 29551,
-                  'surfaceForm': 'medieval',
-                  'types': ''},
-                 {'URI': 'http://dbpedia.org/resource/Century',
-                  'offset': 439,
-                  'percentageOfSecondRank': 0.0015267328225673285,
-                  'similarityScore': 0.9978642520373232,
-                  'support': 1347,
-                  'surfaceForm': 'century',
-                  'types': ''},
-                
-                ...
                 
                 
                  {'URI': 'http://dbpedia.org/resource/Mayor',
