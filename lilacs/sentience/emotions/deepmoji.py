@@ -2171,7 +2171,11 @@ def get_emotions(text):
             emojis[idx] = score
     scores = sorted(emojis, key=lambda k: emojis[k])
     scores.reverse()
-    return [EMOJI_TO_EMOTION[s] for s in scores]
+    emos = []
+    for e in  [EMOJI_TO_EMOTION[s] for s in scores]:
+        if e not in emos:
+            emos.append(e)
+    return emos
 
 
 def test():
