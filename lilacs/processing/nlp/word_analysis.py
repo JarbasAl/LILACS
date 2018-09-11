@@ -5,8 +5,8 @@
 # Harvard General Inquirer - http://www.wjh.harvard.edu/~inquirer/spreadsheet_guide.htm
 # NRC Word-Colour Association Lexicon - http://www.saifmohammad.com/WebPages/lexicons.html
 
-from lilacs.nlp.lexicons import LEXICON
-from lilacs.nlp.parse import normalize
+from lilacs.processing.nlp.lexicons import LEXICON
+from lilacs.processing.nlp.parse import normalize
 
 
 # http://www.saifmohammad.com/WebDocs/ACL2011-word-colour-associations-poster.pdf

@@ -42,7 +42,7 @@ def look_for_fractions(split_list):
     return False
 
 
-def extractnumber(text, short_scale=True, ordinals=False):
+def extract_number(text, short_scale=True, ordinals=False):
     """
     This function extracts a number from a text string,
     handles pronunciations in long scale and short scale

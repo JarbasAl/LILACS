@@ -1,7 +1,7 @@
 from lilacs.processing.comprehension.extraction import relation_extraction
 from lilacs.processing.comprehension import replace_coreferences
 from lilacs.processing.nlp.parse import normalize
-from lilacs.processing.comprehension import constituency_parse_demo, textual_entailment_demo, comprehension_demo
+from lilacs.processing.comprehension import constituency_parse_demo, textual_entailment_demo, comprehension_demo, cogcomp_coref_triples
 from lilacs.settings import SPACY_MODEL
 import textacy
 
@@ -10,13 +10,16 @@ class LILACSTextAnalyzer(object):
     def __init__(self, bus=None):
         self.bus = bus
 
-    def normalize(self, text, remove_articles=False):
+    @staticmethod
+    def normalize(text, remove_articles=False):
         return normalize(text, remove_articles=remove_articles)
 
-    def coreference_resolution(self, text):
+    @staticmethod
+    def coreference_resolution(text):
         return replace_coreferences(text)
 
-    def possible_relations(self, sentences):
+    @staticmethod
+    def possible_relations( sentences):
         if isinstance(sentences, str):
             sentences = [sentences]
         relations = []
@@ -28,18 +31,20 @@ class LILACSTextAnalyzer(object):
                 relations.append(r)
         return relations
 
-    def extract_nouns(self, text):
+    @staticmethod
+    def extract_nouns(text):
         # normalize
-        text = self.normalize(text, remove_articles=False)
+        text = LILACSTextAnalyzer.normalize(text, remove_articles=False)
         doc = textacy.doc.Doc(text, lang=SPACY_MODEL)
         # Extract svo triples
         nouns = textacy.extract.noun_chunks(doc)
         return list(nouns)
 
+    @staticmethod
     def extract_facts(self, subject, text):
         # normalize
         subject = subject.lower()
-        text = self.normalize(text, remove_articles=False)
+        text = LILACSTextAnalyzer.normalize(text, remove_articles=False)
         doc = textacy.doc.Doc(text, lang=SPACY_MODEL)
         # Extract semi-structured statements
         statements = textacy.extract.semistructured_statements(doc, subject)
@@ -50,11 +55,12 @@ class LILACSTextAnalyzer(object):
                 facts.append(fact)
         return facts
 
-    def extract_triples(self, text):
+    @staticmethod
+    def extract_triples(text):
         # normalize
         if not text:
             return []
-        text = self.coreference_resolution(text)
+        text = LILACSTextAnalyzer.coreference_resolution(text)
         doc = textacy.doc.Doc(text, lang=SPACY_MODEL)
         # Extract svo triples
         triples = textacy.extract.subject_verb_object_triples(doc)
@@ -65,22 +71,30 @@ class LILACSTextAnalyzer(object):
                 t.append(trip)
         return t
 
-    def interesting_triples(self, text):
+    @staticmethod
+    def interesting_triples(text):
         interest = ["is", "has", "can"]
-        discard = ["who", "they", "it", "she", "he", "them", "we", "there", "which", "is"]
+        discard = ["who", "they", "it", "she", "he", "them", "we", "there", "which", "is", "whom", "whose", "that"]
         # Extract svo triples
-        triples = [t for t in self.extract_triples(text) if t[1] in interest and t[2] not in discard and t[0] not in discard and t[0] != t[2]]
+        triples = [t for t in LILACSTextAnalyzer.extract_triples(text) if t[1] in interest and t[2] not in discard and t[0] not in discard and t[0] != t[2]]
         return triples
 
-    def answer_question(self, question, passage):
+    @staticmethod
+    def coreference_triples(text):
+        return cogcomp_coref_triples(text)
+
+    @staticmethod
+    def answer_question(question, passage):
         #passage = self.normalize(passage)
         #question = self.normalize(question)
         return comprehension_demo(question, passage).lower()
 
-    def validity_of_hypothesys(self, premise, hypothesys):
+    @staticmethod
+    def validity_of_hypothesys(premise, hypothesys):
         return textual_entailment_demo(premise, hypothesys)
 
-    def constituency_parse(self, text):
+    @staticmethod
+    def constituency_parse(text):
         return constituency_parse_demo(text)
 
 

@@ -27,8 +27,11 @@ One of the algorithms it implements is called Semi-structured Statement Extracti
 
 Facts are extracted when the verb "is" is used
 
-Another thing we can do is use coreference resolution and assume the linked entities are related
+Another thing we can do is use coreference resolution and assume the linked entities are related, this way we do not need to care about the subject
 
+    LILACS.coreference_triples(test_text)
+    
+    # output
     [('London', 'is', 'the capital'),
      ('the capital', 'is', 'most populous city of England and the United Kingdom'),
      ('London', 'is', 'the City of London'),
@@ -74,9 +77,7 @@ The main goal of relation extraction is to determine a type of relation between 
 
 a recent paper [Context-Aware Representations for Knowledge Base Relation Extraction](https://github.com/UKPLab/emnlp2017-relation-extraction) allows us to extract possible relations, [demo here](http://semanticparsing.ukp.informatik.tu-darmstadt.de:5000/relation-extraction/static/index.html)
 
-        test_text = """London is the capital and most populous city of England and the United Kingdom. Standing on the River Thames in the south east of the island of Great Britain, London has been a major settlement for two millennia. It was founded by the Romans, who named it Londinium. London's ancient core, the City of London, which covers an area of only 1.12 square miles (2.9 km2), largely retains its medieval boundaries. Since at least the 19th century, "London" has also referred to the metropolis around this core, historically split between Middlesex, Essex, Surrey, Kent and Hertfordshire, which today largely makes up Greater London, a region governed by the Mayor of London and the London Assembly."""
-        LILACS = LILACSTextAnalyzer()
-        
+        # takes a list of sentences
         sentences = test_text.split(".")
         LILACS.possible_relations(sentences)
         

@@ -2,8 +2,8 @@ import warnings
 warnings.filterwarnings("ignore", message="numpy.dtype size changed")
 warnings.filterwarnings("ignore", message="numpy.ufunc size changed")
 from lilacs.processing.nlp import get_nlp
-from lilacs.processing.comprehension.spotting import LILACSQuestionParser, BasicTeacher
-from lilacs.memory.nodes.concept import ConceptDatabase
+from lilacs.processing.nlp.parse import LILACSQuestionParser, BasicTeacher
+from lilacs.memory.nodes.short_term import ConceptDatabase
 from lilacs.processing.comprehension.NER import spacy_NER_demo as extract_entities
 from lilacs.processing.nlp.parse import normalize
 from lilacs.memory.data_sources.dictionary import extract_dictionary_connections

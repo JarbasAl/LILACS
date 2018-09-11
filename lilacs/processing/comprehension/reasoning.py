@@ -1,5 +1,7 @@
 import requests
-
+import random
+from lilacs.processing.comprehension import textual_entailment_demo, comprehension_demo
+from lilacs.processing.comprehension.extraction import LILACSextractor
 
 def ask_wdaqua(text):
     url = "https://wdaqua-core1.univ-st-etienne.fr/gerbil"
@@ -55,32 +57,114 @@ def EYE_rest(data, rules="", query="{ ?a ?b ?c. } => { ?a ?b ?c. }.", server_url
 
 
 from lilacs.memory.data_sources import LILACSKnowledge
+from lilacs.processing import LILACSTextAnalyzer
+from lilacs.processing.nlp.word_vectors import similar_turkunlp_demo, similar_sense2vec, similar_sense2vec_demo
 
 
 class LILACSReasoner(object):
-    def __init__(self, bus=None):
+    coref_nlp = None
+    analyzer = LILACSTextAnalyzer
+
+    def __init__(self, bus=None, coref_nlp=None):
         self.bus = bus
-        self.knowledge = LILACSKnowledge(self.bus)
+        if LILACSReasoner.coref_nlp is None and coref_nlp is not None:
+            LILACSReasoner.coref_nlp = coref_nlp
+
+    @staticmethod
+    def is_math_question(question):
+        # check for number references
+        if LILACSextractor.extract_number(question):
+            # check for math operation vocabulary
+            math_qualifier = ["plus", "+", "-", "minus", "divid", "/", "multipl", "times",
+                              "*", "exp", "integral", "root", "^", "percent", "%"]
+            for m in math_qualifier:
+                if m in question:
+                    # seems a math question
+                    return True
+        return False
+
+    @staticmethod
+    def related_nodes(concept, n=5, engine="sense2vec_demo"):
+        if engine == "sense2vec_demo":
+            return similar_sense2vec_demo(concept)
+        elif engine == "sense2vec":
+            return similar_sense2vec(concept, num=n, nlp=LILACSReasoner.coref_nlp)
+        elif engine == "turkunlp_demo":
+            return similar_turkunlp_demo(concept, n=n)
+        return []
+
+    @staticmethod
+    def answer_choice(question, choices, engine="allennlp_demo"):
+        # use textual entailment to select best choice
+        best = random.choice(choices)
+        best_entailment = 0
+        for c in choices:
+            data = textual_entailment_demo(question, c)
+            e = data["entailment"]
+            if e > best_entailment:
+                best = c
+                best_entailment = e
+        return best
+
+    @staticmethod
+    def answer_corpus(question, corpus):
+        # machine comprehension, look for answers in text corpus
+        return comprehension_demo(question, corpus)
+
+    # WIP
+    def answer(self, question):
+        if LILACSReasoner.is_math_question(question):
+            return LILACSReasoner.euclid(question)
+        # TODO LILACS question parser
+        # TODO wolfram etc
+        return LILACSReasoner.aristo(question)
 
     def what(self, node):
         pass
 
-    def EYE(self, data, rules="", query="{ ?a ?b ?c. } => { ?a ?b ?c. }."):
+    def analogy(self, a, b, c):
+        pass
+
+    def sci_tail(self, question, choices):
+        # multiple choice
+        # https://github.com/allenai/scitail
+        return None
+
+    # external
+    @staticmethod
+    def EYE(data, rules="", query="{ ?a ?b ?c. } => { ?a ?b ?c. }."):
         return EYE_rest(data, rules, query)
 
-    def aristo(self, query):
+    @staticmethod
+    def aristo(query, engine="aristo_demo"):
+        # TODO support https://github.com/allenai/aristo-mini
         return ask_aristo(query)
 
-    def euclid(self, query):
+    @staticmethod
+    def euclid(query):
         return ask_euclid(query)
 
 
 if __name__ == "__main__":
 
     LILACS = LILACSReasoner()
-    t = "If 30 percent of 48 percent of a number is 288, what is the number?"
-    print(LILACS.euclid(t))
+    p = "Robotics is an interdisciplinary branch of engineering and science that includes mechanical engineering, electrical engineering, computer science, and others. Robotics deals with the design, construction, operation, and use of robots, as well as computer systems for their control, sensory feedback, and information processing. These technologies are used to develop machines that can substitute for humans. Robots can be used in any situation and for any purpose, but today many are used in dangerous environments (including bomb detection and de-activation), manufacturing processes, or where humans cannot survive. Robots can take on any form but some are made to resemble humans in appearance. This is said to help in the acceptance of a robot in certain replicative behaviors usually performed by people. Such robots attempt to replicate walking, lifting, speech, cognition, and basically anything a human can do."
+    q = "What do robots that resemble humans attempt to do?"
+    #print(LILACS.answer_corpus(q, p))
+    # replicate walking, lifting, speech, cognition
 
+    t = "Which tool should a student use to compare the masses of two small rocks?"
+    c = ["balance", "hand lens", "ruler", "measuring cup"]
+    #print(LILACS.answer_choice(t, c))
+    # balance
+    #print(LILACS.is_math_question(t))
+    # False
+
+    t = "If 30 percent of 48 percent of a number is 288, what is the number?"
+    #print(LILACS.is_math_question(t))
+    # True
+    # print(LILACS.euclid(t))
+    # ["2000"]
 
     t = """Which tool should a student use to compare the masses of two small rocks?
     (A) balance
@@ -88,7 +172,8 @@ if __name__ == "__main__":
     (C) ruler
     (D) measuring cup
     """
-    print(LILACS.aristo(t))
+    # print(LILACS.aristo(t))
+    # {'expectedAnswerType': 'tool', 'questionSetup': '', 'questionTheme': 'None', 'answer': 'A metric ruler and a balance will measure the size and mass of an object.', 'top20': [{'matchedText': 'A metric ruler and a balance will measure the size and mass of an object.', 'answerText': 'A metric ruler and a balance will measure the size and mass of an object.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.979915201663971, 'index': 'barrons-2016-09-21'}, {'matchedText': 'Scientists need balances that can measure very small amounts of mass.', 'answerText': 'Scientists need balances that can measure very small amounts of mass.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.6653347611427307, 'index': 'websentences-2016-09-08'}, {'matchedText': 'Balance : used to measure the mass of an object to a know unit of mass. Compass : a tool that uses a magnetized pointer to show magnetic north.', 'answerText': 'Balance : used to measure the mass of an object to a know unit of mass. Compass : a tool that uses a magnetized pointer to show magnetic north.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.6450331807136536, 'index': 'websentences-2016-09-08'}, {'matchedText': 'Mass is usually measured with a balance.', 'answerText': 'Mass is usually measured with a balance.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.6091084480285645, 'index': 'ck12-flexbook-gr5-sentences-2016-10-19'}, {'matchedText': 'A balance is used to measure mass.', 'answerText': 'A balance is used to measure mass.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.6091084480285645, 'index': 'websentences-2016-09-08'}, {'matchedText': 'A balance measures mass.', 'answerText': 'A balance measures mass.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.6091084480285645, 'index': 'barrons-2016-09-21'}, {'matchedText': 'A balance compares the mass of an object with an object of known mass.', 'answerText': 'A balance compares the mass of an object with an object of known mass.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.590347170829773, 'index': 'websentences-2016-09-08'}, {'matchedText': "To properly determine mass, you could use a balancing scale and compare an object's mass to another object, whose mass is known, such as measured weights.", 'answerText': "To properly determine mass, you could use a balancing scale and compare an object's mass to another object, whose mass is known, such as measured weights.", 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.5843542218208313, 'index': 'websentences-2016-09-08'}, {'matchedText': 'The scale measures weight relevant to the force of gravity while the balance is used to compare the mass of two different objects .', 'answerText': 'The scale measures weight relevant to the force of gravity while the balance is used to compare the mass of two different objects .', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.5748049020767212, 'index': 'websentences-2016-09-08'}, {'matchedText': 'An instrument used to measure mass is a balance.', 'answerText': 'An instrument used to measure mass is a balance.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.5329698920249939, 'index': 'virginiaflashcard-sentences-2016-10-12'}, {'matchedText': 'A balance is used to measure the mass of an object.', 'answerText': 'A balance is used to measure the mass of an object.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.5329698920249939, 'index': 'websentences-2016-09-08'}, {'matchedText': 'To measure mass scientists use a balance.', 'answerText': 'To measure mass scientists use a balance.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.5329698920249939, 'index': 'barrons-2016-09-21'}, {'matchedText': 'A balance can measure weight and mass.', 'answerText': 'A balance can measure weight and mass.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.5329698920249939, 'index': 'websentences-2016-09-08'}, {'matchedText': 'However, there are several designs of the anemometer and the cup version is not the only measuring tool available.', 'answerText': 'However, there are several designs of the anemometer and the cup version is not the only measuring tool available.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.507074236869812, 'index': 'websentences-2016-09-08'}, {'matchedText': 'An example of a ruler is a wooden tool used to measure the length of a piece of paper.', 'answerText': 'An example of a ruler is a wooden tool used to measure the length of a piece of paper.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.5027037262916565, 'index': 'websentences-2016-09-08'}, {'matchedText': 'Tools for measuring length range from simple rulers to lasers.', 'answerText': 'Tools for measuring length range from simple rulers to lasers.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.5027037262916565, 'index': 'websentences-2016-09-08'}, {'matchedText': 'A metric ruler is a tool used to measure objects using the metric system.', 'answerText': 'A metric ruler is a tool used to measure objects using the metric system.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.5027037262916565, 'index': 'websentences-2016-09-08'}, {'matchedText': 'The standard ruler is the most common tool used to measure in inches.', 'answerText': 'The standard ruler is the most common tool used to measure in inches.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.5027037262916565, 'index': 'websentences-2016-09-08'}, {'matchedText': 'Balance used for measurement Mass is measured using a pan balance, a triple-beam balance, lever balance or electronic balance.', 'answerText': 'Balance used for measurement Mass is measured using a pan balance, a triple-beam balance, lever balance or electronic balance.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.49989789724349976, 'index': 'websentences-2016-09-08'}, {'matchedText': 'The measurement of mass in the laboratory is performed using balances.', 'answerText': 'The measurement of mass in the laboratory is performed using balances.', 'luceneQuery': 'tool compare masses small rocks balance hand lens ruler measuring cup ', 'luceneScore': 0.45683130621910095, 'index': 'websentences-2016-09-08'}], 'questionType': 'Which', 'dataSource': 'Barrons 4th Grade Study Guide', 'questionSentence': 'Which tool should a student use to compare the masses of two small rocks?', 'confidence': 0.09799152016639709}
 
     data = """@prefix ppl: <http://example.org/people#>.
     @prefix foaf: <http://xmlns.com/foaf/0.1/>.
@@ -109,4 +194,17 @@ if __name__ == "__main__":
         ?personB foaf:knows ?personA.
     }."""
 
-    print(LILACS.EYE(data, rules))
+    #print(LILACS.EYE(data, rules))
+    # PREFIX ppl: <http://example.org/people#>
+    # PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+    #
+    # ppl:Cindy foaf:knows ppl:John.
+    # ppl:Cindy foaf:knows ppl:Eliza.
+    # ppl:Cindy foaf:knows ppl:Kate.
+    # ppl:Eliza foaf:knows ppl:John.
+    # ppl:Peter foaf:knows ppl:John.
+    # ppl:John foaf:knows ppl:Cindy.
+    # ppl:Eliza foaf:knows ppl:Cindy.
+    # ppl:Kate foaf:knows ppl:Cindy.
+    # ppl:John foaf:knows ppl:Eliza.
+    # ppl:John foaf:knows ppl:Peter.

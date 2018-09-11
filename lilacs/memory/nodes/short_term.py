@@ -4,15 +4,14 @@ from sqlalchemy.exc import IntegrityError
 
 from lilacs.memory.nodes import Base, Concept, Connection
 from lilacs.settings import DATABASE_DIR
-
+import time
 from os.path import join
 
 
 class ConceptDatabase(object):
-    path = 'concepts.db'
-    path = "sqlite:///" + join(DATABASE_DIR, path)
-
     def __init__(self, debug=False):
+        path = str(time.time()) + '_concepts.db'
+        self.path = "sqlite:///" + join(DATABASE_DIR, path)
         self.db = create_engine(self.path)
         Base.metadata.create_all(self.db)
         self.db.echo = debug

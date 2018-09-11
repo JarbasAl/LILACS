@@ -1,4 +1,4 @@
-
+import random
 import requests
 
 
@@ -225,16 +225,3 @@ t = "James went to the corner shop to buy some eggs, milk and bread for breakfas
 
 from pprint import pprint
 #pprint(constituency_parse_demo(t))
-
-# TODO parse response
-def allennlp_coref_demo(text):
-    try:
-        url = "http://demo.allennlp.org/predict/coreference-resolution"
-        data = {"document": text}
-        r = requests.post(url, json=data).json()
-        pprint(r)
-    except Exception as e:
-        print(e)
-    return text
-
-
