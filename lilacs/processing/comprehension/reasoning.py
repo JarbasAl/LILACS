@@ -2,19 +2,15 @@ import requests
 import random
 from lilacs.processing.comprehension import textual_entailment_demo, comprehension_demo
 from lilacs.processing.comprehension.extraction import LILACSextractor
+import wikipedia
+import spacy
+import math
+from lilacs.memory.data_sources import LILACSKnowledge
+from lilacs.processing import LILACSTextAnalyzer
+from lilacs.processing.nlp.word_vectors import similar_turkunlp_demo, similar_sense2vec, similar_sense2vec_demo
 
-def ask_wdaqua(text):
-    url = "https://wdaqua-core1.univ-st-etienne.fr/gerbil"
-    data = {"query": text}
-    r = requests.post(url, data=data)
-    data = r.json()
-    # TODO send sparql query
-
-
-# https://github.com/allenai/ARC-Solvers
-def IKE():
-    # https://github.com/allenai/ikev
-    pass
+from numpy import dot
+from numpy.linalg import norm
 
 
 # DO NOT ABUSE
@@ -54,11 +50,6 @@ def EYE_rest(data, rules="", query="{ ?a ?b ?c. } => { ?a ?b ?c. }.", server_url
         data = data + "\n" + rules
     r = requests.post(server_url, json={"data": data, "query": query}).text
     return r
-
-
-from lilacs.memory.data_sources import LILACSKnowledge
-from lilacs.processing import LILACSTextAnalyzer
-from lilacs.processing.nlp.word_vectors import similar_turkunlp_demo, similar_sense2vec, similar_sense2vec_demo
 
 
 class LILACSReasoner(object):
@@ -111,18 +102,48 @@ class LILACSReasoner(object):
         # machine comprehension, look for answers in text corpus
         return comprehension_demo(question, corpus)
 
+    @staticmethod
+    def answer_wikipedia(question, concept):
+        wiki_name = wikipedia.search(concept)
+        if wiki_name:
+            page = wikipedia.page(wiki_name[0])
+            corpus = page.content
+            return LILACSReasoner.answer_corpus(question, corpus)
+        return None
+
+    @staticmethod
+    def analogy(a, b, c, nlp=None):
+        parser = nlp or spacy.load('en_core_web_md')
+        # cosine similarity
+        cosine = lambda v1, v2: dot(v1, v2) / (norm(v1) * norm(v2))
+        # Let's see if it can figure out this analogy
+        # Man is to King as Woman is to ??
+        a = parser.vocab[a]
+        b = parser.vocab[b]
+        c = parser.vocab[c]
+
+        result = b.vector - a.vector + c.vector
+
+        # gather all known words, take only the lowercased versions
+        allWords = list({w for w in parser.vocab if
+                         w.has_vector and w.orth_.islower() and w.lower_ != "king" and w.lower_ != "man" and w.lower_ != "woman"})
+        # sort by similarity to the result
+        allWords.sort(key=lambda w: cosine(w.vector, result), reverse=True)
+
+        print(allWords[0].orth_, allWords[1].orth_, allWords[2].orth_)
+        return allWords[:3]
+
     # WIP
     def answer(self, question):
         if LILACSReasoner.is_math_question(question):
-            return LILACSReasoner.euclid(question)
+            ans = LILACSReasoner.euclid(question)
+            if len(ans):
+                return ans[0]
         # TODO LILACS question parser
         # TODO wolfram etc
-        return LILACSReasoner.aristo(question)
+        return LILACSReasoner.aristo(question)["answer"]
 
     def what(self, node):
-        pass
-
-    def analogy(self, a, b, c):
         pass
 
     def sci_tail(self, question, choices):
@@ -146,22 +167,45 @@ class LILACSReasoner(object):
 
 
 if __name__ == "__main__":
-
     LILACS = LILACSReasoner()
+
+    parser = spacy.load('en_core_web_lg')
+
+    # genders
+    #assert LILACS.analogy("man", "king", "woman", parser)[0] == "queen"
+
+    # capitals
+    LILACS.analogy('Paris', 'France', 'Rome', parser)
+
+    #assert LILACS.analogy('walk', 'walked', 'go', parser)[0] == "went"
+
+    # tenses
+    LILACS.analogy('quick', 'quickest', 'smart', parser)
+
+
+    LILACS.analogy('dog', 'mammal', 'chicken', parser)
+    #dog - mammal is like
+    #eagle - bird
+
+    t = "Elon Musk"
+    q = "where was Elon Musk born"
+    #print(LILACSReasoner.answer_wikipedia(q, t))
+    # Pretoria, South Africa
+
     p = "Robotics is an interdisciplinary branch of engineering and science that includes mechanical engineering, electrical engineering, computer science, and others. Robotics deals with the design, construction, operation, and use of robots, as well as computer systems for their control, sensory feedback, and information processing. These technologies are used to develop machines that can substitute for humans. Robots can be used in any situation and for any purpose, but today many are used in dangerous environments (including bomb detection and de-activation), manufacturing processes, or where humans cannot survive. Robots can take on any form but some are made to resemble humans in appearance. This is said to help in the acceptance of a robot in certain replicative behaviors usually performed by people. Such robots attempt to replicate walking, lifting, speech, cognition, and basically anything a human can do."
     q = "What do robots that resemble humans attempt to do?"
-    #print(LILACS.answer_corpus(q, p))
+    # print(LILACS.answer_corpus(q, p))
     # replicate walking, lifting, speech, cognition
 
     t = "Which tool should a student use to compare the masses of two small rocks?"
     c = ["balance", "hand lens", "ruler", "measuring cup"]
-    #print(LILACS.answer_choice(t, c))
+    # print(LILACS.answer_choice(t, c))
     # balance
-    #print(LILACS.is_math_question(t))
+    # print(LILACS.is_math_question(t))
     # False
 
     t = "If 30 percent of 48 percent of a number is 288, what is the number?"
-    #print(LILACS.is_math_question(t))
+    # print(LILACS.is_math_question(t))
     # True
     # print(LILACS.euclid(t))
     # ["2000"]
@@ -194,7 +238,7 @@ if __name__ == "__main__":
         ?personB foaf:knows ?personA.
     }."""
 
-    #print(LILACS.EYE(data, rules))
+    # print(LILACS.EYE(data, rules))
     # PREFIX ppl: <http://example.org/people#>
     # PREFIX foaf: <http://xmlns.com/foaf/0.1/>
     #

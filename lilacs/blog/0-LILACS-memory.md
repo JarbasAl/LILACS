@@ -2,7 +2,17 @@
 
 For a bot to understand you, it needs to have some kind of memory
 
-Projects like [DbPedia]() and [Concept Net]() store data in semantic networks
+Information needs to be expressed in a format that makes their semantics machine-readable or interpretable, in other words explicit and unified, independent of natural languages. 
+Explicit means having least hidden assumptions or ambiguity. 
+Unified means bearing one or more standards of terminology, reaching a certain level of consensus of the semantics of domain knowledge, expressed in formal vocabularies or ontologies.
+
+Basic elements of the Semantic Web technology are 3 languages with increasing expressiveness: 
+
+- Resource Description Framework (RDF)
+- RDF Schema (RDFS)
+- Web Ontology Language (OWL). 
+    
+They are based on logic and math (first order predicate logic, model theory and set theory).
 
 So lets do the same for LILACS, that's also almost like humans do, we store some abstract concept and connect it to other concepts
 

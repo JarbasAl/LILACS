@@ -3,6 +3,7 @@ from lilacs.util.parse import extract_datetime, extract_number
 from lilacs.processing.comprehension.NER import spacy_NER_demo, spacy_NER, FOX_NER, allennlp_NER_demo, polyglot_NER, polyglot_NER_demo
 import geocoder
 import spotlight
+import datetime
 from lilacs.settings import SPOTLIGHT_URL
 
 
@@ -96,7 +97,9 @@ def date_extraction(text):
     doc = AnnoDoc(text)
     doc.add_tiers(DateAnnotator())
     annotations = doc.tiers["dates"].spans
-    return annotations
+    if len(annotations):
+        return [a.metadata["datetime_range"] for a in annotations]
+    return []
 
 #pprint(date_extraction("From March 5 until April 7 1988"))
 
@@ -152,6 +155,8 @@ class LILACSextractor(object):
 
     @staticmethod
     def extract_date(text, current_date=None):
+        if current_date is None:
+            current_date = datetime.datetime.now()
         return extract_datetime(text, current_date)
 
     @staticmethod
@@ -205,6 +210,18 @@ if __name__ == "__main__":
     from pprint import pprint
 
     LILACS = LILACSextractor()
+
+    assert LILACS.extract_number("it's over nine thousand") == 9000
+
+
+    now = datetime.datetime.now()
+    #print(now)
+    #pprint(LILACS.extract_date("tomorrow i will finish LILACS", now))
+    # output
+    # 2018-09-11 01:55:07.639843
+    # [datetime.datetime(2018, 9, 12, 0, 0), 'i will finish lilacs']
+
+    assert LILACS.extract_date_range("From March 5 until April 7 1988") == [[datetime.datetime(1988, 3, 5, 0, 0), datetime.datetime(1988, 4, 8, 0, 0)]]
 
     test_text = """London is the capital and most populous city of England and the United Kingdom.
     Standing on the River Thames in the south east of the island of Great Britain, London has been a major settlement for 2 millennia.

@@ -3,6 +3,7 @@ numpy
 owlready
 sqlalchemy
 
+wikipedia
 padaos
 nltk
 spacy

@@ -203,6 +203,23 @@ ask LILACS things about text
 
 # LILACS for extracting data from text
 
+Extract numbers and dates from text
+
+    # NOTE 1 number per sentence only
+    assert LILACS.extract_number("it's over nine thousand") == 9000
+
+
+    now = datetime.datetime.now()
+    print(now)
+    pprint(LILACS.extract_date("tomorrow i will finish LILACS", now))
+    
+    # output
+    # 2018-09-11 01:55:07.639843
+    # [datetime.datetime(2018, 9, 12, 0, 0), 'i will finish lilacs']
+
+    assert LILACS.extract_date_range("From March 5 until April 7 1988") == [[datetime.datetime(1988, 3, 5, 0, 0), datetime.datetime(1988, 4, 8, 0, 0)]]
+
+
 Extract entities and external data about them from text
 
 
@@ -337,3 +354,82 @@ Extract entities and external data about them from text
                   'surfaceForm': 'London Assembly',
                   'types': 'Wikidata:Q43229,Wikidata:Q24229398,Wikidata:Q11204,DUL:SocialPerson,DUL:Agent,Schema:Organization,DBpedia:Organisation,DBpedia:Legislature,DBpedia:Agent'}]
                     """
+                    
+# LILACS for thinking
+
+answer questions with LILACS
+
+
+    LILACS = LILACSReasoner()
+
+    subject = "Elon Musk"
+    question = "where was Elon Musk born"
+    print(LILACSReasoner.answer_wikipedia(question, subject))
+    # Pretoria, South Africa
+
+    p = "Robotics is an interdisciplinary branch of engineering and science that includes mechanical engineering, electrical engineering, computer science, and others. Robotics deals with the design, construction, operation, and use of robots, as well as computer systems for their control, sensory feedback, and information processing. These technologies are used to develop machines that can substitute for humans. Robots can be used in any situation and for any purpose, but today many are used in dangerous environments (including bomb detection and de-activation), manufacturing processes, or where humans cannot survive. Robots can take on any form but some are made to resemble humans in appearance. This is said to help in the acceptance of a robot in certain replicative behaviors usually performed by people. Such robots attempt to replicate walking, lifting, speech, cognition, and basically anything a human can do."
+    q = "What do robots that resemble humans attempt to do?"
+    print(LILACS.answer_corpus(q, p))
+    # replicate walking, lifting, speech, cognition
+
+    t = "Which tool should a student use to compare the masses of two small rocks?"
+    c = ["balance", "hand lens", "ruler", "measuring cup"]
+    print(LILACS.answer_choice(t, c))
+    # balance
+    
+    print(LILACS.is_math_question(t))
+    # False
+
+    t = "If 30 percent of 48 percent of a number is 288, what is the number?"
+    print(LILACS.is_math_question(t))
+    # True
+    
+    print(LILACS.answer(t))
+    # 2000
+
+    t = """Which tool should a student use to compare the masses of two small rocks?
+    (A) balance
+    (B) hand lens
+    (C) ruler
+    (D) measuring cup
+    """
+    print(LILACS.answer(t))
+    # A metric ruler and a balance will measure the size and mass of an object.
+
+    
+Reasoning with LILACS
+
+
+    data = """@prefix ppl: <http://example.org/people#>.
+    @prefix foaf: <http://xmlns.com/foaf/0.1/>.
+
+    ppl:Cindy foaf:knows ppl:John.
+    ppl:Cindy foaf:knows ppl:Eliza.
+    ppl:Cindy foaf:knows ppl:Kate.
+    ppl:Eliza foaf:knows ppl:John.
+    ppl:Peter foaf:knows ppl:John."""
+
+    rules = """@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+
+    {
+        ?personA foaf:knows ?personB.
+    }
+    =>
+    {
+        ?personB foaf:knows ?personA.
+    }."""
+
+    # print(LILACS.EYE(data, rules))
+    # PREFIX ppl: <http://example.org/people#>
+    # PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+    #
+    # ppl:Cindy foaf:knows ppl:John.
+    # ppl:Cindy foaf:knows ppl:Eliza.
+    # ppl:Cindy foaf:knows ppl:Kate.
+    # ppl:Eliza foaf:knows ppl:John.
+    # ppl:Peter foaf:knows ppl:John.
+    # ppl:John foaf:knows ppl:Cindy.
+    # ppl:Eliza foaf:knows ppl:Cindy.
+    # ppl:Kate foaf:knows ppl:Cindy.
+    # ppl:John foaf:knows ppl:Eliza.
+    # ppl:John foaf:knows ppl:Peter.
