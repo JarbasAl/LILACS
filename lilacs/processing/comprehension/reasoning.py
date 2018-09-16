@@ -1,6 +1,6 @@
 import requests
 import random
-from lilacs.processing.comprehension import textual_entailment_demo, comprehension_demo
+from lilacs.processing.comprehension import textual_entailment, comprehension
 from lilacs.processing.comprehension.extraction import LILACSextractor
 import wikipedia
 import spacy
@@ -90,7 +90,7 @@ class LILACSReasoner(object):
         best = random.choice(choices)
         best_entailment = 0
         for c in choices:
-            data = textual_entailment_demo(question, c)
+            data = textual_entailment(question, c)
             e = data["entailment"]
             if e > best_entailment:
                 best = c
@@ -100,7 +100,7 @@ class LILACSReasoner(object):
     @staticmethod
     def answer_corpus(question, corpus):
         # machine comprehension, look for answers in text corpus
-        return comprehension_demo(question, corpus)
+        return comprehension(question, corpus)
 
     @staticmethod
     def answer_wikipedia(question, concept):

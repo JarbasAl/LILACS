@@ -1,7 +1,7 @@
 from lilacs.processing.comprehension.extraction import relation_extraction
 from lilacs.processing.comprehension import replace_coreferences
 from lilacs.processing.nlp.parse import normalize
-from lilacs.processing.comprehension import constituency_parse_demo, textual_entailment_demo, comprehension_demo, cogcomp_coref_triples
+from lilacs.processing.comprehension import constituency_parse, textual_entailment, comprehension, cogcomp_coref_triples
 from lilacs.settings import SPACY_MODEL
 import textacy
 
@@ -87,15 +87,15 @@ class LILACSTextAnalyzer(object):
     def answer_question(question, passage):
         #passage = self.normalize(passage)
         #question = self.normalize(question)
-        return comprehension_demo(question, passage).lower()
+        return comprehension(question, passage).lower()
 
     @staticmethod
     def validity_of_hypothesys(premise, hypothesys):
-        return textual_entailment_demo(premise, hypothesys)
+        return textual_entailment(premise, hypothesys)
 
     @staticmethod
     def constituency_parse(text):
-        return constituency_parse_demo(text)
+        return constituency_parse(text)
 
 
 if __name__ == "__main__":

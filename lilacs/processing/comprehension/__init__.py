@@ -1,6 +1,6 @@
 import random
 import requests
-
+from lilacs.settings import ALLENNLP_URL
 
 from pprint import pprint
 
@@ -112,7 +112,7 @@ text = "London is the capital and most populous city of England and the United K
 #print(replace_coreferences(text))
 
 
-def textual_entailment_demo(premise, hypothesis):
+def textual_entailment(premise, hypothesis):
     # use the source: https://github.com/allenai/scitail
     """
     Textual Entailment (TE) takes a pair of sentences and predicts whether the facts in the first necessarily imply the facts in the second one.
@@ -126,7 +126,7 @@ def textual_entailment_demo(premise, hypothesis):
     :param hypotheses:
     :return:
     """
-    url = "http://demo.allennlp.org/predict/textual-entailment"
+    url = ALLENNLP_URL + "textual-entailment"
     data = {"premise": premise,
             "hypothesis": hypothesis}
     r = requests.post(url, json=data).json()
@@ -139,7 +139,7 @@ h = "Giving money to the poor has good consequences."
 # {'contradiction': 0.04034089669585228, 'neutral': 0.1409262865781784, 'entailment': 0.8187329173088074}
 
 
-def comprehension_demo(question, passage):
+def comprehension(question, passage):
     # DO NOT ABUSE, dev purposes only
     # curl 'http://demo.allennlp.org/predict/machine-comprehension' -H 'Origin: http://demo.allennlp.org' -H 'Accept-Encoding: gzip, deflate' -H 'Accept-Language: en-US,en;q=0.9' -H 'User-Agent: Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Referer: http://demo.allennlp.org/machine-comprehension/MzIzOTM2' -H 'Connection: keep-alive' -H 'DNT: 1' --data-binary '{"passage":"Robotics is an interdisciplinary branch of engineering and science that includes mechanical engineering, electrical engineering, computer science, and others. Robotics deals with the design, construction, operation, and use of robots, as well as computer systems for their control, sensory feedback, and information processing. These technologies are used to develop machines that can substitute for humans. Robots can be used in any situation and for any purpose, but today many are used in dangerous environments (including bomb detection and de-activation), manufacturing processes, or where humans cannot survive. Robots can take on any form but some are made to resemble humans in appearance. This is said to help in the acceptance of a robot in certain replicative behaviors usually performed by people. Such robots attempt to replicate walking, lifting, speech, cognition, and basically anything a human can do.","question":"What do robots that resemble humans attempt to do?"}' --compressed
     """
@@ -152,7 +152,7 @@ def comprehension_demo(question, passage):
     :param passage:
     :return:
     """
-    url = "http://demo.allennlp.org/predict/machine-comprehension"
+    url = ALLENNLP_URL + "machine-comprehension"
     data = {"passage": passage, "question": question}
     r = requests.post(url, json=data).json()
     return r["best_span_str"]
@@ -164,7 +164,7 @@ q = "What do robots that resemble humans attempt to do?"
 # replicate walking, lifting, speech, cognition
 
 
-def semantic_role_labeling_demo(sentence):
+def semantic_role_labeling(sentence):
     # DO NOT ABUSE, dev purposes only
     """
     Semantic Role Labeling (SRL) recovers the latent predicate argument structure of a sentence,
@@ -176,7 +176,7 @@ def semantic_role_labeling_demo(sentence):
     :param sentence:
     :return:
     """
-    url = "http://demo.allennlp.org/predict/semantic-role-labeling"
+    url = ALLENNLP_URL + "semantic-role-labeling"
     data = {"sentence": sentence}
     r = requests.post(url, json=data).json()
     roles = {}
@@ -205,14 +205,14 @@ t = "The keys, which were needed to access the building, were locked in the car.
  #{'decided': ['voters', 'that if the stadium was such a good idea someone would build it himself'], 'build': ['someone', 'it'], 'rejected': ['voters', 'it']}
 
 
-def constituency_parse_demo(sentence):
+def constituency_parse(sentence):
     # DO NOT ABUSE, dev purposes only
     """
     A constituency parse tree breaks a text into sub-phrases, or constituents. Non-terminals in the tree are types of phrases, the terminals are the words in the sentence. This demo is an implementation of a minimal neural model for constituency parsing based on an independent scoring of labels and spans described in Extending a Parser to Distant Domains Using a Few Dozen Partially Annotated Examples (Joshi et al, 2018). This model uses ELMo embeddings, which are completely character based and improves single model performance from 92.6 F1 to 94.11 F1 on the Penn Treebank, a 20% relative error reduction.
     :param sentence:
     :return:
     """
-    url = "http://demo.allennlp.org/predict/constituency-parsing"
+    url = ALLENNLP_URL + "constituency-parsing"
     data = {"sentence": sentence}
     r = requests.post(url, json=data).json()
     r.pop('class_probabilities')

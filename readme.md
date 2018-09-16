@@ -433,3 +433,58 @@ Reasoning with LILACS
     # ppl:Kate foaf:knows ppl:Cindy.
     # ppl:John foaf:knows ppl:Eliza.
     # ppl:John foaf:knows ppl:Peter.
+
+# LILACS for image analysis
+
+Perception includes vision!
+
+    LILACS = LILACSVisualReasoner()
+
+    picture = "sasha.jpg"
+
+    question = "how many humans?"
+    data = LILACS.answer_question(question, picture)
+    result = data["answer"]
+    print(result)
+    # 1
+
+    question = "is the person male or female?"
+    data = LILACS.answer_question(question, picture)
+    result = data["answer"]
+    print(result)
+    # female
+
+    data = LILACS.label_image(picture)
+    result = data["predictions"][0]
+    print(result)
+    # {'label_id': 'n03770439', 'label': 'miniskirt', 'probability': 0.2659367024898529}
+
+    data = LILACS.caption_image(picture)
+    result = data["predictions"][0]
+    print(result)
+    # {'caption': 'a woman in a white shirt and a red tie', 'index': '0', 'probability': 2.5158757668475684e-05}
+
+    data = LILACS.recognize_objects(picture)
+    result = data["predictions"][0]
+    print(result)
+    # {'detection_box': [0.028039246797561646, 0.16406074166297913, 1.0, 0.993462085723877], 'label': 'person', 'label_id': '1', 'probability': 0.9459671974182129}
+
+    data = LILACS.recognize_scene(picture)
+    result = data["predictions"][0]
+    print(result)
+    # {'label': 'beauty_salon', 'label_id': '50', 'probability': 0.5930100679397583}
+
+    data = LILACS.face_age(picture)
+    result = data["predictions"][0]
+    print(result)
+    # {'face_box': [360, 165, 291, 406], 'age_estimation': 23}
+
+    data = LILACS.image_segmentation(picture)
+    result = data
+    print(result)
+    # {'seg_map': [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ...   15, 15, 15, 15, 0]], 'label_map': ['background', 'aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car', 'cat', 'chair', 'cow', 'diningtable', 'dog', 'horse', 'motorbike', 'person', 'pottedplant', 'sheep', 'sofa', 'train', 'tv'], 'annotated_image': '/home/user/PycharmProjects/LILACS_github/lilacs/processing/vision/sasha.jpg.seg.jpg', 'image_size': [513, 513], 'status': 'ok', 'labels': ['person']}
+
+    colorized_pic_path = LILACS.colorize_image(picture)
+    print(colorized_pic_path)
+    # /home/user/PycharmProjects/LILACS_github/lilacs/processing/vision/sasha.jpg_colorize.png
+    
