@@ -474,11 +474,6 @@ Perception includes vision!
     print(result)
     # {'label': 'beauty_salon', 'label_id': '50', 'probability': 0.5930100679397583}
 
-    data = LILACS.face_age(picture)
-    result = data["predictions"][0]
-    print(result)
-    # {'face_box': [360, 165, 291, 406], 'age_estimation': 23}
-
     data = LILACS.image_segmentation(picture)
     result = data
     print(result)
@@ -488,3 +483,34 @@ Perception includes vision!
     print(colorized_pic_path)
     # /home/user/PycharmProjects/LILACS_github/lilacs/processing/vision/sasha.jpg_colorize.png
     
+    
+Vision includes Faces
+
+    LILACS = LILACSFace()
+
+    picture = "sasha.jpg"
+
+    data = LILACS.face_analysis(picture)
+    print(data)
+    # {'width': 2932, 'height': 2932, 
+    #  'faces': [{'box': {'top': 724, 'width': 959, 'height': 959, 'left': 1043}, 
+    #  'gender': 'Female', 
+    #  'eyes': {'right': {'status': 'open', 'score': 0.3153488961123401}, 'left': {'status': 'open', 'score': 0.30432877233646144}}, 
+    #  'age': 20, 
+    #  'skin': {'color': '#9f8c86', 'white': 0.7}}], 
+    #  '#faces': 1}
+
+    data = LILACS.face_emotion(picture)
+    print(data)
+    # {'width': 2932, 'height': 2932, 
+    #   'faces': [{'box': {'top': 724, 'width': 959, 'height': 959, 'left': 1043}, 
+    #   'emotions': [{'angry': 0.547586977481842}, {'disgust': 0.03107559122145176}, {'fear': 0.07608325034379959}, {'happy': 0.049507103860378265}, {'neutral': 0.058710116893053055}, {'sad': 0.1907171905040741}, {'surprise': 0.04631979763507843}], 'smile': True}], 
+    #   '#faces': 1}
+    
+    data = LILACS.face_age(picture)
+    print(data)
+    # [{'age_estimation': 23, 'face_box': [360, 165, 291, 406]}]
+
+    files = LILACS.animate_eyes(picture)
+    print(files)
+    # ['/home/user/PycharmProjects/LILACS_github/lilacs/processing/vision/sasha.jpg_roll.mp4', '/home/user/PycharmProjects/LILACS_github/lilacs/processing/vision/sasha.jpg_scroll.mp4', '/home/user/PycharmProjects/LILACS_github/lilacs/processing/vision/sasha.jpg_cross.mp4', '/home/user/PycharmProjects/LILACS_github/lilacs/processing/vision/sasha.jpg_shift.mp4']

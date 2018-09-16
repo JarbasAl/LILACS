@@ -41,6 +41,17 @@ def scene_parsing(picture):
     pass
 
 
+def scene_segmentation(picture):
+    # TODO use the sauce https://github.com/CSAILVision/places365
+    # NOTE half broken, timeout a lot, unusable
+    url = "http://scenesegmentation.csail.mit.edu/cgi-bin/image_segnet.py"
+    with open(picture, 'rb') as f:
+        files = {'data': (picture, f.read(), 'image/jpeg')}
+    r = requests.post(url, files=files)
+    print(r.text)
+    return r.json()
+
+
 def scene_recognition(picture, engine="MAX-Scene-Classifier"):
     if engine == "placescnn_demo":
         # NOTE half broken, timeout a lot, unusable
@@ -53,7 +64,6 @@ def scene_recognition(picture, engine="MAX-Scene-Classifier"):
         with open(picture, 'rb') as f:
             files = {'image': f.read()}
     r = requests.post(url, files=files)
-    print(r.text)
     return r.json()
 
 
@@ -86,14 +96,6 @@ def image_label(picture, engine="MAX-ResNet-50"):
     r = requests.post(url, files=files)
     return r.json()
 
-
-def face_age(picture, engine="MAX-Facial-Age-Estimator"):
-    # source  https://github.com/IBM/MAX-Facial-Age-Estimator
-    url = "http://207.154.234.38:5005/model/predict"
-    with open(picture, 'rb') as f:
-        files = {'image': f.read()}
-    r = requests.post(url, files=files)
-    return r.json()
 
 
 def image_segmentation(picture, engine="MAX-Image-Segmenter"):
@@ -132,9 +134,6 @@ class LILACSVisualReasoner(object):
 
     def recognize_objects(self, picture, engine="MAX-Object-Detector"):
         return object_recognition(picture, engine)
-
-    def face_age(self, picture, engine="MAX-Facial-Age-Estimator"):
-        return face_age(picture, engine)
 
     def image_segmentation(self, picture, engine="MAX-Image-Segmenter", format="raw"):
         # format raw, picture, mask
@@ -227,6 +226,7 @@ class LILACSVisualReasoner(object):
 
 
 if __name__ == "__main__":
+
     LILACS = LILACSVisualReasoner()
 
     picture = "sasha.jpg"
@@ -262,11 +262,6 @@ if __name__ == "__main__":
     result = data["predictions"][0]
     print(result)
     # {'label': 'beauty_salon', 'label_id': '50', 'probability': 0.5930100679397583}
-
-    data = LILACS.face_age(picture)
-    result = data["predictions"][0]
-    print(result)
-    # {'face_box': [360, 165, 291, 406], 'age_estimation': 23}
 
     data = LILACS.image_segmentation(picture)
     result = data
