@@ -60,7 +60,7 @@ def scene_recognition(picture, engine="MAX-Scene-Classifier"):
             files = {'data': (picture, f.read(), 'image/jpeg')}
     else:
         # source https://github.com/IBM/MAX-Scene-Classifier
-        url = "http://207.154.234.38:5000/model/predict"
+        url = "http://207.154.234.38:5100/model/predict"
         with open(picture, 'rb') as f:
             files = {'image': f.read()}
     r = requests.post(url, files=files)
@@ -97,7 +97,6 @@ def image_label(picture, engine="MAX-ResNet-50"):
     return r.json()
 
 
-
 def image_segmentation(picture, engine="MAX-Image-Segmenter"):
     # source  https://github.com/IBM/MAX-Image-Segmenter
     url = "http://207.154.234.38:5006/model/predict"
@@ -122,9 +121,82 @@ def image_colorize(picture, engine="MAX-Image-Colorizer"):
     return r.content
 
 
+def nudity_detection(picture, engine="deepai_demo"):
+    url = "https://api.deepai.org/api/nsfw-detector"
+    with open(picture, 'rb') as f:
+        files = {'image': (picture, f.read(), 'image/jpeg')}
+    headers = {"origin": "https://deepai.org",
+                "referer": "https://deepai.org/ai-image-processing",
+                "user-agent": "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36"}
+    r = requests.post(url, files=files, data={"new_try_it": "1"}, headers=headers)
+    job = r.json()["result_data"]["output_url"]
+    r = requests.get("https://api.deepai.org" + job)
+    return r.json()
+
+
+def deepmask(picture, save_path=None, engine="deepai_demo"):
+    save_path = save_path or picture + "_mask.jpg"
+    url = "https://api.deepai.org/api/deepmask"
+    with open(picture, 'rb') as f:
+        files = {'content': (picture, f.read(), 'image/jpeg')}
+    headers = {"origin": "https://deepai.org",
+                "referer": "https://deepai.org/ai-image-processing",
+                "user-agent": "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36"}
+    r = requests.post(url, files=files, data={"new_try_it": "1"}, headers=headers)
+    job = r.json()["result_data"]["output_url"]
+    r = requests.get("https://api.deepai.org" + job).content
+    with open(save_path, "wb") as f:
+        f.write(r)
+    return save_path
+
+
+def densecap(picture, engine="deepai_demo"):
+    url = "https://api.deepai.org/api/densecap"
+    with open(picture, 'rb') as f:
+        files = {'image': (picture, f.read(), 'image/jpeg')}
+    headers = {"origin": "https://deepai.org",
+                "referer": "https://deepai.org/ai-image-processing",
+                "user-agent": "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36"}
+    r = requests.post(url, files=files, data={"new_try_it": "1"}, headers=headers)
+    job = r.json()["result_data"]["output_url"]
+    return requests.get("https://api.deepai.org" + job).json()
+
+
+def image_similarity(picture1, picture2, engine="deepai_demo"):
+    url = "https://api.deepai.org/api/image-similarity"
+    with open(picture1, 'rb') as f:
+        files = {'image1': (picture1, f.read(), 'image/jpeg')}
+    with open(picture2, 'rb') as f:
+        files['image2'] = (picture2, f.read(), 'image/jpeg')
+    headers = {"origin": "https://deepai.org",
+                "referer": "https://deepai.org/ai-image-processing",
+                "user-agent": "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36"}
+    r = requests.post(url, files=files, data={"new_try_it": "1"}, headers=headers)
+    job = r.json()["result_data"]["output_url"]
+    return requests.get("https://api.deepai.org" + job).json()
+
+
+def neuraltalk(picture, engine="deepai_demo"):
+    url = "https://api.deepai.org/api/neuraltalk"
+    with open(picture, 'rb') as f:
+        files = {'image': (picture, f.read(), 'image/jpeg')}
+    headers = {"origin": "https://deepai.org",
+                "referer": "https://deepai.org/ai-image-processing",
+                "user-agent": "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36"}
+    r = requests.post(url, files=files, data={"new_try_it": "1"}, headers=headers)
+    job = r.json()["result_data"]["output_url"]
+    return requests.get("https://api.deepai.org" + job).text
+
+
 class LILACSVisualReasoner(object):
     def __init__(self, bus=None):
         self.bus = bus or None
+
+    def image_similarity(self, picture1, picture2, engine="deepai_demo"):
+        return image_similarity(picture1, picture2, engine)["distance"]
+
+    def nudity_detection(self, picture, engine="deepai_demo"):
+        return nudity_detection(picture, engine)
 
     def label_image(self, picture, engine="MAX-ResNet-50"):
         return image_label(picture, engine)
@@ -215,7 +287,12 @@ class LILACSVisualReasoner(object):
         return abspath(save_path)
 
     def caption_image(self, picture, engine="MAX-Image-Caption-Generator"):
+        if engine == "neuraltalk":
+            return neuraltalk(picture)
         return image_captioning(picture, engine)
+
+    def dense_captions(self, picture, engine="deepai_demo"):
+        return densecap(picture, engine)["captions"]
 
     def answer_question(self, question, picture_path, engine="sequel_demo"):
         # check if pic is url or file
@@ -229,7 +306,7 @@ if __name__ == "__main__":
 
     LILACS = LILACSVisualReasoner()
 
-    picture = "sasha.jpg"
+    picture = "me.jpg"
 
     question = "how many humans?"
     data = LILACS.answer_question(question, picture)
@@ -237,7 +314,7 @@ if __name__ == "__main__":
     print(result)
     # 1
 
-    question = "is the person male or female?"
+    question = "are there any plants?"
     data = LILACS.answer_question(question, picture)
     result = data["answer"]
     print(result)

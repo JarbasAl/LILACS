@@ -8,7 +8,7 @@ import math
 from lilacs.memory.data_sources import LILACSKnowledge
 from lilacs.processing import LILACSTextAnalyzer
 from lilacs.processing.nlp.word_vectors import similar_turkunlp_demo, similar_sense2vec, similar_sense2vec_demo
-
+from lilacs.processing.comprehension.solvers import TextualEntailmentSolver, WordVectorSimilaritySolver
 from numpy import dot
 from numpy.linalg import norm
 
@@ -85,19 +85,6 @@ class LILACSReasoner(object):
         return []
 
     @staticmethod
-    def answer_choice(question, choices, engine="allennlp_demo"):
-        # use textual entailment to select best choice
-        best = random.choice(choices)
-        best_entailment = 0
-        for c in choices:
-            data = textual_entailment(question, c)
-            e = data["entailment"]
-            if e > best_entailment:
-                best = c
-                best_entailment = e
-        return best
-
-    @staticmethod
     def answer_corpus(question, corpus):
         # machine comprehension, look for answers in text corpus
         return comprehension(question, corpus)
@@ -164,6 +151,33 @@ class LILACSReasoner(object):
     @staticmethod
     def euclid(query):
         return ask_euclid(query)
+
+
+class LILACSMultipleChoiceReasoner(object):
+    def __init__(self, bus=None):
+        self.bus = bus
+        self.entailment_model = TextualEntailmentSolver()
+        self.vector_similarity_model = WordVectorSimilaritySolver()
+
+    def textual_entailment(self, question, choices):
+        scores = self.entailment_model.answer_question(question, choices)
+        best = 0
+        ans = None
+        for s in scores:
+            if s["entailment"] > best:
+                best = s["entailment"]
+                ans = scores.index(s)
+        return ans
+
+    def vector_similarity(self, question, choices):
+        scores = self.vector_similarity_model.answer_question(question, choices)
+        best = 0
+        ans = None
+        for s in scores:
+            if s > best:
+                best = s
+                ans = scores.index(s)
+        return ans
 
 
 if __name__ == "__main__":

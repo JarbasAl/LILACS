@@ -57,9 +57,25 @@ def face_emotion(face_picture, engine="deepface_demo"):
     return r.json()["data"]
 
 
+def demographic_recognition(face_picture, engine="deepai_demo"):
+    url = "https://api.deepai.org/api/demographic-recognition"
+    with open(face_picture, 'rb') as f:
+        files = {'image': (face_picture, f.read(), 'image/jpeg')}
+    headers = {"origin": "https://deepai.org",
+                "referer": "https://deepai.org/ai-image-processing",
+                "user-agent": "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36"}
+    r = requests.post(url, files=files, data={"new_try_it": "1"}, headers=headers)
+    job = r.json()["result_data"]["output_url"]
+    r = requests.get("https://api.deepai.org" + job)
+    return r.json()["faces"]
+
+
 class LILACSFace(object):
     def __init__(self, bus=None):
         self.bus = bus
+
+    def demographic_recognition(self, face_picture, engine="deepai_demo"):
+        return demographic_recognition(face_picture, engine)
 
     def face_age(self, face_picture, engine="MAX-Facial-Age-Estimator"):
         return face_age(face_picture, engine)
@@ -78,7 +94,11 @@ if __name__ == "__main__":
 
     LILACS = LILACSFace()
 
-    picture = "sasha.jpg"
+    picture = "me.jpg"
+
+    data = LILACS.demographic_recognition(picture)
+    print(data)
+    # [{'age_range': [15, 31], 'cultural_appearance_confidence': 0.77, 'gender': 'Female', 'cultural_appearance': 'Latino', 'gender_confidence': 0.99, 'age_range_confidence': 0.71, 'bounding_box': [411, 283, 386, 386]}]
 
     data = LILACS.face_analysis(picture)
     print(data)

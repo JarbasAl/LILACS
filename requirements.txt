@@ -31,6 +31,7 @@ SPARQLWrapper
 vocabulary
 profanity
 wptools
+gensim
 
 requests
 bs4

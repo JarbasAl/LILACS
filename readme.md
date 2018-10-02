@@ -490,6 +490,16 @@ Vision includes Faces
 
     picture = "sasha.jpg"
 
+    data = LILACS.demographic_recognition(picture)
+    print(data)
+    # [{'age_range': [15, 31], 
+    'cultural_appearance_confidence': 0.77, 
+    'gender': 'Female', 
+    'cultural_appearance': 'Latino', 
+    'gender_confidence': 0.99, 
+    'age_range_confidence': 0.71, 
+    'bounding_box': [411, 283, 386, 386]}]
+    
     data = LILACS.face_analysis(picture)
     print(data)
     # {'width': 2932, 'height': 2932, 
