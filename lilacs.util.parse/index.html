@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>parse - lilacs</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "parse";
+    var mkdocs_page_input_path = "lilacs.util.parse.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> lilacs</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">memory</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.memory/">memory</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">nodes</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.nodes/">nodes</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.nodes.short_term/">short_term</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">database</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.database/">database</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">data_sources</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources/">data_sources</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.sparql_endpoints/">sparql_endpoints</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.dictionary/">dictionary</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.dbpedia/">dbpedia</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">resources</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../lilacs.memory.data_sources.resources/">resources</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.wordnet/">wordnet</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.dbpedia_api/">dbpedia_api</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.wikihow/">wikihow</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.wikipedia/">wikipedia</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.opencyc/">opencyc</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.conceptnet/">conceptnet</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.wikidata/">wikidata</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.genesis/">genesis</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">messagebus</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.messagebus/">messagebus</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.messagebus.message/">message</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">client</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.client/">client</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.client.ws/">ws</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">service</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.service/">service</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.service.main/">main</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.service.ws/">ws</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../lilacs.settings/">settings</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">processing</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.processing/">processing</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">vision</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.vision/">vision</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.vision.face/">face</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.vision.video/">video</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">comprehension</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.comprehension/">comprehension</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">audio</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.audio/">audio</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">crawlers</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers/">crawlers</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.related_finder/">related_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.nlp_crawler/">nlp_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.fact_finder/">fact_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.maintenance_crawler/">maintenance_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.connection_finder/">connection_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.relationcruncher_crawler/">relationcruncher_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.url_finder/">url_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.label_finder/">label_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.dbpedia_crawler/">dbpedia_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.triplecruncher_crawler/">triplecruncher_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.dictionary_finder/">dictionary_finder</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">nlp</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp/">nlp</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.inflect/">inflect</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.sentiment_analysis/">sentiment_analysis</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.word_analysis/">word_analysis</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">lexicons</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../lilacs.processing.nlp.lexicons/">lexicons</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../lilacs.processing.nlp.lexicons.wnaffect/">wnaffect</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.word_vectors/">word_vectors</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.parse/">parse</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.politness/">politness</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">sentience</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.sentience/">sentience</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.sentience.personality/">personality</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">emotions</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions/">emotions</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.deepmoji/">deepmoji</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.reference_maps/">reference_maps</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.feelings/">feelings</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.behaviour/">behaviour</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.plutchik/">plutchik</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.composite_emotions/">composite_emotions</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.emotions/">emotions</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.tag/">tag</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">context</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.context/">context</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.context.core/">core</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">neutransmitters</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.neutransmitters/">neutransmitters</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">util</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.util/">util</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.time/">time</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">parse</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#module-lilacsutilparse">Module lilacs.util.parse</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#extract95datetime">extract_datetime</a></li>
+        
+            <li><a class="toctree-l4" href="#extract95number">extract_number</a></li>
+        
+            <li><a class="toctree-l4" href="#is95fractional">is_fractional</a></li>
+        
+            <li><a class="toctree-l4" href="#is95numeric">is_numeric</a></li>
+        
+            <li><a class="toctree-l4" href="#look95for95fractions">look_for_fractions</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.date/">date</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.format/">format</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.log/">log</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">lilacs</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>util &raquo;</li>
+        
+      
+    
+    <li>parse</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="module-lilacsutilparse">Module lilacs.util.parse</h2>
+<h3 id="extract95datetime">extract_datetime</h3>
+<p><code>def extract_datetime(string, currentDate)</code></p>
+<p>Convert a human date reference into an exact datetime</p>
+<p>Convert things like</p>
+<pre><code>"today"
+
+"tomorrow afternoon"
+
+"next Tuesday at 4pm"
+
+"August 3rd"
+</code></pre>
+<p>into a datetime.  If a reference date is not provided, the current</p>
+<p>local time is used.  Also consumes the words used to define the date</p>
+<p>returning the remaining string.  For example, the string</p>
+<p>"what is Tuesday's weather forecast"</p>
+<p>returns the date for the forthcoming Tuesday relative to the reference</p>
+<p>date and the remainder string</p>
+<p>"what is weather forecast".</p>
+<p>Args:</p>
+<pre><code>string (str): string containing date words
+
+currentDate (datetime): A reference date/time for "tommorrow", etc
+</code></pre>
+<p>Returns:</p>
+<pre><code>[datetime, str]: An array containing the datetime and the remaining
+
+                 text not consumed in the parsing.
+</code></pre>
+<h3 id="extract95number">extract_number</h3>
+<p><code>def extract_number(text, short_scale=True, ordinals=False)</code></p>
+<p>This function extracts a number from a text string,</p>
+<p>handles pronunciations in long scale and short scale</p>
+<p>https://en.wikipedia.org/wiki/Names_of_large_numbers</p>
+<p>Args:</p>
+<pre><code>text (str): the string to normalize
+
+short_scale (bool): use short scale if True, long scale if False
+
+ordinals (bool): consider ordinal numbers, third=3 instead of 1/3
+</code></pre>
+<p>Returns:</p>
+<pre><code>(int) or (float) or False: The extracted number or False if no number
+
+                           was found
+</code></pre>
+<h3 id="is95fractional">is_fractional</h3>
+<p><code>def is_fractional(input_str, short_scale=True)</code></p>
+<p>This function takes the given text and checks if it is a fraction.</p>
+<p>Args:</p>
+<pre><code>input_str (str): the string to check if fractional
+
+short_scale (bool): use short scale if True, long scale if False
+</code></pre>
+<p>Returns:</p>
+<pre><code>(bool) or (float): False if not a fraction, otherwise the fraction
+</code></pre>
+<h3 id="is95numeric">is_numeric</h3>
+<p><code>def is_numeric(input_str)</code></p>
+<p>Takes in a string and tests to see if it is a number.</p>
+<p>Args:</p>
+<pre><code>text (str): string to test if a number
+</code></pre>
+<p>Returns:</p>
+<pre><code>(bool): True if a number, else False
+</code></pre>
+<h3 id="look95for95fractions">look_for_fractions</h3>
+<p><code>def look_for_fractions(split_list)</code></p>
+<p>"</p>
+<p>This function takes a list made by fraction &amp; determines if a fraction.</p>
+<p>Args:</p>
+<pre><code>split_list (list): list created by splitting on '/'
+</code></pre>
+<p>Returns:</p>
+<pre><code>(bool): False if not a fraction, otherwise True
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../lilacs.util.date/" class="btn btn-neutral float-right" title="date">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../lilacs.util.time/" class="btn btn-neutral" title="time"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../lilacs.util.time/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../lilacs.util.date/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

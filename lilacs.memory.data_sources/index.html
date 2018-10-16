@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>data_sources - lilacs</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "data_sources";
+    var mkdocs_page_input_path = "lilacs.memory.data_sources.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> lilacs</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">memory</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.memory/">memory</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">nodes</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.nodes/">nodes</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.nodes.short_term/">short_term</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">database</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.database/">database</a>
+                </li>
+    </ul>
+                </li>
+                <li class=" current">
+                    
+    <span class="caption-text">data_sources</span>
+    <ul class="subnav">
+                <li class="toctree-l3 current">
+                    
+    <a class="current" href="./">data_sources</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l4"><a href="#module-lilacsmemorydata_sources">Module lilacs.memory.data_sources</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l5" href="#lilacsknowledge">LILACSKnowledge</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l4"><a href="#module-lilacsmemorydata_sourcesconceptnet">Module lilacs.memory.data_sources.conceptnet</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l5" href="#extract95conceptnet95connections">extract_conceptnet_connections</a></li>
+        
+            <li><a class="toctree-l5" href="#get95conceptnet">get_conceptnet</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l4"><a href="#module-lilacsmemorydata_sourcesdbpedia">Module lilacs.memory.data_sources.dbpedia</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l5" href="#dbpediaenquirer">DbpediaEnquirer</a></li>
+        
+            <li><a class="toctree-l5" href="#dbpediaontology">DbpediaOntology</a></li>
+        
+            <li><a class="toctree-l5" href="#scrap95resource95page">scrap_resource_page</a></li>
+        
+            <li><a class="toctree-l5" href="#tag">tag</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l4"><a href="#module-lilacsmemorydata_sourcesdbpedia_api">Module lilacs.memory.data_sources.dbpedia_api</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l5" href="#dbpedia95keyword95api">dbpedia_keyword_api</a></li>
+        
+            <li><a class="toctree-l5" href="#dbpedia95prefix95api">dbpedia_prefix_api</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l4"><a href="#module-lilacsmemorydata_sourcesdictionary">Module lilacs.memory.data_sources.dictionary</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l5" href="#extract95dictionary95connections">extract_dictionary_connections</a></li>
+        
+            <li><a class="toctree-l5" href="#get95dictionary">get_dictionary</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l4"><a href="#module-lilacsmemorydata_sourcesgenesis">Module lilacs.memory.data_sources.genesis</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l5" href="#genesis95data">genesis_data</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l4"><a href="#module-lilacsmemorydata_sourcesopencyc">Module lilacs.memory.data_sources.opencyc</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l5" href="#download95opencyc">download_opencyc</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l4"><a href="#module-lilacsmemorydata_sourcesresources">Module lilacs.memory.data_sources.resources</a></li>
+    
+
+    <li class="toctree-l4"><a href="#module-lilacsmemorydata_sourcessparql_endpoints">Module lilacs.memory.data_sources.sparql_endpoints</a></li>
+    
+
+    <li class="toctree-l4"><a href="#module-lilacsmemorydata_sourceswikidata">Module lilacs.memory.data_sources.wikidata</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l5" href="#extract95wikidata95connections">extract_wikidata_connections</a></li>
+        
+            <li><a class="toctree-l5" href="#get95wikidata">get_wikidata</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l4"><a href="#module-lilacsmemorydata_sourceswikihow">Module lilacs.memory.data_sources.wikihow</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l5" href="#wikihow">WikiHow</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l4"><a href="#module-lilacsmemorydata_sourceswikipedia">Module lilacs.memory.data_sources.wikipedia</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l5" href="#extract95wikipedia95connections">extract_wikipedia_connections</a></li>
+        
+            <li><a class="toctree-l5" href="#get95wikipedia">get_wikipedia</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l4"><a href="#module-lilacsmemorydata_sourceswordnet">Module lilacs.memory.data_sources.wordnet</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l5" href="#common95hypernyms">common_hypernyms</a></li>
+        
+            <li><a class="toctree-l5" href="#extract95wordnet95connections">extract_wordnet_connections</a></li>
+        
+            <li><a class="toctree-l5" href="#get95antonyms">get_antonyms</a></li>
+        
+            <li><a class="toctree-l5" href="#get95definition">get_definition</a></li>
+        
+            <li><a class="toctree-l5" href="#get95examples">get_examples</a></li>
+        
+            <li><a class="toctree-l5" href="#get95holonyms">get_holonyms</a></li>
+        
+            <li><a class="toctree-l5" href="#get95hypernyms">get_hypernyms</a></li>
+        
+            <li><a class="toctree-l5" href="#get95hyponyms">get_hyponyms</a></li>
+        
+            <li><a class="toctree-l5" href="#get95lemmas">get_lemmas</a></li>
+        
+            <li><a class="toctree-l5" href="#get95root95hypernyms">get_root_hypernyms</a></li>
+        
+            <li><a class="toctree-l5" href="#wordnet95test">wordnet_test</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.sparql_endpoints/">sparql_endpoints</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.dictionary/">dictionary</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.dbpedia/">dbpedia</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">resources</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../lilacs.memory.data_sources.resources/">resources</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.wordnet/">wordnet</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.dbpedia_api/">dbpedia_api</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.wikihow/">wikihow</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.wikipedia/">wikipedia</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.opencyc/">opencyc</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.conceptnet/">conceptnet</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.wikidata/">wikidata</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.genesis/">genesis</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">messagebus</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.messagebus/">messagebus</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.messagebus.message/">message</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">client</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.client/">client</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.client.ws/">ws</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">service</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.service/">service</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.service.main/">main</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.service.ws/">ws</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../lilacs.settings/">settings</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">processing</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.processing/">processing</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">vision</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.vision/">vision</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.vision.face/">face</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.vision.video/">video</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">comprehension</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.comprehension/">comprehension</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">audio</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.audio/">audio</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">crawlers</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers/">crawlers</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.related_finder/">related_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.nlp_crawler/">nlp_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.fact_finder/">fact_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.maintenance_crawler/">maintenance_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.connection_finder/">connection_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.relationcruncher_crawler/">relationcruncher_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.url_finder/">url_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.label_finder/">label_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.dbpedia_crawler/">dbpedia_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.triplecruncher_crawler/">triplecruncher_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.dictionary_finder/">dictionary_finder</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">nlp</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp/">nlp</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.inflect/">inflect</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.sentiment_analysis/">sentiment_analysis</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.word_analysis/">word_analysis</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">lexicons</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../lilacs.processing.nlp.lexicons/">lexicons</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../lilacs.processing.nlp.lexicons.wnaffect/">wnaffect</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.word_vectors/">word_vectors</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.parse/">parse</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.politness/">politness</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">sentience</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.sentience/">sentience</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.sentience.personality/">personality</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">emotions</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions/">emotions</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.deepmoji/">deepmoji</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.reference_maps/">reference_maps</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.feelings/">feelings</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.behaviour/">behaviour</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.plutchik/">plutchik</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.composite_emotions/">composite_emotions</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.emotions/">emotions</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.tag/">tag</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">context</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.context/">context</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.context.core/">core</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">neutransmitters</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.neutransmitters/">neutransmitters</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">util</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.util/">util</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.time/">time</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.parse/">parse</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.date/">date</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.format/">format</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.log/">log</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">lilacs</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>data_sources &raquo;</li>
+        
+      
+        
+          <li>memory &raquo;</li>
+        
+      
+    
+    <li>data_sources</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="module-lilacsmemorydata_sources">Module lilacs.memory.data_sources</h2>
+<h3 id="lilacsknowledge">LILACSKnowledge</h3>
+<p>None</p>
+<h4 id="dbpedia95class">dbpedia_class</h4>
+<pre><code>
+def dbpedia_class(self, keyword, dbpedia_class)
+
+</code></pre>
+
+<h4 id="dbpedia95organisation">dbpedia_organisation</h4>
+<pre><code>
+def dbpedia_organisation(self, keyword)
+
+</code></pre>
+
+<h4 id="dbpedia95person">dbpedia_person</h4>
+<pre><code>
+def dbpedia_person(self, keyword)
+
+</code></pre>
+
+<h4 id="dbpedia95place">dbpedia_place</h4>
+<pre><code>
+def dbpedia_place(self, keyword)
+
+</code></pre>
+
+<h4 id="dbpedia95prefix">dbpedia_prefix</h4>
+<pre><code>
+def dbpedia_prefix(self, keyword)
+
+</code></pre>
+
+<h4 id="dbpedia95sparql">dbpedia_sparql</h4>
+<pre><code>
+def dbpedia_sparql(self, query)
+
+</code></pre>
+
+<h4 id="dbpedia95species">dbpedia_species</h4>
+<pre><code>
+def dbpedia_species(self, keyword)
+
+</code></pre>
+
+<h4 id="dbpedia95thing">dbpedia_thing</h4>
+<pre><code>
+def dbpedia_thing(self, keyword)
+
+</code></pre>
+
+<h4 id="dbpedia95work">dbpedia_work</h4>
+<pre><code>
+def dbpedia_work(self, keyword)
+
+</code></pre>
+
+<h2 id="module-lilacsmemorydata_sourcesconceptnet">Module lilacs.memory.data_sources.conceptnet</h2>
+<h3 id="extract95conceptnet95connections">extract_conceptnet_connections</h3>
+<p><code>def extract_conceptnet_connections(subject)</code></p>
+<h3 id="get95conceptnet">get_conceptnet</h3>
+<p><code>def get_conceptnet(subject)</code></p>
+<h2 id="module-lilacsmemorydata_sourcesdbpedia">Module lilacs.memory.data_sources.dbpedia</h2>
+<h3 id="dbpediaenquirer">DbpediaEnquirer</h3>
+<p>This class allows to query dbpedia using the Virtuoso SPARQL endpoint and gives access to different type of information</p>
+<h4 id="camel95to95word">camel_to_word</h4>
+<pre><code>
+def camel_to_word(self, text)
+
+</code></pre>
+
+<h4 id="get95all95instances95for95ontology95label">get_all_instances_for_ontology_label</h4>
+<pre><code>
+def get_all_instances_for_ontology_label(self, ontology_label, log=False)
+
+</code></pre>
+
+<p>Given an ontoloy label (like http://dbpedia.org/ontology/SportsTeam), it will return</p>
+<p>all the entities in DBPEDIA tagged with that label</p>
+<p>@param ontology_label: the ontology label (http://dbpedia.org/ontology/SportsTeam)</p>
+<p>@type ontology_label: str</p>
+<p>@param log: to get log information</p>
+<p>@type log: bool</p>
+<p>@return: list of all dbpedia entities belonging to that ontological type</p>
+<p>@rtype: list</p>
+<h4 id="get95dbpedia95cons95for95dblink">get_dbpedia_cons_for_dblink</h4>
+<pre><code>
+def get_dbpedia_cons_for_dblink(self, dblink)
+
+</code></pre>
+
+<p>Returns the DBpedia synonyms for the given DBpedia link (the type http://www.w3.org/1999/02/22-rdf-syntax-ns#type will be checked</p>
+<p>and only labels containing  http://dbpedia.org/ontology/* will be returned</p>
+<p>@param dblink: a dbedia link (http://dbpedia.org/resource/Tom_Cruise)</p>
+<p>@type dblink: str</p>
+<p>@return: list of ontology labels</p>
+<p>@rtype: list</p>
+<h4 id="get95dbpedia95labels95for95dblink">get_dbpedia_labels_for_dblink</h4>
+<pre><code>
+def get_dbpedia_labels_for_dblink(self, dblink)
+
+</code></pre>
+
+<p>Returns the DBpedia ontology labels for the given DBpedia link (the type http://www.w3.org/1999/02/22-rdf-syntax-ns#type will be checked</p>
+<p>and only labels containing  http://dbpedia.org/ontology/* will be returned</p>
+<p>@param dblink: a dbedia link (http://dbpedia.org/resource/Tom_Cruise)</p>
+<p>@type dblink: str</p>
+<p>@return: list of ontology labels</p>
+<p>@rtype: list</p>
+<h4 id="get95deepest95ontology95class95for95dblink">get_deepest_ontology_class_for_dblink</h4>
+<pre><code>
+def get_deepest_ontology_class_for_dblink(self, dblink)
+
+</code></pre>
+
+<p>Given a dblink (http://dbpedia.org/resource/Tom_Cruise) gets all the possible ontology classes from dbpedia,</p>
+<p>calculates the depth of each on in the DBpedia ontology and returns the deepest one</p>
+<p>@param dblink: the dbpedia link</p>
+<p>@type dblink: string</p>
+<p>@return: the deespest DBpedia ontology label</p>
+<p>@rtype: string</p>
+<h4 id="get95external95urls95for95dblink">get_external_urls_for_dblink</h4>
+<pre><code>
+def get_external_urls_for_dblink(self, dblink)
+
+</code></pre>
+
+<p>Returns the DBpedia synonyms for the given DBpedia link (the type http://www.w3.org/1999/02/22-rdf-syntax-ns#type will be checked</p>
+<p>and only labels containing  http://dbpedia.org/ontology/* will be returned</p>
+<p>@param dblink: a dbedia link (http://dbpedia.org/resource/Tom_Cruise)</p>
+<p>@type dblink: str</p>
+<p>@return: list of ontology labels</p>
+<p>@rtype: list</p>
+<h4 id="get95language95for95dblink">get_language_for_dblink</h4>
+<pre><code>
+def get_language_for_dblink(self, dblink)
+
+</code></pre>
+
+<p>Returns the language given a DBpedia link (xml:lang predicate)</p>
+<p>@param dblink: a dbedia link (http://dbpedia.org/resource/Tom_Cruise)</p>
+<p>@type dblink: str</p>
+<p>@return: the language (or None if there is no lang)</p>
+<p>@rtype: str</p>
+<h4 id="get95wiki95page95id95for95dblink">get_wiki_page_id_for_dblink</h4>
+<pre><code>
+def get_wiki_page_id_for_dblink(self, dblink)
+
+</code></pre>
+
+<p>Returns the wikipedia page id for the given DBpedia link (the relation http://dbpedia.org/ontology/wikiPageID is checked)</p>
+<p>@param dblink: a dbedia link (http://dbpedia.org/resource/Tom_Cruise)</p>
+<p>@type dblink: str</p>
+<p>@return: the wikipedia identifier</p>
+<p>@rtype: str</p>
+<h4 id="get95wiki95page95url95for95dblink">get_wiki_page_url_for_dblink</h4>
+<pre><code>
+def get_wiki_page_url_for_dblink(self, dblink)
+
+</code></pre>
+
+<p>Returns the wikipedia page url for the given DBpedia link (the relation 'http://xmlns.com/foaf/0.1/isPrimaryTopicOf is checked)</p>
+<p>@param dblink: a dbedia link (http://dbpedia.org/resource/Tom_Cruise)</p>
+<p>@type dblink: str</p>
+<p>@return: the wikipedia URL</p>
+<p>@rtype: str</p>
+<h4 id="get95wordnet95type95for95dblink">get_wordnet_type_for_dblink</h4>
+<pre><code>
+def get_wordnet_type_for_dblink(self, dblink)
+
+</code></pre>
+
+<p>Returns the wordnet type for the given DBpedia link (the relation http://dbpedia.org/property/wordnet_type is checked)</p>
+<p>It returns the last part of the WN type ((from http://www.w3.org/2006/03/wn/wn20/instances/synset-actor-noun-1 --&gt; synset-actor-noun-1 )</p>
+<p>@param dblink: a dbedia link (http://dbpedia.org/resource/Tom_Cruise)</p>
+<p>@type dblink: str</p>
+<p>@return: the wordnet type</p>
+<p>@rtype: str</p>
+<h4 id="is95person">is_person</h4>
+<pre><code>
+def is_person(self, dblink)
+
+</code></pre>
+
+<p>Returns True if the link has rdf:type dbpedia:Person, False otherwise</p>
+<p>@param dblink" a dbpedia link (http://dbpedia.org/resource/Tom_Cruise)</p>
+<p>@type dblink: str</p>
+<p>@return: whether the dblink is a dbpedia person</p>
+<p>@rtype: str</p>
+<h4 id="query95dbpedia95for95dblink">query_dbpedia_for_dblink</h4>
+<pre><code>
+def query_dbpedia_for_dblink(self, dblink)
+
+</code></pre>
+
+<p>Returns a dictionary with all the triple relations stored in DBPEDIA for the given entity</p>
+<p>@param dblink: a dbedia link (http://dbpedia.org/resource/Tom_Cruise)</p>
+<p>@type dblink: str</p>
+<p>@return: dictionary with triples</p>
+<p>@rtype: dict</p>
+<h4 id="query95dbpedia95for95unique95dblink">query_dbpedia_for_unique_dblink</h4>
+<pre><code>
+def query_dbpedia_for_unique_dblink(self, dblink)
+
+</code></pre>
+
+<p>Perform a check whether a dbpedia resource is unique</p>
+<p>@param dblink: a dbedia link (http://dbpedia.org/resource/Tom_Cruise)</p>
+<p>@type dblink: str</p>
+<p>@return: dictionary with triples</p>
+<p>@rtype: dict</p>
+<h3 id="dbpediaontology">DbpediaOntology</h3>
+<p>This class encapsulates the dbpedia ontology and gives acces to it</p>
+<h4 id="get95depth">get_depth</h4>
+<pre><code>
+def get_depth(self, onto_label)
+
+</code></pre>
+
+<p>Returns the depth in the ontology hierarchy for the given ontology label (is-a relations)</p>
+<p>@param onto_label: the ontology label (could be http://dbpedia.org/ontology/SportsTeam or just SportsTeam)</p>
+<p>@type onto_label: str</p>
+<p>@return: depth</p>
+<p>@rtype: int</p>
+<h4 id="get95ontology95path">get_ontology_path</h4>
+<pre><code>
+def get_ontology_path(self, onto_label)
+
+</code></pre>
+
+<p>Returns the path of ontology classes for the given ontology label (is-a relations)</p>
+<p>@param onto_label: the ontology label (could be http://dbpedia.org/ontology/SportsTeam or just SportsTeam)</p>
+<p>@type onto_label: str</p>
+<p>@return: list of ontology labels</p>
+<p>@rtype: list</p>
+<h4 id="is95leaf95class">is_leaf_class</h4>
+<pre><code>
+def is_leaf_class(self, onto_label)
+
+</code></pre>
+
+<p>Checks if the ontology label provided (for instance http://dbpedia.org/ontology/SportsTeam) is a leaf in the DBpedia ontology tree or not</p>
+<p>It is a leaf if it is not super-class of any other class in the ontology</p>
+<p>@param onto_label: the ontology label</p>
+<p>@type onto_label: string</p>
+<p>@return: whether it is a leaf or not</p>
+<p>@rtype: bool</p>
+<h3 id="scrap95resource95page">scrap_resource_page</h3>
+<p><code>def scrap_resource_page(link)</code></p>
+<h3 id="tag">tag</h3>
+<p><code>def tag(text)</code></p>
+<h2 id="module-lilacsmemorydata_sourcesdbpedia_api">Module lilacs.memory.data_sources.dbpedia_api</h2>
+<h3 id="dbpedia95keyword95api">dbpedia_keyword_api</h3>
+<p><code>def dbpedia_keyword_api(concept, category='')</code></p>
+<h3 id="dbpedia95prefix95api">dbpedia_prefix_api</h3>
+<p><code>def dbpedia_prefix_api(concept)</code></p>
+<h2 id="module-lilacsmemorydata_sourcesdictionary">Module lilacs.memory.data_sources.dictionary</h2>
+<h3 id="extract95dictionary95connections">extract_dictionary_connections</h3>
+<p><code>def extract_dictionary_connections(subject)</code></p>
+<h3 id="get95dictionary">get_dictionary</h3>
+<p><code>def get_dictionary(subject)</code></p>
+<h2 id="module-lilacsmemorydata_sourcesgenesis">Module lilacs.memory.data_sources.genesis</h2>
+<h3 id="genesis95data">genesis_data</h3>
+<p><code>def genesis_data(text)</code></p>
+<p>NOTES: 
+ use the source https://github.com/dice-group/GENESIS</p>
+<h2 id="module-lilacsmemorydata_sourcesopencyc">Module lilacs.memory.data_sources.opencyc</h2>
+<h3 id="download95opencyc">download_opencyc</h3>
+<p><code>def download_opencyc()</code></p>
+<h2 id="module-lilacsmemorydata_sourcesresources">Module lilacs.memory.data_sources.resources</h2>
+<h2 id="module-lilacsmemorydata_sourcessparql_endpoints">Module lilacs.memory.data_sources.sparql_endpoints</h2>
+<h2 id="module-lilacsmemorydata_sourceswikidata">Module lilacs.memory.data_sources.wikidata</h2>
+<h3 id="extract95wikidata95connections">extract_wikidata_connections</h3>
+<p><code>def extract_wikidata_connections(subject, save=False, db=None)</code></p>
+<h3 id="get95wikidata">get_wikidata</h3>
+<p><code>def get_wikidata(subject)</code></p>
+<h2 id="module-lilacsmemorydata_sourceswikihow">Module lilacs.memory.data_sources.wikihow</h2>
+<h3 id="wikihow">WikiHow</h3>
+<p>None</p>
+<h4 id="how95to">how_to</h4>
+<pre><code>
+def how_to(subject)
+
+</code></pre>
+
+<h4 id="parse">parse</h4>
+<pre><code>
+def parse(url)
+
+</code></pre>
+
+<h4 id="random">random</h4>
+<pre><code>
+def random()
+
+</code></pre>
+
+<h4 id="search">search</h4>
+<pre><code>
+def search(search_term)
+
+</code></pre>
+
+<h2 id="module-lilacsmemorydata_sourceswikipedia">Module lilacs.memory.data_sources.wikipedia</h2>
+<h3 id="extract95wikipedia95connections">extract_wikipedia_connections</h3>
+<p><code>def extract_wikipedia_connections(subject, save=False, db=None, nlp=None)</code></p>
+<h3 id="get95wikipedia">get_wikipedia</h3>
+<p><code>def get_wikipedia(subject)</code></p>
+<h2 id="module-lilacsmemorydata_sourceswordnet">Module lilacs.memory.data_sources.wordnet</h2>
+<h3 id="common95hypernyms">common_hypernyms</h3>
+<p><code>def common_hypernyms(word, word2, pos='n')</code></p>
+<h3 id="extract95wordnet95connections">extract_wordnet_connections</h3>
+<p><code>def extract_wordnet_connections(word)</code></p>
+<h3 id="get95antonyms">get_antonyms</h3>
+<p><code>def get_antonyms(word, pos='n')</code></p>
+<h3 id="get95definition">get_definition</h3>
+<p><code>def get_definition(word, pos='n')</code></p>
+<h3 id="get95examples">get_examples</h3>
+<p><code>def get_examples(word, pos='n')</code></p>
+<h3 id="get95holonyms">get_holonyms</h3>
+<p><code>def get_holonyms(word, pos='n')</code></p>
+<h3 id="get95hypernyms">get_hypernyms</h3>
+<p><code>def get_hypernyms(word, pos='n')</code></p>
+<h3 id="get95hyponyms">get_hyponyms</h3>
+<p><code>def get_hyponyms(word, pos='n')</code></p>
+<h3 id="get95lemmas">get_lemmas</h3>
+<p><code>def get_lemmas(word, pos='n')</code></p>
+<h3 id="get95root95hypernyms">get_root_hypernyms</h3>
+<p><code>def get_root_hypernyms(word, pos='n')</code></p>
+<h3 id="wordnet95test">wordnet_test</h3>
+<p><code>def wordnet_test()</code></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../lilacs.memory.data_sources.sparql_endpoints/" class="btn btn-neutral float-right" title="sparql_endpoints">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../lilacs.memory.database/" class="btn btn-neutral" title="database"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../lilacs.memory.database/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../lilacs.memory.data_sources.sparql_endpoints/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

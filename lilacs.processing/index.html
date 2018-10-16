@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>processing - lilacs</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "processing";
+    var mkdocs_page_input_path = "lilacs.processing.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> lilacs</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">memory</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.memory/">memory</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">nodes</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.nodes/">nodes</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.nodes.short_term/">short_term</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">database</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.database/">database</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">data_sources</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources/">data_sources</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.sparql_endpoints/">sparql_endpoints</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.dictionary/">dictionary</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.dbpedia/">dbpedia</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">resources</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../lilacs.memory.data_sources.resources/">resources</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.wordnet/">wordnet</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.dbpedia_api/">dbpedia_api</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.wikihow/">wikihow</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.wikipedia/">wikipedia</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.opencyc/">opencyc</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.conceptnet/">conceptnet</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.wikidata/">wikidata</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.genesis/">genesis</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">messagebus</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.messagebus/">messagebus</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.messagebus.message/">message</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">client</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.client/">client</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.client.ws/">ws</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">service</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.service/">service</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.service.main/">main</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.service.ws/">ws</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../lilacs.settings/">settings</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">processing</span>
+    <ul class="subnav">
+                <li class=" current">
+                    
+    <a class="current" href="./">processing</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#module-lilacsprocessing">Module lilacs.processing</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#lilacstextanalyzer">LILACSTextAnalyzer</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingaudio">Module lilacs.processing.audio</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#classify95audio">classify_audio</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingcrawlers">Module lilacs.processing.crawlers</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#basecrawler">BaseCrawler</a></li>
+        
+            <li><a class="toctree-l4" href="#dummycrawler">DummyCrawler</a></li>
+        
+            <li><a class="toctree-l4" href="#dummynode">DummyNode</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingcrawlersconnection_finder">Module lilacs.processing.crawlers.connection_finder</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#connectionfindercrawler">ConnectionFinderCrawler</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingcrawlersdbpedia_crawler">Module lilacs.processing.crawlers.dbpedia_crawler</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#dbpediabasecrawler">DBpediaBaseCrawler</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingcrawlersdictionary_finder">Module lilacs.processing.crawlers.dictionary_finder</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#dictionarycrawler">DictionaryCrawler</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingcrawlersfact_finder">Module lilacs.processing.crawlers.fact_finder</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#factfindercrawler">FactFinderCrawler</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingcrawlerslabel_finder">Module lilacs.processing.crawlers.label_finder</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#labelcrawler">LabelCrawler</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingcrawlersmaintenance_crawler">Module lilacs.processing.crawlers.maintenance_crawler</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#maintenancecrawler">MaintenanceCrawler</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingcrawlersnlp_crawler">Module lilacs.processing.crawlers.nlp_crawler</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#nlpcrawler">NLPCrawler</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingcrawlersrelated_finder">Module lilacs.processing.crawlers.related_finder</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#relatedcrawler">RelatedCrawler</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingcrawlersrelationcruncher_crawler">Module lilacs.processing.crawlers.relationcruncher_crawler</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#relationcruncher">RelationCruncher</a></li>
+        
+            <li><a class="toctree-l4" href="#relationshipcruncher">RelationshipCruncher</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingcrawlerstriplecruncher_crawler">Module lilacs.processing.crawlers.triplecruncher_crawler</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#relationshipcruncher_1">RelationshipCruncher</a></li>
+        
+            <li><a class="toctree-l4" href="#triplecruncher">TripleCruncher</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingcrawlersurl_finder">Module lilacs.processing.crawlers.url_finder</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#urlcrawler">URLCrawler</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingnlp">Module lilacs.processing.nlp</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#get95corefnlp">get_corefnlp</a></li>
+        
+            <li><a class="toctree-l4" href="#get95nlp">get_nlp</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingnlpinflect">Module lilacs.processing.nlp.inflect</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#article">article</a></li>
+        
+            <li><a class="toctree-l4" href="#attributive">attributive</a></li>
+        
+            <li><a class="toctree-l4" href="#comparative">comparative</a></li>
+        
+            <li><a class="toctree-l4" href="#definite95article">definite_article</a></li>
+        
+            <li><a class="toctree-l4" href="#grade">grade</a></li>
+        
+            <li><a class="toctree-l4" href="#indefinite95article">indefinite_article</a></li>
+        
+            <li><a class="toctree-l4" href="#is95vowel">is_vowel</a></li>
+        
+            <li><a class="toctree-l4" href="#pluralize">pluralize</a></li>
+        
+            <li><a class="toctree-l4" href="#predicative">predicative</a></li>
+        
+            <li><a class="toctree-l4" href="#referenced">referenced</a></li>
+        
+            <li><a class="toctree-l4" href="#singularize">singularize</a></li>
+        
+            <li><a class="toctree-l4" href="#superlative">superlative</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingnlplexicons">Module lilacs.processing.nlp.lexicons</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#load95lexicon">load_lexicon</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingnlplexiconswnaffect">Module lilacs.processing.nlp.lexicons.wnaffect</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#wnaffect">WNAffect</a></li>
+        
+            <li><a class="toctree-l4" href="#wnaffectemotion">WNAffectEmotion</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingnlpparse">Module lilacs.processing.nlp.parse</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#basicquestionparser">BasicQuestionParser</a></li>
+        
+            <li><a class="toctree-l4" href="#basicteacher">BasicTeacher</a></li>
+        
+            <li><a class="toctree-l4" href="#lilacsquestionparser">LILACSQuestionParser</a></li>
+        
+            <li><a class="toctree-l4" href="#dependency95tree">dependency_tree</a></li>
+        
+            <li><a class="toctree-l4" href="#is95negated95verb">is_negated_verb</a></li>
+        
+            <li><a class="toctree-l4" href="#normalize_4">normalize</a></li>
+        
+            <li><a class="toctree-l4" href="#singularize_1">singularize</a></li>
+        
+            <li><a class="toctree-l4" href="#test95qp">test_qp</a></li>
+        
+            <li><a class="toctree-l4" href="#test95teacher">test_teacher</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingnlppolitness">Module lilacs.processing.nlp.politness</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#get95politness">get_politness</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingnlpsentiment_analysis">Module lilacs.processing.nlp.sentiment_analysis</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#get95sentiment">get_sentiment</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingnlpword_analysis">Module lilacs.processing.nlp.word_analysis</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#get95color">get_color</a></li>
+        
+            <li><a class="toctree-l4" href="#get95emotion_1">get_emotion</a></li>
+        
+            <li><a class="toctree-l4" href="#get95orientation">get_orientation</a></li>
+        
+            <li><a class="toctree-l4" href="#get95sentence95color">get_sentence_color</a></li>
+        
+            <li><a class="toctree-l4" href="#get95sentence95emotions">get_sentence_emotions</a></li>
+        
+            <li><a class="toctree-l4" href="#get95sentence95sentiment">get_sentence_sentiment</a></li>
+        
+            <li><a class="toctree-l4" href="#get95sentence95subjectivity">get_sentence_subjectivity</a></li>
+        
+            <li><a class="toctree-l4" href="#get95sentiment_1">get_sentiment</a></li>
+        
+            <li><a class="toctree-l4" href="#get95subjectivity">get_subjectivity</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingnlpword_vectors">Module lilacs.processing.nlp.word_vectors</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#wordtwovec">WordTwoVec</a></li>
+        
+            <li><a class="toctree-l4" href="#cosine95similarity_1">cosine_similarity</a></li>
+        
+            <li><a class="toctree-l4" href="#similar95sense2vec">similar_sense2vec</a></li>
+        
+            <li><a class="toctree-l4" href="#similar95sense2vec95demo">similar_sense2vec_demo</a></li>
+        
+            <li><a class="toctree-l4" href="#similar95turkunlp95demo">similar_turkunlp_demo</a></li>
+        
+            <li><a class="toctree-l4" href="#stem">stem</a></li>
+        
+            <li><a class="toctree-l4" href="#tokenizer">tokenizer</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingvision">Module lilacs.processing.vision</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#lilacsvisualreasoner">LILACSVisualReasoner</a></li>
+        
+            <li><a class="toctree-l4" href="#deepmask">deepmask</a></li>
+        
+            <li><a class="toctree-l4" href="#densecap">densecap</a></li>
+        
+            <li><a class="toctree-l4" href="#image95captioning">image_captioning</a></li>
+        
+            <li><a class="toctree-l4" href="#image95colorize">image_colorize</a></li>
+        
+            <li><a class="toctree-l4" href="#image95label">image_label</a></li>
+        
+            <li><a class="toctree-l4" href="#image95segmentation_1">image_segmentation</a></li>
+        
+            <li><a class="toctree-l4" href="#image95similarity_1">image_similarity</a></li>
+        
+            <li><a class="toctree-l4" href="#lrp95demo">lrp_demo</a></li>
+        
+            <li><a class="toctree-l4" href="#neuraltalk">neuraltalk</a></li>
+        
+            <li><a class="toctree-l4" href="#nudity95detection_1">nudity_detection</a></li>
+        
+            <li><a class="toctree-l4" href="#object95recognition">object_recognition</a></li>
+        
+            <li><a class="toctree-l4" href="#scene95parsing">scene_parsing</a></li>
+        
+            <li><a class="toctree-l4" href="#scene95recognition">scene_recognition</a></li>
+        
+            <li><a class="toctree-l4" href="#scene95segmentation">scene_segmentation</a></li>
+        
+            <li><a class="toctree-l4" href="#sequel95demo">sequel_demo</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingvisionface">Module lilacs.processing.vision.face</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#lilacsface">LILACSFace</a></li>
+        
+            <li><a class="toctree-l4" href="#animate95eyes_1">animate_eyes</a></li>
+        
+            <li><a class="toctree-l4" href="#demographic95recognition_1">demographic_recognition</a></li>
+        
+            <li><a class="toctree-l4" href="#face95age_1">face_age</a></li>
+        
+            <li><a class="toctree-l4" href="#face95analysis_1">face_analysis</a></li>
+        
+            <li><a class="toctree-l4" href="#face95emotion_1">face_emotion</a></li>
+        
+            <li><a class="toctree-l4" href="#pornstar95match">pornstar_match</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsprocessingvisionvideo">Module lilacs.processing.vision.video</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#temporal95action">temporal_action</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">vision</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.vision/">vision</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.vision.face/">face</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.vision.video/">video</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">comprehension</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.comprehension/">comprehension</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">audio</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.audio/">audio</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">crawlers</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers/">crawlers</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.related_finder/">related_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.nlp_crawler/">nlp_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.fact_finder/">fact_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.maintenance_crawler/">maintenance_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.connection_finder/">connection_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.relationcruncher_crawler/">relationcruncher_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.url_finder/">url_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.label_finder/">label_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.dbpedia_crawler/">dbpedia_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.triplecruncher_crawler/">triplecruncher_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.dictionary_finder/">dictionary_finder</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">nlp</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp/">nlp</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.inflect/">inflect</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.sentiment_analysis/">sentiment_analysis</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.word_analysis/">word_analysis</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">lexicons</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../lilacs.processing.nlp.lexicons/">lexicons</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../lilacs.processing.nlp.lexicons.wnaffect/">wnaffect</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.word_vectors/">word_vectors</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.parse/">parse</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.politness/">politness</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">sentience</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.sentience/">sentience</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.sentience.personality/">personality</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">emotions</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions/">emotions</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.deepmoji/">deepmoji</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.reference_maps/">reference_maps</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.feelings/">feelings</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.behaviour/">behaviour</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.plutchik/">plutchik</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.composite_emotions/">composite_emotions</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.emotions/">emotions</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.tag/">tag</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">context</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.context/">context</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.context.core/">core</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">neutransmitters</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.neutransmitters/">neutransmitters</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">util</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.util/">util</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.time/">time</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.parse/">parse</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.date/">date</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.format/">format</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.log/">log</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">lilacs</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>processing &raquo;</li>
+        
+      
+    
+    <li>processing</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="module-lilacsprocessing">Module lilacs.processing</h2>
+<h3 id="lilacstextanalyzer">LILACSTextAnalyzer</h3>
+<p>None</p>
+<h4 id="answer95question">answer_question</h4>
+<pre><code>
+def answer_question(question, passage)
+
+</code></pre>
+
+<h4 id="constituency95parse">constituency_parse</h4>
+<pre><code>
+def constituency_parse(text)
+
+</code></pre>
+
+<h4 id="coreference95resolution">coreference_resolution</h4>
+<pre><code>
+def coreference_resolution(text)
+
+</code></pre>
+
+<h4 id="coreference95triples">coreference_triples</h4>
+<pre><code>
+def coreference_triples(text)
+
+</code></pre>
+
+<h4 id="extract95facts">extract_facts</h4>
+<pre><code>
+def extract_facts(self, subject, text)
+
+</code></pre>
+
+<h4 id="extract95nouns">extract_nouns</h4>
+<pre><code>
+def extract_nouns(text)
+
+</code></pre>
+
+<h4 id="extract95triples">extract_triples</h4>
+<pre><code>
+def extract_triples(text)
+
+</code></pre>
+
+<h4 id="interesting95triples">interesting_triples</h4>
+<pre><code>
+def interesting_triples(text)
+
+</code></pre>
+
+<h4 id="normalize">normalize</h4>
+<pre><code>
+def normalize(text, remove_articles=False)
+
+</code></pre>
+
+<h4 id="possible95relations">possible_relations</h4>
+<pre><code>
+def possible_relations(sentences)
+
+</code></pre>
+
+<h4 id="validity95of95hypothesys">validity_of_hypothesys</h4>
+<pre><code>
+def validity_of_hypothesys(premise, hypothesys)
+
+</code></pre>
+
+<h2 id="module-lilacsprocessingaudio">Module lilacs.processing.audio</h2>
+<h3 id="classify95audio">classify_audio</h3>
+<p><code>def classify_audio(wav_file, engine='MAX-Audio-Classifier')</code></p>
+<h2 id="module-lilacsprocessingcrawlers">Module lilacs.processing.crawlers</h2>
+<h3 id="basecrawler">BaseCrawler</h3>
+<p>None</p>
+<h4 id="choose95next95node">choose_next_node</h4>
+<pre><code>
+def choose_next_node(self, connections)
+
+</code></pre>
+
+<h4 id="con95exists">con_exists</h4>
+<pre><code>
+def con_exists(self, con_type, con_source, con_target)
+
+</code></pre>
+
+<h4 id="crawl95one">crawl_one</h4>
+<pre><code>
+def crawl_one(self)
+
+</code></pre>
+
+<h4 id="default95node">default_node</h4>
+<pre><code>
+def default_node(self, start_node=None)
+
+</code></pre>
+
+<h4 id="execute95action">execute_action</h4>
+<pre><code>
+def execute_action(self, connections)
+
+</code></pre>
+
+<h4 id="on95dead95end">on_dead_end</h4>
+<pre><code>
+def on_dead_end(self)
+
+</code></pre>
+
+<h4 id="select95connections">select_connections</h4>
+<pre><code>
+def select_connections(self)
+
+</code></pre>
+
+<h4 id="start95crawling">start_crawling</h4>
+<pre><code>
+def start_crawling(self, start_node=None)
+
+</code></pre>
+
+<h4 id="stop95crawling">stop_crawling</h4>
+<pre><code>
+def stop_crawling(self)
+
+</code></pre>
+
+<h3 id="dummycrawler">DummyCrawler</h3>
+<p>None</p>
+<h4 id="choose95next95node_1">choose_next_node</h4>
+<pre><code>
+def choose_next_node(self, connections)
+
+</code></pre>
+
+<h4 id="con95exists_1">con_exists</h4>
+<pre><code>
+def con_exists(self, con_type, con_source, con_target)
+
+</code></pre>
+
+<h4 id="crawl95one_1">crawl_one</h4>
+<pre><code>
+def crawl_one(self)
+
+</code></pre>
+
+<h4 id="default95node_1">default_node</h4>
+<pre><code>
+def default_node(self, start_node=None)
+
+</code></pre>
+
+<h4 id="execute95action_1">execute_action</h4>
+<pre><code>
+def execute_action(self, connections)
+
+</code></pre>
+
+<h4 id="on95dead95end_1">on_dead_end</h4>
+<pre><code>
+def on_dead_end(self)
+
+</code></pre>
+
+<h4 id="select95connections_1">select_connections</h4>
+<pre><code>
+def select_connections(self)
+
+</code></pre>
+
+<h4 id="start95crawling_1">start_crawling</h4>
+<pre><code>
+def start_crawling(self, start_node=None)
+
+</code></pre>
+
+<h4 id="stop95crawling_1">stop_crawling</h4>
+<pre><code>
+def stop_crawling(self)
+
+</code></pre>
+
+<h3 id="dummynode">DummyNode</h3>
+<p>None</p>
+<h2 id="module-lilacsprocessingcrawlersconnection_finder">Module lilacs.processing.crawlers.connection_finder</h2>
+<h3 id="connectionfindercrawler">ConnectionFinderCrawler</h3>
+<p>None</p>
+<h4 id="execute95action_2">execute_action</h4>
+<pre><code>
+def execute_action(self, connections)
+
+</code></pre>
+
+<h2 id="module-lilacsprocessingcrawlersdbpedia_crawler">Module lilacs.processing.crawlers.dbpedia_crawler</h2>
+<h3 id="dbpediabasecrawler">DBpediaBaseCrawler</h3>
+<p>None</p>
+<h4 id="choose95next95node_2">choose_next_node</h4>
+<pre><code>
+def choose_next_node(self, connections)
+
+</code></pre>
+
+<h4 id="default95node_2">default_node</h4>
+<pre><code>
+def default_node(self, start_node=None)
+
+</code></pre>
+
+<h4 id="execute95action_3">execute_action</h4>
+<pre><code>
+def execute_action(self, connections)
+
+</code></pre>
+
+<h4 id="on95dead95end_2">on_dead_end</h4>
+<pre><code>
+def on_dead_end(self)
+
+</code></pre>
+
+<h4 id="select95connections_2">select_connections</h4>
+<pre><code>
+def select_connections(self)
+
+</code></pre>
+
+<h2 id="module-lilacsprocessingcrawlersdictionary_finder">Module lilacs.processing.crawlers.dictionary_finder</h2>
+<h3 id="dictionarycrawler">DictionaryCrawler</h3>
+<p>None</p>
+<h4 id="execute95action_4">execute_action</h4>
+<pre><code>
+def execute_action(self, connections)
+
+</code></pre>
+
+<h2 id="module-lilacsprocessingcrawlersfact_finder">Module lilacs.processing.crawlers.fact_finder</h2>
+<h3 id="factfindercrawler">FactFinderCrawler</h3>
+<p>None</p>
+<h4 id="execute95action_5">execute_action</h4>
+<pre><code>
+def execute_action(self, connections)
+
+</code></pre>
+
+<h2 id="module-lilacsprocessingcrawlerslabel_finder">Module lilacs.processing.crawlers.label_finder</h2>
+<h3 id="labelcrawler">LabelCrawler</h3>
+<p>None</p>
+<h4 id="execute95action_6">execute_action</h4>
+<pre><code>
+def execute_action(self, connections)
+
+</code></pre>
+
+<h2 id="module-lilacsprocessingcrawlersmaintenance_crawler">Module lilacs.processing.crawlers.maintenance_crawler</h2>
+<h3 id="maintenancecrawler">MaintenanceCrawler</h3>
+<p>None</p>
+<h4 id="execute95action_7">execute_action</h4>
+<pre><code>
+def execute_action(self, connections)
+
+</code></pre>
+
+<h4 id="expand95synonyms">expand_synonyms</h4>
+<pre><code>
+def expand_synonyms(self)
+
+</code></pre>
+
+<h4 id="fix95empty95cons">fix_empty_cons</h4>
+<pre><code>
+def fix_empty_cons(self)
+
+</code></pre>
+
+<h4 id="fix95incompatible95labels">fix_incompatible_labels</h4>
+<pre><code>
+def fix_incompatible_labels(self)
+
+</code></pre>
+
+<h4 id="fix95references95to95self">fix_references_to_self</h4>
+<pre><code>
+def fix_references_to_self(self)
+
+</code></pre>
+
+<h4 id="fix95types">fix_types</h4>
+<pre><code>
+def fix_types(self)
+
+</code></pre>
+
+<h2 id="module-lilacsprocessingcrawlersnlp_crawler">Module lilacs.processing.crawlers.nlp_crawler</h2>
+<h3 id="nlpcrawler">NLPCrawler</h3>
+<p>None</p>
+<h2 id="module-lilacsprocessingcrawlersrelated_finder">Module lilacs.processing.crawlers.related_finder</h2>
+<h3 id="relatedcrawler">RelatedCrawler</h3>
+<p>None</p>
+<h4 id="execute95action_8">execute_action</h4>
+<pre><code>
+def execute_action(self, connections)
+
+</code></pre>
+
+<h2 id="module-lilacsprocessingcrawlersrelationcruncher_crawler">Module lilacs.processing.crawlers.relationcruncher_crawler</h2>
+<h3 id="relationcruncher">RelationCruncher</h3>
+<p>None</p>
+<h4 id="execute95action_9">execute_action</h4>
+<pre><code>
+def execute_action(self, connections)
+
+</code></pre>
+
+<h3 id="relationshipcruncher">RelationshipCruncher</h3>
+<p>None</p>
+<h4 id="execute95action_10">execute_action</h4>
+<pre><code>
+def execute_action(self, connections)
+
+</code></pre>
+
+<h2 id="module-lilacsprocessingcrawlerstriplecruncher_crawler">Module lilacs.processing.crawlers.triplecruncher_crawler</h2>
+<h3 id="relationshipcruncher_1">RelationshipCruncher</h3>
+<p>None</p>
+<h4 id="execute95action_11">execute_action</h4>
+<pre><code>
+def execute_action(self, connections)
+
+</code></pre>
+
+<h3 id="triplecruncher">TripleCruncher</h3>
+<p>None</p>
+<h4 id="execute95action_12">execute_action</h4>
+<pre><code>
+def execute_action(self, connections)
+
+</code></pre>
+
+<h2 id="module-lilacsprocessingcrawlersurl_finder">Module lilacs.processing.crawlers.url_finder</h2>
+<h3 id="urlcrawler">URLCrawler</h3>
+<p>None</p>
+<h4 id="choose95next95node_3">choose_next_node</h4>
+<pre><code>
+def choose_next_node(self, connections)
+
+</code></pre>
+
+<h4 id="execute95action_13">execute_action</h4>
+<pre><code>
+def execute_action(self, connections)
+
+</code></pre>
+
+<h2 id="module-lilacsprocessingnlp">Module lilacs.processing.nlp</h2>
+<h3 id="get95corefnlp">get_corefnlp</h3>
+<p><code>def get_corefnlp()</code></p>
+<h3 id="get95nlp">get_nlp</h3>
+<p><code>def get_nlp()</code></p>
+<h2 id="module-lilacsprocessingnlpinflect">Module lilacs.processing.nlp.inflect</h2>
+<h3 id="article">article</h3>
+<p><code>def article(word, function='indefinite')</code></p>
+<p>Returns the indefinite (a or an) or definite (the) article for the given</p>
+<p>word. </p>
+<h3 id="attributive">attributive</h3>
+<p><code>def attributive(adjective)</code></p>
+<h3 id="comparative">comparative</h3>
+<p><code>def comparative(adjective)</code></p>
+<h3 id="definite95article">definite_article</h3>
+<p><code>def definite_article(word)</code></p>
+<h3 id="grade">grade</h3>
+<p><code>def grade(adjective, suffix='er')</code></p>
+<p>Returns the comparative or superlative form of the given adjective. </p>
+<h3 id="indefinite95article">indefinite_article</h3>
+<p><code>def indefinite_article(word)</code></p>
+<p>Returns the indefinite article for a given word.</p>
+<p>For example: indefinite_article("university") =&gt; "a" university. </p>
+<h3 id="is95vowel">is_vowel</h3>
+<p><code>def is_vowel(ch)</code></p>
+<h3 id="pluralize">pluralize</h3>
+<p><code>def pluralize(word, pos='NN', custom=None, classical=True)</code></p>
+<p>Returns the plural of a given word, e.g., child =&gt; children.</p>
+<p>Handles nouns and adjectives, using classical inflection by default</p>
+<p>(i.e., where "matrix" pluralizes to "matrices" and not "matrixes").</p>
+<p>The custom dictionary is for user-defined replacements. </p>
+<h3 id="predicative">predicative</h3>
+<p><code>def predicative(adjective)</code></p>
+<h3 id="referenced">referenced</h3>
+<p><code>def referenced(word, article='indefinite')</code></p>
+<p>Returns a string with the article + the word. </p>
+<h3 id="singularize">singularize</h3>
+<p><code>def singularize(word, pos='NN', custom=None)</code></p>
+<p>Returns the singular of a given word. </p>
+<h3 id="superlative">superlative</h3>
+<p><code>def superlative(adjective)</code></p>
+<h2 id="module-lilacsprocessingnlplexicons">Module lilacs.processing.nlp.lexicons</h2>
+<h3 id="load95lexicon">load_lexicon</h3>
+<p><code>def load_lexicon()</code></p>
+<h2 id="module-lilacsprocessingnlplexiconswnaffect">Module lilacs.processing.nlp.lexicons.wnaffect</h2>
+<h3 id="wnaffect">WNAffect</h3>
+<p>WordNet-Affect resource.</p>
+<h4 id="get95emotion">get_emotion</h4>
+<pre><code>
+def get_emotion(self, word, pos)
+
+</code></pre>
+
+<p>Returns the emotion of the word.</p>
+<p>word -- the word (str)</p>
+<p>pos -- part-of-speech (str)</p>
+<h4 id="get95emotion95synset">get_emotion_synset</h4>
+<pre><code>
+def get_emotion_synset(self, offset)
+
+</code></pre>
+
+<p>Returns the emotion of the synset.</p>
+<p>offset -- synset offset (int)</p>
+<h3 id="wnaffectemotion">WNAffectEmotion</h3>
+<p>Defines an emotion.</p>
+<h4 id="get95level">get_level</h4>
+<pre><code>
+def get_level(self, level)
+
+</code></pre>
+
+<p>Returns the parent of self at the given level.</p>
+<p>level -- level in the hierarchy (int)</p>
+<h4 id="nb95children">nb_children</h4>
+<pre><code>
+def nb_children(self)
+
+</code></pre>
+
+<p>Returns the number of children of the emotion.</p>
+<h4 id="printtree">printTree</h4>
+<pre><code>
+def printTree(emotion=None, indent='', last='updown')
+
+</code></pre>
+
+<p>Prints the hierarchy of emotions.</p>
+<p>emotion -- root emotion (Emotion)</p>
+<h2 id="module-lilacsprocessingnlpparse">Module lilacs.processing.nlp.parse</h2>
+<h3 id="basicquestionparser">BasicQuestionParser</h3>
+<p>Poor-man's english question parser. Not even close to conclusive, but
+appears to construct some decent w|a queries and responses.</p>
+<h4 id="normalize_1">normalize</h4>
+<pre><code>
+def normalize(self, text)
+
+</code></pre>
+
+<h4 id="parse">parse</h4>
+<pre><code>
+def parse(self, utterance)
+
+</code></pre>
+
+<h4 id="register95utterances">register_utterances</h4>
+<pre><code>
+def register_utterances(self)
+
+</code></pre>
+
+<h3 id="basicteacher">BasicTeacher</h3>
+<p>Poor-man's english connection extractor. Not even close to complete</p>
+<h4 id="normalize_2">normalize</h4>
+<pre><code>
+def normalize(self, text)
+
+</code></pre>
+
+<h4 id="parse_1">parse</h4>
+<pre><code>
+def parse(self, utterance)
+
+</code></pre>
+
+<h4 id="register95utterances_1">register_utterances</h4>
+<pre><code>
+def register_utterances(self)
+
+</code></pre>
+
+<h3 id="lilacsquestionparser">LILACSQuestionParser</h3>
+<p>Poor-man's english question parser. Not even close to conclusive, but
+appears to construct some decent w|a queries and responses.</p>
+<h4 id="get95main95verbs95of95sent">get_main_verbs_of_sent</h4>
+<pre><code>
+def get_main_verbs_of_sent(self, doc)
+
+</code></pre>
+
+<p>Return the main (non-auxiliary) verbs in a sentence.</p>
+<h4 id="get95noun95chunks">get_noun_chunks</h4>
+<pre><code>
+def get_noun_chunks(self, doc)
+
+</code></pre>
+
+<h4 id="get95root">get_root</h4>
+<pre><code>
+def get_root(self, doc)
+
+</code></pre>
+
+<h4 id="get95subject95object">get_subject_object</h4>
+<pre><code>
+def get_subject_object(self, doc)
+
+</code></pre>
+
+<h4 id="normalize_3">normalize</h4>
+<pre><code>
+def normalize(self, text)
+
+</code></pre>
+
+<h4 id="parse_2">parse</h4>
+<pre><code>
+def parse(self, utterance)
+
+</code></pre>
+
+<h4 id="parse95question">parse_question</h4>
+<pre><code>
+def parse_question(self, text)
+
+</code></pre>
+
+<h4 id="regex95parse">regex_parse</h4>
+<pre><code>
+def regex_parse(self, text)
+
+</code></pre>
+
+<h4 id="register95utterances_2">register_utterances</h4>
+<pre><code>
+def register_utterances(self)
+
+</code></pre>
+
+<h4 id="spotlight95tag">spotlight_tag</h4>
+<pre><code>
+def spotlight_tag(text)
+
+</code></pre>
+
+<h3 id="dependency95tree">dependency_tree</h3>
+<p><code>def dependency_tree(text, nlp=None)</code></p>
+<h3 id="is95negated95verb">is_negated_verb</h3>
+<p><code>def is_negated_verb(token)</code></p>
+<p>Returns True if verb is negated by one of its (dependency parse) children,</p>
+<p>False otherwise.</p>
+<p>Args:</p>
+<pre><code>token (``spacy.Token``): parent document must have parse information
+</code></pre>
+<p>Returns:</p>
+<pre><code>bool
+</code></pre>
+<p>TODO: generalize to other parts of speech; rule-based is pretty lacking,</p>
+<p>so will probably require training a model; this is an unsolved research problem </p>
+<h3 id="normalize_4">normalize</h3>
+<p><code>def normalize(text, remove_articles=True, solve_corefs=True, coref_nlp=None, nlp=None)</code></p>
+<p>English string normalization  </p>
+<h3 id="singularize_1">singularize</h3>
+<p><code>def singularize(text, nlp=None)</code></p>
+<h3 id="test95qp">test_qp</h3>
+<p><code>def test_qp()</code></p>
+<h3 id="test95teacher">test_teacher</h3>
+<p><code>def test_teacher()</code></p>
+<h2 id="module-lilacsprocessingnlppolitness">Module lilacs.processing.nlp.politness</h2>
+<h3 id="get95politness">get_politness</h3>
+<p><code>def get_politness(text)</code></p>
+<h2 id="module-lilacsprocessingnlpsentiment_analysis">Module lilacs.processing.nlp.sentiment_analysis</h2>
+<h3 id="get95sentiment">get_sentiment</h3>
+<p><code>def get_sentiment(text, lang='en', emoticons=True, emoji=True)</code></p>
+<h2 id="module-lilacsprocessingnlpword_analysis">Module lilacs.processing.nlp.word_analysis</h2>
+<h3 id="get95color">get_color</h3>
+<p><code>def get_color(word)</code></p>
+<p>NOTES: 
+ http://www.saifmohammad.com/WebDocs/ACL2011-word-colour-associations-poster.pdf</p>
+<h3 id="get95emotion_1">get_emotion</h3>
+<p><code>def get_emotion(word)</code></p>
+<h3 id="get95orientation">get_orientation</h3>
+<p><code>def get_orientation(word)</code></p>
+<h3 id="get95sentence95color">get_sentence_color</h3>
+<p><code>def get_sentence_color(sentence)</code></p>
+<h3 id="get95sentence95emotions">get_sentence_emotions</h3>
+<p><code>def get_sentence_emotions(sentence)</code></p>
+<h3 id="get95sentence95sentiment">get_sentence_sentiment</h3>
+<p><code>def get_sentence_sentiment(sentence)</code></p>
+<h3 id="get95sentence95subjectivity">get_sentence_subjectivity</h3>
+<p><code>def get_sentence_subjectivity(sentence)</code></p>
+<h3 id="get95sentiment_1">get_sentiment</h3>
+<p><code>def get_sentiment(word)</code></p>
+<h3 id="get95subjectivity">get_subjectivity</h3>
+<p><code>def get_subjectivity(word)</code></p>
+<h2 id="module-lilacsprocessingnlpword_vectors">Module lilacs.processing.nlp.word_vectors</h2>
+<h3 id="wordtwovec">WordTwoVec</h3>
+<p>a wrapper for gensim.Word2Vec with added functionality to embed phrases and compute the
+"goodness" of a question-answer pair based on embedding-vector similarity</p>
+<h4 id="cosine95similarity">cosine_similarity</h4>
+<pre><code>
+def cosine_similarity(self, question_stem:str, choice_text:str) -&gt; float
+
+</code></pre>
+
+<p>how good is the choice for this question?</p>
+<h4 id="embed">embed</h4>
+<pre><code>
+def embed(self, words:Iterable[str]) -&gt; numpy.ndarray
+
+</code></pre>
+
+<p>given a list of words, find their vector embeddings and return the vector mean</p>
+<h3 id="cosine95similarity_1">cosine_similarity</h3>
+<p><code>def cosine_similarity(v1:numpy.ndarray, v2:numpy.ndarray) -&gt; float</code></p>
+<p>https://en.wikipedia.org/wiki/Cosine_similarity </p>
+<h3 id="similar95sense2vec">similar_sense2vec</h3>
+<p><code>def similar_sense2vec(text, nlp, num=5)</code></p>
+<h3 id="similar95sense2vec95demo">similar_sense2vec_demo</h3>
+<p><code>def similar_sense2vec_demo(text, sense='auto')</code></p>
+<h3 id="similar95turkunlp95demo">similar_turkunlp_demo</h3>
+<p><code>def similar_turkunlp_demo(text, n=10, model='Finnish+4B+wordforms+skipgram')</code></p>
+<h3 id="stem">stem</h3>
+<p><code>def stem(word:str) -&gt; str</code></p>
+<p>stemming words is not cheap, so use a cache decorator </p>
+<h3 id="tokenizer">tokenizer</h3>
+<p><code>def tokenizer(sentence:str) -&gt; List[str]</code></p>
+<p>use gensim's <code>simple_preprocess</code> and <code>STOPWORDS</code> list </p>
+<h2 id="module-lilacsprocessingvision">Module lilacs.processing.vision</h2>
+<h3 id="lilacsvisualreasoner">LILACSVisualReasoner</h3>
+<p>None</p>
+<h4 id="answer95question_1">answer_question</h4>
+<pre><code>
+def answer_question(self, question, picture_path, engine='sequel_demo')
+
+</code></pre>
+
+<h4 id="caption95image">caption_image</h4>
+<pre><code>
+def caption_image(self, picture, engine='MAX-Image-Caption-Generator')
+
+</code></pre>
+
+<h4 id="colorize95image">colorize_image</h4>
+<pre><code>
+def colorize_image(self, picture, save_path=None, engine='MAX-Image-Colorizer')
+
+</code></pre>
+
+<h4 id="dense95captions">dense_captions</h4>
+<pre><code>
+def dense_captions(self, picture, engine='deepai_demo')
+
+</code></pre>
+
+<h4 id="image95segmentation">image_segmentation</h4>
+<pre><code>
+def image_segmentation(self, picture, engine='MAX-Image-Segmenter', format='raw')
+
+</code></pre>
+
+<h4 id="image95similarity">image_similarity</h4>
+<pre><code>
+def image_similarity(self, picture1, picture2, engine='deepai_demo')
+
+</code></pre>
+
+<h4 id="label95image">label_image</h4>
+<pre><code>
+def label_image(self, picture, engine='MAX-ResNet-50')
+
+</code></pre>
+
+<h4 id="nudity95detection">nudity_detection</h4>
+<pre><code>
+def nudity_detection(self, picture, engine='deepai_demo')
+
+</code></pre>
+
+<h4 id="recognize95objects">recognize_objects</h4>
+<pre><code>
+def recognize_objects(self, picture, engine='MAX-Object-Detector')
+
+</code></pre>
+
+<h4 id="recognize95scene">recognize_scene</h4>
+<pre><code>
+def recognize_scene(self, picture, engine='MAX-Scene-Classifier')
+
+</code></pre>
+
+<h3 id="deepmask">deepmask</h3>
+<p><code>def deepmask(picture, save_path=None, engine='deepai_demo')</code></p>
+<h3 id="densecap">densecap</h3>
+<p><code>def densecap(picture, engine='deepai_demo')</code></p>
+<h3 id="image95captioning">image_captioning</h3>
+<p><code>def image_captioning(picture, engine='MAX-Image-Caption-Generator')</code></p>
+<h3 id="image95colorize">image_colorize</h3>
+<p><code>def image_colorize(picture, engine='MAX-Image-Colorizer')</code></p>
+<h3 id="image95label">image_label</h3>
+<p><code>def image_label(picture, engine='MAX-ResNet-50')</code></p>
+<h3 id="image95segmentation_1">image_segmentation</h3>
+<p><code>def image_segmentation(picture, engine='MAX-Image-Segmenter')</code></p>
+<h3 id="image95similarity_1">image_similarity</h3>
+<p><code>def image_similarity(picture1, picture2, engine='deepai_demo')</code></p>
+<h3 id="lrp95demo">lrp_demo</h3>
+<p><code>def lrp_demo(picture, question)</code></p>
+<h3 id="neuraltalk">neuraltalk</h3>
+<p><code>def neuraltalk(picture, engine='deepai_demo')</code></p>
+<h3 id="nudity95detection_1">nudity_detection</h3>
+<p><code>def nudity_detection(picture, engine='deepai_demo')</code></p>
+<h3 id="object95recognition">object_recognition</h3>
+<p><code>def object_recognition(picture, engine='MAX-Object-Detector')</code></p>
+<h3 id="scene95parsing">scene_parsing</h3>
+<p><code>def scene_parsing(picture)</code></p>
+<h3 id="scene95recognition">scene_recognition</h3>
+<p><code>def scene_recognition(picture, engine='MAX-Scene-Classifier')</code></p>
+<h3 id="scene95segmentation">scene_segmentation</h3>
+<p><code>def scene_segmentation(picture)</code></p>
+<h3 id="sequel95demo">sequel_demo</h3>
+<p><code>def sequel_demo(picture, question)</code></p>
+<h2 id="module-lilacsprocessingvisionface">Module lilacs.processing.vision.face</h2>
+<h3 id="lilacsface">LILACSFace</h3>
+<p>None</p>
+<h4 id="animate95eyes">animate_eyes</h4>
+<pre><code>
+def animate_eyes(self, face_picture, mode=None, engine='deepwarp_demo')
+
+</code></pre>
+
+<h4 id="demographic95recognition">demographic_recognition</h4>
+<pre><code>
+def demographic_recognition(self, face_picture, engine='deepai_demo')
+
+</code></pre>
+
+<h4 id="face95age">face_age</h4>
+<pre><code>
+def face_age(self, face_picture, engine='MAX-Facial-Age-Estimator')
+
+</code></pre>
+
+<h4 id="face95analysis">face_analysis</h4>
+<pre><code>
+def face_analysis(self, face_picture, engine='deepface_demo')
+
+</code></pre>
+
+<h4 id="face95emotion">face_emotion</h4>
+<pre><code>
+def face_emotion(self, face_picture, engine='deepface_demo')
+
+</code></pre>
+
+<h3 id="animate95eyes_1">animate_eyes</h3>
+<p><code>def animate_eyes(face_picture, mode=None, engine='deepwarp_demo')</code></p>
+<h3 id="demographic95recognition_1">demographic_recognition</h3>
+<p><code>def demographic_recognition(face_picture, engine='deepai_demo')</code></p>
+<h3 id="face95age_1">face_age</h3>
+<p><code>def face_age(face_picture, engine='MAX-Facial-Age-Estimator')</code></p>
+<h3 id="face95analysis_1">face_analysis</h3>
+<p><code>def face_analysis(face_picture, engine='deepface_demo')</code></p>
+<h3 id="face95emotion_1">face_emotion</h3>
+<p><code>def face_emotion(face_picture, engine='deepface_demo')</code></p>
+<h3 id="pornstar95match">pornstar_match</h3>
+<p><code>def pornstar_match(face_picture)</code></p>
+<h2 id="module-lilacsprocessingvisionvideo">Module lilacs.processing.vision.video</h2>
+<h3 id="temporal95action">temporal_action</h3>
+<p><code>def temporal_action(frames)</code></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../lilacs.processing.vision/" class="btn btn-neutral float-right" title="vision">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../lilacs.settings/" class="btn btn-neutral" title="settings"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../lilacs.settings/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../lilacs.processing.vision/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>messagebus - lilacs</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "messagebus";
+    var mkdocs_page_input_path = "lilacs.messagebus.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> lilacs</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">memory</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.memory/">memory</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">nodes</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.nodes/">nodes</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.nodes.short_term/">short_term</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">database</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.database/">database</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">data_sources</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources/">data_sources</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.sparql_endpoints/">sparql_endpoints</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.dictionary/">dictionary</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.dbpedia/">dbpedia</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">resources</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../lilacs.memory.data_sources.resources/">resources</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.wordnet/">wordnet</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.dbpedia_api/">dbpedia_api</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.wikihow/">wikihow</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.wikipedia/">wikipedia</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.opencyc/">opencyc</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.conceptnet/">conceptnet</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.wikidata/">wikidata</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.memory.data_sources.genesis/">genesis</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">messagebus</span>
+    <ul class="subnav">
+                <li class=" current">
+                    
+    <a class="current" href="./">messagebus</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#module-lilacsmessagebus">Module lilacs.messagebus</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#create95echo95function">create_echo_function</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsmessagebusclient">Module lilacs.messagebus.client</a></li>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsmessagebusclientws">Module lilacs.messagebus.client.ws</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#websocketclient">WebsocketClient</a></li>
+        
+            <li><a class="toctree-l4" href="#echo">echo</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsmessagebusmessage">Module lilacs.messagebus.message</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#message">Message</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsmessagebusservice">Module lilacs.messagebus.service</a></li>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsmessagebusservicemain">Module lilacs.messagebus.service.main</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#main">main</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#module-lilacsmessagebusservicews">Module lilacs.messagebus.service.ws</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#websocketeventhandler">WebsocketEventHandler</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.messagebus.message/">message</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">client</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.client/">client</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.client.ws/">ws</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">service</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.service/">service</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.service.main/">main</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.messagebus.service.ws/">ws</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../lilacs.settings/">settings</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">processing</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.processing/">processing</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">vision</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.vision/">vision</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.vision.face/">face</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.vision.video/">video</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">comprehension</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.comprehension/">comprehension</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">audio</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.audio/">audio</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">crawlers</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers/">crawlers</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.related_finder/">related_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.nlp_crawler/">nlp_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.fact_finder/">fact_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.maintenance_crawler/">maintenance_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.connection_finder/">connection_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.relationcruncher_crawler/">relationcruncher_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.url_finder/">url_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.label_finder/">label_finder</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.dbpedia_crawler/">dbpedia_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.triplecruncher_crawler/">triplecruncher_crawler</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.crawlers.dictionary_finder/">dictionary_finder</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">nlp</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp/">nlp</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.inflect/">inflect</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.sentiment_analysis/">sentiment_analysis</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.word_analysis/">word_analysis</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">lexicons</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../lilacs.processing.nlp.lexicons/">lexicons</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../lilacs.processing.nlp.lexicons.wnaffect/">wnaffect</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.word_vectors/">word_vectors</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.parse/">parse</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.processing.nlp.politness/">politness</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">sentience</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.sentience/">sentience</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.sentience.personality/">personality</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">emotions</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions/">emotions</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.deepmoji/">deepmoji</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.reference_maps/">reference_maps</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.feelings/">feelings</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.behaviour/">behaviour</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.plutchik/">plutchik</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.composite_emotions/">composite_emotions</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.emotions/">emotions</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.emotions.tag/">tag</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">context</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.context/">context</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.context.core/">core</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">neutransmitters</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../lilacs.sentience.neutransmitters/">neutransmitters</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">util</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../lilacs.util/">util</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.time/">time</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.parse/">parse</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.date/">date</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.format/">format</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lilacs.util.log/">log</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">lilacs</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>messagebus &raquo;</li>
+        
+      
+    
+    <li>messagebus</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="module-lilacsmessagebus">Module lilacs.messagebus</h2>
+<h3 id="create95echo95function">create_echo_function</h3>
+<p><code>def create_echo_function(name, blacklist=None, whitelist=None)</code></p>
+<h2 id="module-lilacsmessagebusclient">Module lilacs.messagebus.client</h2>
+<h2 id="module-lilacsmessagebusclientws">Module lilacs.messagebus.client.ws</h2>
+<h3 id="websocketclient">WebsocketClient</h3>
+<p>None</p>
+<h4 id="build95url">build_url</h4>
+<pre><code>
+def build_url(host, port, route, ssl=False)
+
+</code></pre>
+
+<h4 id="close">close</h4>
+<pre><code>
+def close(self)
+
+</code></pre>
+
+<h4 id="create95client">create_client</h4>
+<pre><code>
+def create_client(self)
+
+</code></pre>
+
+<h4 id="emit">emit</h4>
+<pre><code>
+def emit(self, message)
+
+</code></pre>
+
+<h4 id="on">on</h4>
+<pre><code>
+def on(self, event_name, func)
+
+</code></pre>
+
+<h4 id="on95close">on_close</h4>
+<pre><code>
+def on_close(self, ws)
+
+</code></pre>
+
+<h4 id="on95error">on_error</h4>
+<pre><code>
+def on_error(self, ws, error)
+
+</code></pre>
+
+<p>On error start trying to reconnect to the websocket. </p>
+<h4 id="on95message">on_message</h4>
+<pre><code>
+def on_message(self, ws, message)
+
+</code></pre>
+
+<h4 id="on95open">on_open</h4>
+<pre><code>
+def on_open(self, ws)
+
+</code></pre>
+
+<h4 id="once">once</h4>
+<pre><code>
+def once(self, event_name, func)
+
+</code></pre>
+
+<h4 id="remove">remove</h4>
+<pre><code>
+def remove(self, event_name, func)
+
+</code></pre>
+
+<h4 id="remove95all95listeners">remove_all_listeners</h4>
+<pre><code>
+def remove_all_listeners(self, event_name)
+
+</code></pre>
+
+<p>Remove all listeners connected to event_name.</p>
+<p>Args:</p>
+<pre><code>event_name: event from which to remove listeners
+</code></pre>
+<h4 id="run95forever">run_forever</h4>
+<pre><code>
+def run_forever(self)
+
+</code></pre>
+
+<h4 id="wait95for95response">wait_for_response</h4>
+<pre><code>
+def wait_for_response(self, message, reply_type=None, timeout=None)
+
+</code></pre>
+
+<p>Send a message and wait for a response.</p>
+<p>Args:</p>
+<pre><code>message (Message): message to send
+
+reply_type (str): the message type of the expected reply.
+
+                  Defaults to "&lt;message.type&gt;.response".
+
+timeout: seconds to wait before timeout, defaults to 3
+</code></pre>
+<p>Returns:</p>
+<pre><code>The received message or None if the response timed out
+</code></pre>
+<h3 id="echo">echo</h3>
+<p><code>def echo()</code></p>
+<h2 id="module-lilacsmessagebusmessage">Module lilacs.messagebus.message</h2>
+<h3 id="message">Message</h3>
+<p>Holds and manipulates data sent over the websocket</p>
+<pre><code>Message objects will be used to send information back and forth
+between processes of Mycroft.
+</code></pre>
+<p>Attributes:
+    msg_type (str): type of data sent within the message.
+    data (dict): data sent within the message
+    context: info about the message not part of data such as source,
+        destination or domain.</p>
+<h4 id="deserialize">deserialize</h4>
+<pre><code>
+def deserialize(value)
+
+</code></pre>
+
+<p>This takes a string and constructs a message object.</p>
+<p>This makes it easy to take strings from the websocket and create</p>
+<p>a message object.  This uses json loads to get the info and generate</p>
+<p>the message object.</p>
+<p>Args:</p>
+<pre><code>value(str): This is the json string received from the websocket
+</code></pre>
+<p>Returns:</p>
+<pre><code>Message: message object constructed from the json string passed
+
+int the function.
+
+value(str): This is the string received from the websocket
+</code></pre>
+<h4 id="forward">forward</h4>
+<pre><code>
+def forward(self, msg_type, data)
+
+</code></pre>
+
+<p>Create a new message with the same context as this message</p>
+<p>but with the type and data supplied as arguments.</p>
+<p>Arguments:</p>
+<pre><code>msg_type: (str) message type
+
+data: (dict) data the message will carry
+</code></pre>
+<p>Returns:</p>
+<pre><code>Message object to forward
+</code></pre>
+<h4 id="publish">publish</h4>
+<pre><code>
+def publish(self, msg_type, data, context=None)
+
+</code></pre>
+
+<p>Copy the original context and add passed in context.  Delete</p>
+<p>any target in the new context. Return a new message object with</p>
+<p>passed in data and new context.  Type remains unchanged.</p>
+<p>Args:</p>
+<pre><code>msg_type (str): type of message
+
+data (dict): date to send with message
+
+context: context added to existing context
+</code></pre>
+<p>Returns:</p>
+<pre><code>Message: Message object to publish
+</code></pre>
+<h4 id="reply">reply</h4>
+<pre><code>
+def reply(self, msg_type, data, context=None)
+
+</code></pre>
+
+<p>Construct a reply message for a given message</p>
+<p>This will take the same parameters as a message object but use</p>
+<p>the current message object as a reference.  It will copy the context</p>
+<p>from the existing message object and add any context passed in to</p>
+<p>the function.  Check for a target passed in to the function from</p>
+<p>the data object and add that to the context as a target.  If the</p>
+<p>context has a client name then that will become the target in the</p>
+<p>context.  The new message will then have data passed in plus the</p>
+<p>new context generated.</p>
+<p>Args:</p>
+<pre><code>msg_type (str): type of message
+
+data (dict): data for message
+
+context: intented context for new message
+</code></pre>
+<p>Returns:</p>
+<pre><code>Message: Message object to be used on the reply to the message
+</code></pre>
+<h4 id="response">response</h4>
+<pre><code>
+def response(self, data=None, context=None)
+
+</code></pre>
+
+<p>Construct a response message for the message</p>
+<p>Constructs a reply with the data and appends the expected</p>
+<p>".response" to the message</p>
+<p>Args:</p>
+<pre><code>data (dict): message data
+
+context (dict): message context
+</code></pre>
+<p>Returns</p>
+<pre><code>(Message) message with the type modified to match default response
+</code></pre>
+<h4 id="serialize">serialize</h4>
+<pre><code>
+def serialize(self)
+
+</code></pre>
+
+<p>This returns a string of the message info.</p>
+<p>This makes it easy to send over a websocket. This uses</p>
+<p>json dumps to generate the string with type, data and context</p>
+<p>Returns:</p>
+<pre><code>str: a json string representation of the message.
+</code></pre>
+<h2 id="module-lilacsmessagebusservice">Module lilacs.messagebus.service</h2>
+<h2 id="module-lilacsmessagebusservicemain">Module lilacs.messagebus.service.main</h2>
+<h3 id="main">main</h3>
+<p><code>def main()</code></p>
+<h2 id="module-lilacsmessagebusservicews">Module lilacs.messagebus.service.ws</h2>
+<h3 id="websocketeventhandler">WebsocketEventHandler</h3>
+<p>Subclass this class to create a basic WebSocket handler.</p>
+<p>Override <code>on_message</code> to handle incoming messages, and use
+<code>write_message</code> to send messages to the client. You can also
+override <code>open</code> and <code>on_close</code> to handle opened and closed
+connections.</p>
+<p>Custom upgrade response headers can be sent by overriding
+<code>~tornado.web.RequestHandler.set_default_headers</code> or
+<code>~tornado.web.RequestHandler.prepare</code>.</p>
+<p>See http://dev.w3.org/html5/websockets/ for details on the
+JavaScript interface.  The protocol is specified at
+http://tools.ietf.org/html/rfc6455.</p>
+<p>Here is an example WebSocket handler that echos back all received messages
+back to the client:</p>
+<p>.. testcode::</p>
+<p>class EchoWebSocket(tornado.websocket.WebSocketHandler):
+      def open(self):
+          print("WebSocket opened")</p>
+<pre><code>  def on_message(self, message):
+      self.write_message(u"You said: " + message)
+
+  def on_close(self):
+      print("WebSocket closed")
+</code></pre>
+<p>.. testoutput::
+   :hide:</p>
+<p>WebSockets are not standard HTTP connections. The "handshake" is
+HTTP, but after the handshake, the protocol is
+message-based. Consequently, most of the Tornado HTTP facilities
+are not available in handlers of this type. The only communication
+methods available to you are <code>write_message()</code>, <code>ping()</code>, and
+<code>close()</code>. Likewise, your request handler class should implement
+<code>open()</code> method rather than <code>get()</code> or <code>post()</code>.</p>
+<p>If you map the handler above to <code>/websocket</code> in your application, you can
+invoke it in JavaScript with::</p>
+<p>var ws = new WebSocket("ws://localhost:8888/websocket");
+  ws.onopen = function() {
+     ws.send("Hello, world");
+  };
+  ws.onmessage = function (evt) {
+     alert(evt.data);
+  };</p>
+<p>This script pops up an alert box that says "You said: Hello, world".</p>
+<p>Web browsers allow any site to open a websocket connection to any other,
+instead of using the same-origin policy that governs other network
+access from javascript.  This can be surprising and is a potential
+security hole, so since Tornado 4.0 <code>WebSocketHandler</code> requires
+applications that wish to receive cross-origin websockets to opt in
+by overriding the <code>~WebSocketHandler.check_origin</code> method (see that
+method's docs for details).  Failure to do so is the most likely
+cause of 403 errors when making a websocket connection.</p>
+<p>When using a secure websocket connection (<code>wss://</code>) with a self-signed
+certificate, the connection from a browser may fail because it wants
+to show the "accept this certificate" dialog but has nowhere to show it.
+You must first visit a regular HTML page using the same certificate
+to accept it before the websocket connection will succeed.</p>
+<p>If the application setting <code>websocket_ping_interval</code> has a non-zero
+value, a ping will be sent periodically, and the connection will be
+closed if a response is not received before the <code>websocket_ping_timeout</code>.</p>
+<p>Messages larger than the <code>websocket_max_message_size</code> application setting
+(default 10MiB) will not be accepted.</p>
+<p>.. versionchanged:: 4.5
+   Added <code>websocket_ping_interval</code>, <code>websocket_ping_timeout</code>, and
+   <code>websocket_max_message_size</code>.</p>
+<h4 id="check95origin">check_origin</h4>
+<pre><code>
+def check_origin(self, origin)
+
+</code></pre>
+
+<p>Override to enable support for allowing alternate origins.</p>
+<p>The <code>origin</code> argument is the value of the <code>Origin</code> HTTP</p>
+<p>header, the url responsible for initiating this request.  This</p>
+<p>method is not called for clients that do not send this header;</p>
+<p>such requests are always allowed (because all browsers that</p>
+<p>implement WebSockets support this header, and non-browser</p>
+<p>clients do not have the same cross-site security concerns).</p>
+<p>Should return True to accept the request or False to reject it.</p>
+<p>By default, rejects all requests with an origin on a host other</p>
+<p>than this one.</p>
+<p>This is a security protection against cross site scripting attacks on</p>
+<p>browsers, since WebSockets are allowed to bypass the usual same-origin</p>
+<p>policies and don't use CORS headers.</p>
+<p>.. warning::</p>
+<p>This is an important security measure; don't disable it</p>
+<p>without understanding the security implications. In</p>
+<p>particular, if your authentication is cookie-based, you</p>
+<p>must either restrict the origins allowed by</p>
+<p><code>check_origin()</code> or implement your own XSRF-like</p>
+<p>protection for websocket connections. See `these</p>
+<p><a href="https://www.christian-schneider.net/CrossSiteWebSocketHijacking.html">https://www.christian-schneider.net/CrossSiteWebSocketHijacking.html</a>`_</p>
+<p>`articles</p>
+<p><a href="https://devcenter.heroku.com/articles/websocket-security">https://devcenter.heroku.com/articles/websocket-security</a>`_</p>
+<p>for more.</p>
+<p>To accept all cross-origin traffic (which was the default prior to</p>
+<p>Tornado 4.0), simply override this method to always return true::</p>
+<pre><code>def check_origin(self, origin):
+
+    return True
+</code></pre>
+<p>To allow connections from any subdomain of your site, you might</p>
+<p>do something like::</p>
+<pre><code>def check_origin(self, origin):
+
+    parsed_origin = urllib.parse.urlparse(origin)
+
+    return parsed_origin.netloc.endswith(".mydomain.com")
+</code></pre>
+<p>.. versionadded:: 4.0</p>
+<h4 id="emit_1">emit</h4>
+<pre><code>
+def emit(self, channel_message)
+
+</code></pre>
+
+<h4 id="on_1">on</h4>
+<pre><code>
+def on(self, event_name, handler)
+
+</code></pre>
+
+<h4 id="on95close_1">on_close</h4>
+<pre><code>
+def on_close(self)
+
+</code></pre>
+
+<p>Invoked when the WebSocket is closed.</p>
+<p>If the connection was closed cleanly and a status code or reason</p>
+<p>phrase was supplied, these values will be available as the attributes</p>
+<p><code>self.close_code</code> and <code>self.close_reason</code>.</p>
+<p>.. versionchanged:: 4.0</p>
+<p>Added <code>close_code</code> and <code>close_reason</code> attributes.</p>
+<h4 id="on95message_1">on_message</h4>
+<pre><code>
+def on_message(self, message)
+
+</code></pre>
+
+<p>Handle incoming messages on the WebSocket</p>
+<p>This method must be overridden.</p>
+<p>.. versionchanged:: 4.5</p>
+<p><code>on_message</code> can be a coroutine.</p>
+<h4 id="open">open</h4>
+<pre><code>
+def open(self)
+
+</code></pre>
+
+<p>Invoked when a new WebSocket is opened.</p>
+<p>The arguments to <code>open</code> are extracted from the <code>tornado.web.URLSpec</code></p>
+<p>regular expression, just like the arguments to</p>
+<p><code>tornado.web.RequestHandler.get</code>.</p>
+<p><code>open</code> may be a coroutine. <code>on_message</code> will not be called until</p>
+<p><code>open</code> has returned.</p>
+<p>.. versionchanged:: 5.1</p>
+<p><code>open</code> may be a coroutine.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../lilacs.messagebus.message/" class="btn btn-neutral float-right" title="message">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../lilacs.memory.data_sources.genesis/" class="btn btn-neutral" title="genesis"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../lilacs.memory.data_sources.genesis/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../lilacs.messagebus.message/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>
