@@ -11,7 +11,7 @@ SPOTLIGHT_URL = "https://api.dbpedia-spotlight.org/en/annotate"
 
 # https://github.com/allenai/allennlp-demo  <- host your own
 # demo server - http://demo.allennlp.org/predict/
-ALLENNLP_URL = "http://207.154.234.38:8000/predict/"
+ALLENNLP_URL = "http://demo.allennlp.org/predict/"
 
 HOST = "127.0.0.1"
 PORT = 8181

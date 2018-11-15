@@ -1,6 +1,7 @@
 import requests
 import random
-from lilacs.processing.comprehension import textual_entailment, comprehension
+from lilacs.processing.comprehension import textual_entailment, \
+    comprehension, documentqa
 from lilacs.processing.comprehension.extraction import LILACSextractor
 import wikipedia
 import spacy
@@ -15,6 +16,14 @@ from numpy.linalg import norm
 
 # DO NOT ABUSE
 def ask_euclid(text):
+    """
+
+    Args:
+        text:
+
+    Returns:
+
+    """
     url = "http://euclid.allenai.org/api/solve?query=" + text
     return requests.get(url).text
 
@@ -22,6 +31,15 @@ def ask_euclid(text):
 # DO NOT ABUSE
 # use the source https://github.com/allenai/aristo-mini
 def ask_aristo(text, raw=False):
+    """
+
+    Args:
+        text:
+        raw:
+
+    Returns:
+
+    """
     url = "http://aristo-demo.allenai.org/api/ask?text=" + text
     data = requests.get(url).json()
     if raw:
@@ -46,6 +64,17 @@ def ask_aristo(text, raw=False):
 
 
 def EYE_rest(data, rules="", query="{ ?a ?b ?c. } => { ?a ?b ?c. }.", server_url="http://eye.restdesc.org/"):
+    """
+
+    Args:
+        data:
+        rules:
+        query:
+        server_url:
+
+    Returns:
+
+    """
     if rules:
         data = data + "\n" + rules
     r = requests.post(server_url, json={"data": data, "query": query}).text
@@ -53,16 +82,32 @@ def EYE_rest(data, rules="", query="{ ?a ?b ?c. } => { ?a ?b ?c. }.", server_url
 
 
 class LILACSReasoner(object):
+    """
+    """
     coref_nlp = None
     analyzer = LILACSTextAnalyzer
 
     def __init__(self, bus=None, coref_nlp=None):
+        """
+
+        Args:
+            bus:
+            coref_nlp:
+        """
         self.bus = bus
         if LILACSReasoner.coref_nlp is None and coref_nlp is not None:
             LILACSReasoner.coref_nlp = coref_nlp
 
     @staticmethod
     def is_math_question(question):
+        """
+
+        Args:
+            question:
+
+        Returns:
+
+        """
         # check for number references
         if LILACSextractor.extract_number(question):
             # check for math operation vocabulary
@@ -76,6 +121,16 @@ class LILACSReasoner(object):
 
     @staticmethod
     def related_nodes(concept, n=5, engine="sense2vec_demo"):
+        """
+
+        Args:
+            concept:
+            n:
+            engine:
+
+        Returns:
+
+        """
         if engine == "sense2vec_demo":
             return similar_sense2vec_demo(concept)
         elif engine == "sense2vec":
@@ -85,12 +140,34 @@ class LILACSReasoner(object):
         return []
 
     @staticmethod
+    def answer_web(question):
+        return documentqa(question)
+
+    @staticmethod
     def answer_corpus(question, corpus):
+        """
+
+        Args:
+            question:
+            corpus:
+
+        Returns:
+
+        """
         # machine comprehension, look for answers in text corpus
         return comprehension(question, corpus)
 
     @staticmethod
     def answer_wikipedia(question, concept):
+        """
+
+        Args:
+            question:
+            concept:
+
+        Returns:
+
+        """
         wiki_name = wikipedia.search(concept)
         if wiki_name:
             page = wikipedia.page(wiki_name[0])
@@ -100,6 +177,17 @@ class LILACSReasoner(object):
 
     @staticmethod
     def analogy(a, b, c, nlp=None):
+        """
+
+        Args:
+            a:
+            b:
+            c:
+            nlp:
+
+        Returns:
+
+        """
         parser = nlp or spacy.load('en_core_web_md')
         # cosine similarity
         cosine = lambda v1, v2: dot(v1, v2) / (norm(v1) * norm(v2))
@@ -122,6 +210,14 @@ class LILACSReasoner(object):
 
     # WIP
     def answer(self, question):
+        """
+
+        Args:
+            question:
+
+        Returns:
+
+        """
         if LILACSReasoner.is_math_question(question):
             ans = LILACSReasoner.euclid(question)
             if len(ans):
@@ -131,9 +227,23 @@ class LILACSReasoner(object):
         return LILACSReasoner.aristo(question)["answer"]
 
     def what(self, node):
+        """
+
+        Args:
+            node:
+        """
         pass
 
     def sci_tail(self, question, choices):
+        """
+
+        Args:
+            question:
+            choices:
+
+        Returns:
+
+        """
         # multiple choice
         # https://github.com/allenai/scitail
         return None
@@ -141,25 +251,68 @@ class LILACSReasoner(object):
     # external
     @staticmethod
     def EYE(data, rules="", query="{ ?a ?b ?c. } => { ?a ?b ?c. }."):
+        """
+
+        Args:
+            data:
+            rules:
+            query:
+
+        Returns:
+
+        """
         return EYE_rest(data, rules, query)
 
     @staticmethod
     def aristo(query, engine="aristo_demo"):
+        """
+
+        Args:
+            query:
+            engine:
+
+        Returns:
+
+        """
         # TODO support https://github.com/allenai/aristo-mini
         return ask_aristo(query)
 
     @staticmethod
     def euclid(query):
+        """
+
+        Args:
+            query:
+
+        Returns:
+
+        """
         return ask_euclid(query)
 
 
 class LILACSMultipleChoiceReasoner(object):
+    """
+    """
     def __init__(self, bus=None):
+        """
+
+        Args:
+            bus:
+        """
         self.bus = bus
         self.entailment_model = TextualEntailmentSolver()
         self.vector_similarity_model = WordVectorSimilaritySolver()
 
     def textual_entailment(self, question, choices):
+        """
+
+        Args:
+            question:
+            choices:
+
+        Returns:
+
+        """
         scores = self.entailment_model.answer_question(question, choices)
         best = 0
         ans = None
@@ -170,6 +323,15 @@ class LILACSMultipleChoiceReasoner(object):
         return ans
 
     def vector_similarity(self, question, choices):
+        """
+
+        Args:
+            question:
+            choices:
+
+        Returns:
+
+        """
         scores = self.vector_similarity_model.answer_question(question, choices)
         best = 0
         ans = None
@@ -178,6 +340,20 @@ class LILACSMultipleChoiceReasoner(object):
                 best = s
                 ans = scores.index(s)
         return ans
+
+    def answer(self, question, choices):
+        """
+
+        Args:
+            question:
+            choices:
+
+        Returns:
+
+        """
+        #a1 = self.vector_similarity(question, choices)
+        a2 = self.textual_entailment(question, choices)
+        return a2
 
 
 if __name__ == "__main__":

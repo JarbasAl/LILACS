@@ -32,6 +32,7 @@ vocabulary
 profanity
 wptools
 gensim
+pattern
 
 requests
 bs4

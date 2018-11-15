@@ -34,7 +34,8 @@ def replace_coreferences(text, nlp=None):
 def neuralcoref_demo(text):
     try:
         params = {"text": text.replace(".", ",").replace("\n", ", ")}
-        r = requests.get("https://coref.huggingface.co/coref", params=params).json()
+        r = requests.get("https://coref.huggingface.co/coref",
+                         params=params).json()
         text = r["corefResText"] or text
     except Exception as e:
         print(e)
@@ -62,7 +63,8 @@ def cogcomp_coref_nodes(text):
 
 
 def cogcomp_coref_resolution(text):
-    replaces = ["he", "she", "it", "they", "them", "these", "whom", "whose", "who", "its", "it's"]
+    replaces = ["he", "she", "it", "they", "them", "these", "whom", "whose",
+                "who", "its", "it's"]
     data = cogcomp_demo(text)
     links = data["links"]
     node_ids = {}
@@ -80,7 +82,8 @@ def cogcomp_coref_resolution(text):
 
 
 def cogcomp_coref_triples(text):
-    ignores = ["he", "she", "it", "they", "them", "these", "whom", "whose", "who", "its", "it's"]
+    ignores = ["he", "she", "it", "they", "them", "these", "whom", "whose",
+               "who", "its", "it's"]
     triples = []
     text = cogcomp_coref_resolution(text)
     data = cogcomp_demo(text)
@@ -89,9 +92,11 @@ def cogcomp_coref_triples(text):
     for n in data["nodes"]:
         node_ids[int(n["id"])] = n["name"]
     for l in links:
-        if l["source"] not in node_ids.keys() or l["target"] not in node_ids.keys():
+        if l["source"] not in node_ids.keys() or l[
+            "target"] not in node_ids.keys():
             continue
-        if node_ids[l["source"]] in ignores or node_ids[l["target"]] in ignores:
+        if node_ids[l["source"]] in ignores or node_ids[
+            l["target"]] in ignores:
             continue
         if node_ids[l["source"]].lower() == node_ids[l["target"]].lower():
             continue
@@ -99,17 +104,6 @@ def cogcomp_coref_triples(text):
         if triple not in triples:
             triples.append(triple)
     return triples
-
-text = "London is the capital and most populous city of England and the United Kingdom. Standing on the River Thames in the south east of the island of Great Britain, London has been a major settlement for two millennia. It was founded by the Romans, who named it Londinium. London's ancient core, the City of London, which covers an area of only 1.12 square miles, largely retains its medieval boundaries. Since at least the 19th century, London has also referred to the metropolis around this core, historically split between Middlesex, Essex, Surrey, Kent and Hertfordshire, which today largely makes up Greater London, a region governed by the Mayor of London and the London Assembly."
-
-#pprint(cogcomp_coref_triples(text))
-"""
-[('London', 'is', 'the capital'),
- ('the capital', 'is', 'most populous city of England and the United Kingdom'),
- ('London', 'is', 'the City of London'),
- ('London', 'is', 'a region governed by the Mayor of London and the London Assembly')]
-"""
-#print(replace_coreferences(text))
 
 
 def textual_entailment(premise, hypothesis):
@@ -131,12 +125,8 @@ def textual_entailment(premise, hypothesis):
             "hypothesis": hypothesis}
     r = requests.post(url, json=data).json()
     probs = r["label_probs"]
-    return {"entailment": probs[0], "contradiction": probs[1], "neutral": probs[2]}
-
-p = "If you help the needy, God will reward you."
-h = "Giving money to the poor has good consequences."
-#print(textual_entailment_demo(p, h))
-# {'contradiction': 0.04034089669585228, 'neutral': 0.1409262865781784, 'entailment': 0.8187329173088074}
+    return {"entailment": probs[0], "contradiction": probs[1],
+            "neutral": probs[2]}
 
 
 def comprehension(question, passage):
@@ -156,12 +146,6 @@ def comprehension(question, passage):
     data = {"passage": passage, "question": question}
     r = requests.post(url, json=data).json()
     return r["best_span_str"]
-
-
-p = "Robotics is an interdisciplinary branch of engineering and science that includes mechanical engineering, electrical engineering, computer science, and others. Robotics deals with the design, construction, operation, and use of robots, as well as computer systems for their control, sensory feedback, and information processing. These technologies are used to develop machines that can substitute for humans. Robots can be used in any situation and for any purpose, but today many are used in dangerous environments (including bomb detection and de-activation), manufacturing processes, or where humans cannot survive. Robots can take on any form but some are made to resemble humans in appearance. This is said to help in the acceptance of a robot in certain replicative behaviors usually performed by people. Such robots attempt to replicate walking, lifting, speech, cognition, and basically anything a human can do."
-q = "What do robots that resemble humans attempt to do?"
-#print(comprehension_demo(q, p))
-# replicate walking, lifting, speech, cognition
 
 
 def semantic_role_labeling(sentence):
@@ -199,11 +183,6 @@ def semantic_role_labeling(sentence):
         roles[verb] = [arg0, arg1]
     return roles
 
-t = "The keys, which were needed to access the building, were locked in the car."
-
-#pprint(semantic_role_labeling_demo(t))
- #{'decided': ['voters', 'that if the stadium was such a good idea someone would build it himself'], 'build': ['someone', 'it'], 'rejected': ['voters', 'it']}
-
 
 def constituency_parse(sentence):
     # DO NOT ABUSE, dev purposes only
@@ -221,7 +200,106 @@ def constituency_parse(sentence):
     r.pop("num_spans")
     return r
 
-t = "James went to the corner shop to buy some eggs, milk and bread for breakfast."
 
-from pprint import pprint
-#pprint(constituency_parse_demo(t))
+def information_extraction(sentence):
+    """
+    Given an input sentence, Open Information Extraction (Open IE) extracts a list of propositions,
+    each composed of a single predicate and an arbitrary number of arguments.
+    These often simplify syntactically complex sentences, and make their
+    predicate-argument structure easily accessible for various downstream tasks
+
+    """
+    url = ALLENNLP_URL + "open-information-extraction"
+    data = {"sentence": sentence}
+    r = requests.post(url, json=data).json()
+    data["propositions"] = {}
+    for v in r["verbs"]:
+        verb = v["verb"]
+        data["propositions"][verb] = {}
+        data["propositions"][verb]["tags"] = v["tags"]
+        data["propositions"][verb]["args"] = [
+            a.split("]")[0].split(":")[1].strip()
+            for a in v["description"].split("[")
+            if a.startswith("ARG")]
+    return data
+
+
+def event2mind(sentence):
+    """
+    The Event2Mind dataset proposes a commonsense inference task between events and mental states. In particular, it takes events as lightly preprocessed text and produces likely intents and reactions for participants of the event. This page demonstrates a reimplementation of the original Event2Mind system (Rashkin et al, 2018). An event with people entities should be typed as "PersonX" or "PersonY". Optionally, "___" can be used as a placeholder for objects or phrases.
+    :param sentence:
+    :return:
+    """
+    url = ALLENNLP_URL + "event2mind"
+    data = {"source": sentence}
+    r = requests.post(url, json=data).json()
+    data = {"sentence": sentence,
+            #"subject": "PersonX",
+            #"object": "PersonY",
+            "subject_intent": [" ".join(a) for a in r[
+                'xintent_top_k_predicted_tokens']],
+            "subject_reaction": [" ".join(a) for a in r[
+                'xreact_top_k_predicted_tokens']],
+            "object_reaction": [" ".join(a) for a in r[
+                'oreact_top_k_predicted_tokens']],
+            "raw": r
+            }
+    return data
+
+
+def documentqa(sentence):
+    """
+    run a web search on the question, and additionally try to identify
+     Wikipedia articles about entities mentioned in the question.
+    The resulting documents will be passed to a machine learning algorithm
+    which will try to read the text and identify a span of text within one of
+    the documents that answers your questions. No knowledge bases or
+    other sources of information are used.
+
+    Example Questions
+        Who won the World Cup in 2014?
+        What is a group of porcupines called?
+        Which artist created the sculpture "The Thinker"?
+        Where did Harry Potter go to school?
+        What has the strongest magnet field in the Universe?
+        The reaction where two atoms of hydrogen combine to form an atom of helium is called what?
+        Who the president of Spain?
+    Weaknesses/Limitations
+        The system can answer short answer questions, most other forms of questions are unlikely work, including:
+        yes/no questions ("Are tomatoes vegetables?")
+        math problems ("What is 21*123?")
+        multiple choice questions ("Which is taller, the Space Needle taller or the Empire States building?")
+        questions that do not have a concrete answer or require longer output ("What happened during WW2?", "Who is Barrack Obama?")
+        questions that ask for a list ("What are some of the uses of aluminum?")
+    The system has some weaknesses you might observe
+        Time: It tends to return answers that might have once been true, but are not true currently.
+        Fact vs. Opinion: It does not have a good sense of when a statement can be trusted as a fact.
+        Complex reasoning: It can perform multiple steps of inference (ex "Who won the world Cup during Obama's first term as President?")
+
+    :param sentence:
+    :return:
+    """
+    url = "https://documentqa.allenai.org/answer"
+    data = {"question": sentence}
+    r = requests.get(url, data).json()
+
+    data = {"sentence": sentence,
+            "answers": [],
+            "short_answers": [],
+            "sources": [],
+            "corpus": [],
+            "conf": [],
+            "raw": r
+            }
+    for answer in r:
+        data["sources"].append(answer["source_url"])
+        data["corpus"].append(answer["text"])
+        data["conf"].append(answer["answers"][0]["conf"])
+        ans = answer["text"][answer["answers"][0]["start"]:answer["answers"][0]["end"]]
+        data["short_answers"].append(ans)
+        for sent in answer["text"].replace(":", ".").replace("\n", ".").split("."):
+            if ans in sent:
+                data["answers"].append(sent)
+                break
+    return data
+
