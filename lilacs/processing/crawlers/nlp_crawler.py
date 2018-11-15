@@ -1,4 +1,4 @@
-from lilacs.nlp import get_nlp, get_corefnlp
+from lilacs.processing.nlp import get_nlp, get_corefnlp
 from lilacs.processing.crawlers import BaseCrawler
 
 

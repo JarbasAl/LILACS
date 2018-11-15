@@ -1,6 +1,6 @@
-from lilacs.processing.crawlers import NLPCrawler
-from lilacs.data_sources.wikipedia import get_wikipedia
-from lilacs.nlp.parse import extract_facts
+from lilacs.processing.crawlers.nlp_crawler import NLPCrawler
+from lilacs.memory.data_sources.wikipedia import get_wikipedia
+#from lilacs.processing.comprehension import extract_facts
 
 
 class FactFinderCrawler(NLPCrawler):
@@ -10,7 +10,7 @@ class FactFinderCrawler(NLPCrawler):
         new_cons = []
         summary = get_wikipedia(self.current_node.name).get("summary")
         if summary:
-            facts = extract_facts(self.current_node.name, summary, nlp=self.nlp, coref_nlp=self.coref_nlp)
+            facts = []#extract_facts(self.current_node.name, summary, nlp=self.nlp, coref_nlp=self.coref_nlp)
             for fact in facts:
                 print("new fact about ", self.current_node.name, ":", fact)
                 fact = str(fact)

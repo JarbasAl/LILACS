@@ -1,5 +1,5 @@
 from copy import copy
-from lilacs.sentience.emotions import Emotion, Neutrality
+from lilacs.sentience.emotions.plutchik import Emotion, Neutrality
 import random
 import numpy as np
 
@@ -401,7 +401,7 @@ class Feeling(object):
 
 def _get_feeling_emotions():
     bucket = {}
-    from lilacs.sentience.emotions import EMOTIONS
+    from lilacs.sentience.emotions.emotions import EMOTIONS
     for feeling in FEELING_NAMES:
         emotions = FEELING_NAMES[feeling]
         bucket[feeling] = []
@@ -420,7 +420,7 @@ def _get_feelings():
         #f.name = feeling.lower()
         for emotion in FEELINGS_TO_EMOTION_MAP[feeling]:
             f.emotions.append(emotion)
-            from lilacs.sentience.emotions import DIMENSIONS
+            from lilacs.sentience.emotions.plutchik import DIMENSIONS
             d = DIMENSIONS.get(emotion.name)
 
             if isinstance(d, list):

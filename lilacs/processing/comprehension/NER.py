@@ -2,6 +2,14 @@ import requests
 
 
 def polyglot_NER_demo(text):
+    """
+
+    Args:
+        text:
+
+    Returns:
+
+    """
     # DO NOT ABUSE THIS, dev purposes only
     data = {"text": text.replace(" ", "+"),
             "langs": "en",
@@ -31,6 +39,14 @@ def polyglot_NER_demo(text):
 
 
 def polyglot_NER(blob):
+    """
+
+    Args:
+        blob:
+
+    Returns:
+
+    """
     from polyglot.text import Text
 
     text = Text(blob)
@@ -44,6 +60,15 @@ def polyglot_NER(blob):
 
 
 def spacy_NER(text, nlp):
+    """
+
+    Args:
+        text:
+        nlp:
+
+    Returns:
+
+    """
     from lilacs.sentience.emotions.emotions import EMOTION_NAMES
     from lilacs.processing.nlp.parse import normalize
 
@@ -62,6 +87,14 @@ def spacy_NER(text, nlp):
 
 
 def spacy_NER_demo(text):
+    """
+
+    Args:
+        text:
+
+    Returns:
+
+    """
     ents = []
     try:
         data = {"model": "en_core_web_lg", "text": text}
@@ -76,6 +109,14 @@ def spacy_NER_demo(text):
 
 
 def FOX_NER(text):
+    """
+
+    Args:
+        text:
+
+    Returns:
+
+    """
     # use the source https://github.com/dice-group/fox
     # http://fox-demo.aksw.org/#!/home
     from foxpy.fox import Fox
@@ -96,6 +137,14 @@ def FOX_NER(text):
 
 
 def allennlp_NER_demo(text):
+    """
+
+    Args:
+        text:
+
+    Returns:
+
+    """
     try:
         url = "http://demo.allennlp.org/predict/named-entity-recognition"
         data = {"sentence": text}

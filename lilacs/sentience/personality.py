@@ -78,49 +78,50 @@ class Dirty12(object):
 
 class Hexaco(object):
     thresholds = {  # 90% 10% 50%
+        # cast from 0 to 1
         "honesty-humility": {
-            "sincerity": {"high": 4.25, "low": 2.14, "average": 3.25},
-            "fairness": {"high": 4.63, "low": 2.13, "average": 3.38},
-            "greed-avoidance": {"high": 4, "low": 1.38, "average": 2.63},
-            "modesty": {"high": 3, "low": 3, "average": 3.63},
-            "total": {"high": 3.97, "low": 2.41, "average": 3.22}
+            "sincerity": {"high": 4.25 / 5, "low": 2.14 / 5, "average": 3.25 / 5},
+            "fairness": {"high": 4.63 / 5, "low": 2.13 / 5, "average": 3.38 / 5},
+            "greed-avoidance": {"high": 4 / 5, "low": 1.38 / 5, "average": 2.63 / 5},
+            "modesty": {"high": 3 / 5, "low": 3 / 5, "average": 3.63 / 5},
+            "total": {"high": 3.97 / 5, "low": 2.41 / 5, "average": 3.22 / 5}
         },
         "emotionality": {
-            "fearfulness": {"high": 4, "low": 1.88, "average": 3},
-            "anxiety": {"high": 4.63, "low": 2.63, "average": 3.75},
-            "dependence": {"high": 4.25, "low": 2, "average": 3.25},
-            "sentimentality": {"high": 4.38, "low": 2.38, "average": 3.5},
-            "total": {"high": 3.97, "low": 2.41, "average": 3.34}
+            "fearfulness": {"high": 4 / 5, "low": 1.88 / 5, "average": 3 / 5},
+            "anxiety": {"high": 4.63 / 5, "low": 2.63 / 5, "average": 3.75 / 5},
+            "dependence": {"high": 4.25 / 5, "low": 2 / 5, "average": 3.25 / 5},
+            "sentimentality": {"high": 4.38 / 5, "low": 2.38 / 5, "average": 3.5 / 5},
+            "total": {"high": 3.97 / 5, "low": 2.41 / 5, "average": 3.34 / 5}
         },
         "extraversion": {
-            "social-self-esteem": {"high": 4.63, "low": 3, "average": 4},
-            "social-boldness": {"high": 4.25, "low": 1.88, "average": 3.13},
-            "sociability": {"high": 4.5, "low": 2.5, "average": 3.63},
-            "liveliness": {"high": 4.5, "low": 2.5, "average": 3.63},
-            "total": {"high": 3.97, "low": 2.41, "average": 3.5}
+            "social-self-esteem": {"high": 4.63 / 5, "low": 3 / 5, "average": 4 / 5},
+            "social-boldness": {"high": 4.25 / 5, "low": 1.88 / 5, "average": 3.13 / 5},
+            "sociability": {"high": 4.5 / 5, "low": 2.5 / 5, "average": 3.63 / 5},
+            "liveliness": {"high": 4.5 / 5, "low": 2.5 / 5, "average": 3.63 / 5},
+            "total": {"high": 3.97 / 5, "low": 2.41 / 5, "average": 3.5 / 5}
         },
         "agreeableness": {
-            "forgiveness": {"high": 3.88, "low": 1.75, "average": 2.75},
-            "gentleness": {"high": 4.13, "low": 2.25, "average": 3.25},
-            "flexibility": {"high": 3.75, "low": 1.75, "average": 2.75},
-            "patience": {"high": 4.38, "low": 2, "average": 3.25},
-            "total": {"high": 3.97, "low": 2.41, "average": 3}
+            "forgiveness": {"high": 3.88 / 5, "low": 1.75 / 5, "average": 2.75 / 5},
+            "gentleness": {"high": 4.13 / 5, "low": 2.25 / 5, "average": 3.25 / 5},
+            "flexibility": {"high": 3.75 / 5, "low": 1.75 / 5, "average": 2.75 / 5},
+            "patience": {"high": 4.38 / 5, "low": 2 / 5, "average": 3.25 / 5},
+            "total": {"high": 3.97 / 5, "low": 2.41 / 5, "average": 3 / 5}
         },
         "conscientiousness": {
-            "organization": {"high": 4.38, "low": 2.13, "average": 3.38},
-            "diligence": {"high": 4.71, "low": 2.99, "average": 3.88},
-            "perfectionism": {"high": 4.38, "low": 2.38, "average": 3.63},
-            "prudence": {"high": 4, "low": 2.13, "average": 3.25},
-            "total": {"high": 3.97, "low": 2.41, "average": 3.31}
+            "organization": {"high": 4.38 / 5, "low": 2.13 / 5, "average": 3.38 / 5},
+            "diligence": {"high": 4.71 / 5, "low": 2.99 / 5, "average": 3.88 / 5},
+            "perfectionism": {"high": 4.38 / 5, "low": 2.38 / 5, "average": 3.63 / 5},
+            "prudence": {"high": 4 / 5, "low": 2.13 / 5, "average": 3.25 / 5},
+            "total": {"high": 3.97 / 5, "low": 2.41 / 5, "average": 3.31 / 5}
         },
         "openness-to-experience": {
-            "aesthetic-appreciation": {"high": 4.38, "low": 2, "average": 3.25},
-            "inquisitiveness": {"high": 4.38, "low": 1.88, "average": 3.13},
-            "creativity": {"high": 4.63, "low": 2.25, "average": 3.63},
-            "unconventionality": {"high": 4.25, "low": 2.63, "average": 3.38},
-            "total": {"high": 3.97, "low": 2.41, "average": 3.22}
+            "aesthetic-appreciation": {"high": 4.38, "low": 2 / 5, "average": 3.25 / 5},
+            "inquisitiveness": {"high": 4.38 / 5, "low": 1.88 / 5, "average": 3.13 / 5},
+            "creativity": {"high": 4.63 / 5, "low": 2.25 / 5, "average": 3.63 / 5},
+            "unconventionality": {"high": 4.25 / 5, "low": 2.63 / 5, "average": 3.38 / 5},
+            "total": {"high": 3.97 / 5, "low": 2.41 / 5, "average": 3.22 / 5}
         },
-        "interstitial": {"altruism": {"high": 3, "low": 3, "average": 3.88}}
+        "interstitial": {"altruism": {"high": 3 / 5, "low": 3 / 5, "average": 3.88 / 5}}
     }
     _keys = {
         "honesty-humility": {
@@ -430,7 +431,8 @@ class Hexaco(object):
                         elif int(answers[a]) == 5:
                             answers[a] = 1
                         result[k][s] += int(answers[a])
-                result[k][s] = result[k][s] / len(questions)
+                # cast from 0 to 1
+                result[k][s] = result[k][s] / len(questions) / 5
                 result[k]["average"] += result[k][s]
             result[k]["average"] = result[k]["average"] / len(Hexaco._keys[k])
 
@@ -482,17 +484,22 @@ if __name__ == "__main__":
                    "slightly agree",
                    "agree",
                    "strongly agree"]
-        te_answers = []
+        #te_answers = []
         vec_answers = []
+        #av_answers = []
         for q in Dirty12.questions:
             a1 = l.vector_similarity(q, choices)
             #a2 = l.textual_entailment(q, choices)
+            #a3 = l.answer(q, choices)
             vec_answers.append(a1 + 1)
             #te_answers.append(a2 + 1)
+            #av_answers.append(a3 + 1)
             print(q, choices[a1])
-            #print(q, choices[a1], choices[a2])
+            #print(q, choices[a1], ":", choices[a2])
         #print("textual entailment score:", Dirty12.score(te_answers))
         print("Vector similarity score:", Dirty12.score(vec_answers))
+
+        #print("average score:", Hexaco.score(av_answers))
 
     def hexaco_test():
         choices = ["strongly disagree",
@@ -502,15 +509,22 @@ if __name__ == "__main__":
                    "strongly agree"]
         te_answers = []
         vec_answers = []
+        av_answers = []
         for q in Hexaco.questions:
             a1 = l.vector_similarity(q, choices)
             #a2 = l.textual_entailment(q, choices)
+
+            #a3 = l.answer(q, choices)
             vec_answers.append(a1 + 1)
             #te_answers.append(a2 + 1)
+            #av_answers.append(a3 + 1)
             print(q, choices[a1])
-            #print(q, choices[a1], choices[a2])
+            #print(q, choices[a1], ":", choices[a2])
         #print("textual entailment score:", Hexaco.score(te_answers))
         print("Vector similarity score:", Hexaco.score(vec_answers))
+        #print("average score:", Hexaco.score(av_answers))
 
     dirty12_test()
     hexaco_test()
+    #print(Dirty12.test())
+    #print(Hexaco.test())

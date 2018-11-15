@@ -1,4 +1,4 @@
-from lilacs.memory.nodes.concept import ConceptDatabase
+from lilacs.memory.nodes.short_term import ConceptDatabase
 from threading import Thread
 import random
 

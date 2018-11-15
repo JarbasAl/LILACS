@@ -1,7 +1,8 @@
 from lilacs.processing.crawlers import BaseCrawler
-from lilacs.data_sources.conceptnet import extract_conceptnet_connections
-from lilacs.data_sources.wordnet import extract_wordnet_connections
-from lilacs.data_sources.dictionary import extract_dictionary_connections
+from lilacs.memory.data_sources.conceptnet import \
+    extract_conceptnet_connections
+from lilacs.memory.data_sources.wordnet import extract_wordnet_connections
+from lilacs.memory.data_sources.dictionary import extract_dictionary_connections
 
 
 class ConnectionFinderCrawler(BaseCrawler):

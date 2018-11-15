@@ -1,6 +1,6 @@
 import random
 from copy import copy
-from lilacs.sentience.emotions import DIMENSIONS
+from lilacs.sentience.emotions.plutchik import DIMENSIONS
 
 
 def _get_emotion_map():

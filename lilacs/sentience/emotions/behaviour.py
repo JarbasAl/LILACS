@@ -1,4 +1,4 @@
-from lilacs.sentience.emotions import EMOTIONS
+from lilacs.sentience.emotions.emotions import EMOTIONS
 
 BEHAVIOUR_NAMES = {
     "protection": {
@@ -174,7 +174,7 @@ def _get_reactions():
         bucket[r.name] = r
         bucket2[r.name] = r.base_emotion
 
-        bucket3[r.base_emotion] = r
+        bucket3[r.base_emotion.name] = r
 
     return bucket, bucket2, bucket3
 

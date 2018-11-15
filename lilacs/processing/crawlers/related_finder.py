@@ -1,5 +1,5 @@
 from lilacs.processing.crawlers import BaseCrawler
-from lilacs.data_sources.reddit_hivemind import get_similar
+#from lilacs.memory.data_sources.reddit_hivemind import get_similar
 
 
 class RelatedCrawler(BaseCrawler):
@@ -7,7 +7,7 @@ class RelatedCrawler(BaseCrawler):
         print("** current", self.current_node.name)
         # execute an action in current node
         new_cons = []
-        cons = get_similar(self.current_node.name)
+        cons = {}#get_similar(self.current_node.name)
         for con in cons.get("results"):
             c = self.db.add_connection(self.current_node.name, con["text"], strength=con["score"]*100)
             if c is not None:

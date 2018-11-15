@@ -1,5 +1,6 @@
-from lilacs.sentience.emotions import Emotion, EmotionalDimension, DIMENSIONS, Neutrality
-from lilacs.sentience.emotions import Feeling
+from lilacs.sentience.emotions.plutchik import Emotion, EmotionalDimension, \
+    DIMENSIONS, Neutrality
+from lilacs.sentience.emotions.feelings import Feeling
 
 from copy import copy
 import numpy as np
@@ -237,7 +238,8 @@ class CompositeEmotion(Emotion):
 
     @property
     def equivalent_feeling(self):
-        from lilacs.sentience.emotions import Feeling, FEELINGS_TO_EMOTION_MAP, FEELINGS
+        from lilacs.sentience.emotions.feelings import Feeling, \
+            FEELINGS_TO_EMOTION_MAP, FEELINGS
         if len(self.components) == 2:
             for feel in FEELINGS_TO_EMOTION_MAP:
                 # print(self.components[0].name, self.components[1].name)
@@ -540,7 +542,7 @@ class CompositeDimension(object):
 
 def _get_composites():
     bucket = {}
-    from lilacs.sentience.emotions import EMOTIONS
+    from lilacs.sentience.emotions.emotions import EMOTIONS
     for emo in COMPOSITE_EMOTIONS_NAMES:
         c = CompositeEmotion(emo)
         for e in COMPOSITE_EMOTIONS_NAMES[emo]:

@@ -1,5 +1,5 @@
 from lilacs.processing.crawlers import BaseCrawler
-from lilacs.data_sources.dictionary import extract_dictionary_connections
+from lilacs.memory.data_sources.dictionary import extract_dictionary_connections
 
 
 class DictionaryCrawler(BaseCrawler):

@@ -1,4 +1,4 @@
-from lilacs.sentience.emotions import EMOTION_CONTRASTS
+from lilacs.sentience.emotions.reference_maps import EMOTION_CONTRASTS
 import numpy as np
 from copy import copy
 # from emotion_data.feelings import Feeling

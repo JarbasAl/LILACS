@@ -2,7 +2,7 @@ from __future__ import division
 from builtins import str
 from builtins import object
 from datetime import datetime, timedelta
-from lilacs.util import pronounce_number
+from lilacs.util.format import pronounce_number
 from lilacs.util.time import now_local, get_timedelta, to_local
 
 from collections import namedtuple

@@ -1,5 +1,5 @@
-from lilacs.processing.crawlers import DBpediaBaseCrawler
-from lilacs.data_sources.wikipedia import get_wikipedia
+from lilacs.processing.crawlers.dbpedia_crawler import DBpediaBaseCrawler
+from lilacs.memory.data_sources.wikipedia import get_wikipedia
 import random
 
 
