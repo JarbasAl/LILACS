@@ -19,21 +19,24 @@ def replace_coreferences(text, nlp=None):
     # London has been a major settlement  for two millennia.  London was founded by the Romans,
     # who named London Londinium.
     # """
-    if nlp is not None:
-        doc = nlp(text)
-        text = doc._.coref_resolved
-    else:
-        # neural coref catches "It" but fails for the "who" in romans
-        # it also fails on long texts ocasionally
-        text = neuralcoref_demo(text)
-        # cogcomp catches some more stuff
-        text = cogcomp_coref_resolution(text)
+    try:
+        if nlp is not None:
+            doc = nlp(text)
+            text = doc._.coref_resolved
+        else:
+            # neural coref catches "It" but fails for the "who" in romans
+            # it also fails on long texts ocasionally
+            text = neuralcoref_demo(text)
+            # cogcomp catches some more stuff
+            text = cogcomp_coref_resolution(text)
+    except:
+        pass
     return text
 
 
 def neuralcoref_demo(text):
     try:
-        params = {"text": text.replace(".", ",").replace("\n", ", ")}
+        params = {"text": text}
         r = requests.get("https://coref.huggingface.co/coref",
                          params=params).json()
         text = r["corefResText"] or text

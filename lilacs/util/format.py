@@ -1,6 +1,10 @@
 from builtins import str
 from builtins import range
 from lilacs.util import NUM_STRING_EN, SHORT_SCALE_EN, LONG_SCALE_EN, FRACTION_STRING_EN
+from lilacs.processing.nlp import get_nlp
+from lilacs.processing.nlp.inflect import singularize as make_singular
+from spacy.parts_of_speech import NOUN
+from lilacs.processing.comprehension import replace_coreferences
 
 
 def nice_number(number, speech, denominators):
@@ -200,3 +204,104 @@ def convert_to_mixed_fraction(number, denominators):
         return None
 
     return int_number, int(round(numerator)), denominator
+
+
+def singularize(text, nlp=None):
+    nlp = nlp or get_nlp()
+    doc = nlp(text)
+    ignores = ["this", "data", "my", "was"]
+    replaces = {"are": "is"}
+    words = []
+    for tok in doc:
+        if tok.pos == NOUN and str(tok) not in ignores:
+            words.append(make_singular(str(tok)))
+        elif str(tok) in replaces:
+            words.append(replaces[str(tok)])
+        else:
+            words.append(str(tok))
+    return " ".join(words)
+
+
+def normalize(text, remove_articles=True, solve_corefs=False,
+              make_singular=False, coref_nlp=None,  nlp=None):
+    """ English string normalization """
+    text = str(text)
+    words = text.split()  # this also removed extra spaces
+    normalized = ""
+
+    for word in words:
+        if remove_articles and word in ["the", "a", "an"]:
+            continue
+
+        # Expand common contractions, e.g. "isn't" -> "is not"
+        contraction = ["ain't", "aren't", "can't", "could've", "couldn't",
+                       "didn't", "doesn't", "don't", "gonna", "gotta",
+                       "hadn't", "hasn't", "haven't", "he'd", "he'll", "he's",
+                       "how'd", "how'll", "how's", "I'd", "I'll", "I'm",
+                       "I've", "isn't", "it'd", "it'll", "it's", "mightn't",
+                       "might've", "mustn't", "must've", "needn't",
+                       "oughtn't",
+                       "shan't", "she'd", "she'll", "she's", "shouldn't",
+                       "should've", "somebody's", "someone'd", "someone'll",
+                       "someone's", "that'll", "that's", "that'd", "there'd",
+                       "there're", "there's", "they'd", "they'll", "they're",
+                       "they've", "wasn't", "we'd", "we'll", "we're", "we've",
+                       "weren't", "what'd", "what'll", "what're", "what's",
+                       "whats",  # technically incorrect but some STT outputs
+                       "what've", "when's", "when'd", "where'd", "where's",
+                       "where've", "who'd", "who'd've", "who'll", "who're",
+                       "who's", "who've", "why'd", "why're", "why's", "won't",
+                       "won't've", "would've", "wouldn't", "wouldn't've",
+                       "y'all", "ya'll", "you'd", "you'd've", "you'll",
+                       "y'aint", "y'ain't", "you're", "you've"]
+        if word in contraction:
+            expansion = ["is not", "are not", "can not", "could have",
+                         "could not", "did not", "does not", "do not",
+                         "going to", "got to", "had not", "has not",
+                         "have not", "he would", "he will", "he is",
+                         "how did",
+                         "how will", "how is", "I would", "I will", "I am",
+                         "I have", "is not", "it would", "it will", "it is",
+                         "might not", "might have", "must not", "must have",
+                         "need not", "ought not", "shall not", "she would",
+                         "she will", "she is", "should not", "should have",
+                         "somebody is", "someone would", "someone will",
+                         "someone is", "that will", "that is", "that would",
+                         "there would", "there are", "there is", "they would",
+                         "they will", "they are", "they have", "was not",
+                         "we would", "we will", "we are", "we have",
+                         "were not", "what did", "what will", "what are",
+                         "what is",
+                         "what is", "what have", "when is", "when did",
+                         "where did", "where is", "where have", "who would",
+                         "who would have", "who will", "who are", "who is",
+                         "who have", "why did", "why are", "why is",
+                         "will not", "will not have", "would have",
+                         "would not", "would not have", "you all", "you all",
+                         "you would", "you would have", "you will",
+                         "you are not", "you are not", "you are", "you have"]
+            word = expansion[contraction.index(word)]
+
+        if make_singular:
+            nlp = nlp or get_nlp()
+            word = singularize(word, nlp=nlp)
+        normalized += " " + word
+
+    if solve_corefs:
+        normalized = replace_coreferences(normalized[1:], coref_nlp)
+
+    # replace extracted numbers
+
+    from lilacs.util.parse import extract_numbers
+    numbers = extract_numbers(normalized)
+    for n in numbers:
+        txt = pronounce_number(n)
+        n = str(n)
+        if n.endswith(".0"):
+            n = n[:-2]
+        normalized = normalized.replace(txt, n)
+        # prnounced may be different from txt, ie
+        # pronounce(0.5) != half
+        # extract(half) == 0.5
+        # TODO account for this
+    return normalized.strip()

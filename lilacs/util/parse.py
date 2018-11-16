@@ -1,10 +1,15 @@
-from __future__ import division
-from builtins import str
-from builtins import range
-from lilacs.util import LONG_ORDINAL_STRING_EN, SHORT_ORDINAL_STRING_EN, NUM_STRING_EN, SHORT_SCALE_EN, LONG_SCALE_EN
+from lilacs.util import LONG_ORDINAL_STRING_EN, SHORT_ORDINAL_STRING_EN, \
+    NUM_STRING_EN, SHORT_SCALE_EN, LONG_SCALE_EN
 from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
+from lilacs.processing.nlp.inflect import singularize as make_singular
+from lilacs.util import NUM_STRING_EN
+from spacy.parts_of_speech import NOUN
+import requests
+from lilacs.processing.nlp import get_nlp
+from spacy.parts_of_speech import VERB
+from lilacs.util.format import normalize, pronounce_number
 
 
 def is_numeric(input_str):
@@ -103,11 +108,11 @@ def extract_number(text, short_scale=True, ordinals=False):
 
     text = _normalize(text)
     string_num_en = {
-                     "half": 0.5,
-                     "halves": 0.5,
-                     "hundreds": 100,
-                     "thousands": 1000,
-                     'millions': 1000000}
+        "half": 0.5,
+        "halves": 0.5,
+        "hundreds": 100,
+        "thousands": 1000,
+        'millions': 1000000}
 
     for num in NUM_STRING_EN:
         num_string = NUM_STRING_EN[num]
@@ -270,7 +275,48 @@ def extract_number(text, short_scale=True, ordinals=False):
     return val
 
 
-def extract_datetime(string, dateNow, default_time):
+def extract_numbers(text, short_scale=True, ordinals=False):
+    """
+        Takes in a string and extracts a list of numbers.
+
+    Args:
+        text (str): the string to extract a number from
+        short_scale (bool): Use "short scale" or "long scale" for large
+            numbers -- over a million.  The default is short scale, which
+            is now common in most English speaking countries.
+            See https://en.wikipedia.org/wiki/Names_of_large_numbers
+        ordinals (bool): consider ordinal numbers, e.g. third=3 instead of 1/3
+    Returns:
+        list: list of extracted numbers as floats
+    """
+    numbers = []
+    normalized = text
+    extract = extract_number(normalized, short_scale, ordinals)
+    to_parse = normalized
+    while extract:
+        numbers.append(extract)
+        prev = to_parse
+        num_txt = pronounce_number(extract)
+        extract = str(extract)
+        if extract.endswith(".0"):
+            extract = extract[:-2]
+        normalized = normalized.replace(num_txt, extract)
+        # last biggest number was replaced, recurse to handle cases like
+        # test one two 3
+        to_parse = to_parse.replace(num_txt, extract).replace(extract, "")
+        if to_parse == prev:
+            # avoid infinite loops, occasionally pronounced number may be
+            # different from extracted text,
+            # ie pronounce(0.5) != half and extract(half) == 0.5
+            extract = False
+            # TODO fix this
+        else:
+            extract = extract_number(to_parse, short_scale, ordinals)
+    numbers.reverse()
+    return numbers
+
+
+def extract_datetime(string, dateNow):
     """ Convert a human date reference into an exact datetime
 
     Convert things like
@@ -303,8 +349,8 @@ def extract_datetime(string, dateNow, default_time):
             .replace(' the ', ' ').replace(' a ', ' ').replace(' an ', ' ') \
             .replace("o' clock", "o'clock").replace("o clock", "o'clock") \
             .replace("o ' clock", "o'clock").replace("o 'clock", "o'clock") \
-            .replace("oclock", "o'clock").replace("couple", "2")\
-            .replace("centuries", "century").replace("decades", "decade")\
+            .replace("oclock", "o'clock").replace("couple", "2") \
+            .replace("centuries", "century").replace("decades", "decade") \
             .replace("millenniums", "millennium")
 
         wordList = s.split()
@@ -376,7 +422,7 @@ def extract_datetime(string, dateNow, default_time):
         used = 0
         # save timequalifier for later
         if word == "now" and not datestr:
-            resultStr = " ".join(words[idx+1:])
+            resultStr = " ".join(words[idx + 1:])
             resultStr = ' '.join(resultStr.split())
             extractedDate = dateNow.replace(microsecond=0)
             return [extractedDate, resultStr]
@@ -949,13 +995,8 @@ def extract_datetime(string, dateNow, default_time):
     if dayOffset != 0:
         extractedDate = extractedDate + relativedelta(days=dayOffset)
     if hrAbs != -1 and minAbs != -1:
-        # If no time was supplied in the string set the time to default
-        # time if it's available
-        if hrAbs is None and minAbs is None and default_time is not None:
-            hrAbs, minAbs = default_time.hour, default_time.minute
-        else:
-            hrAbs = hrAbs or 0
-            minAbs = minAbs or 0
+        hrAbs = hrAbs or 0
+        minAbs = minAbs or 0
 
         extractedDate = extractedDate + relativedelta(hours=hrAbs,
                                                       minutes=minAbs)
@@ -1005,3 +1046,35 @@ def is_fractional(input_str, short_scale=True):
     if input_str.lower() in fracts:
         return 1.0 / fracts[input_str.lower()]
     return False
+
+
+def is_negated_verb(token):
+    """
+    Returns True if verb is negated by one of its (dependency parse) children,
+    False otherwise.
+
+    Args:
+        token (``spacy.Token``): parent document must have parse information
+
+    Returns:
+        bool
+
+    TODO: generalize to other parts of speech; rule-based is pretty lacking,
+    so will probably require training a model; this is an unsolved research problem
+    """
+    if token.doc.is_parsed is False:
+        raise ValueError('token is not parsed')
+    if token.pos == VERB and any(c.dep_ == 'neg' for c in token.children):
+        return True
+    # if (token.pos == NOUN
+    #         and any(c.dep_ == 'det' and c.lower_ == 'no' for c in token.children)):
+    #     return True
+    return False
+
+
+def dependency_tree(text, nlp=None):
+    text = normalize(text, remove_articles=False, nlp=nlp)
+    data = {"collapse_phrases": "1", "collapse_punctuation": "1",
+            "model": "en_core_web_lg", "text": text}
+    r = requests.post("https://api.explosion.ai/displacy/dep", data)
+    return r.json()
