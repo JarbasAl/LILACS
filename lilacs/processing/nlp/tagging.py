@@ -6,6 +6,7 @@ from nltk.corpus import brown
 from itertools import dropwhile
 import string
 import os
+from os.path import exists, dirname, join
 from pickle import dump, load
 from lilacs.processing.nlp import get_nlp
 from pattern.en import conjugate, PAST, PRESENT, SINGULAR, PLURAL
@@ -17,8 +18,10 @@ SUBJ_DEPS = {'agent', 'csubj', 'csubjpass', 'expl', 'nsubj', 'nsubjpass'}
 class SentenceTagger:
     def __init__(self, nlp=None):
         self._nlp = nlp
-        if os.path.exists("tagger.pkl"):
-            with open('tagger.pkl', 'rb') as data:
+        self.model_path = join(dirname(dirname(dirname(__file__))), "models",
+                    "tagger.pkl")
+        if exists(self.model_path):
+            with open(self.model_path, 'rb') as data:
                 tagger = load(data)
             self.tagger = tagger
         else:
@@ -50,7 +53,7 @@ class SentenceTagger:
         return t3
 
     def save(self):
-        with open('tagger.pkl', 'wb') as output:
+        with open(self.model_path, 'wb') as output:
             dump(self.tagger, output, -1)
 
     def tag(self, sent):

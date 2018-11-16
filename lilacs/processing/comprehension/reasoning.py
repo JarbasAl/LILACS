@@ -5,8 +5,6 @@ from lilacs.processing.comprehension import textual_entailment, \
 from lilacs.processing.comprehension.extraction import LILACSextractor
 import wikipedia
 import spacy
-import math
-from lilacs.memory.data_sources import LILACSKnowledge
 from lilacs.processing import LILACSTextAnalyzer
 from lilacs.processing.nlp.word_vectors import similar_turkunlp_demo, similar_sense2vec, similar_sense2vec_demo
 from lilacs.processing.comprehension.solvers import TextualEntailmentSolver, WordVectorSimilaritySolver
@@ -25,7 +23,7 @@ def ask_euclid(text):
 
     """
     url = "http://euclid.allenai.org/api/solve?query=" + text
-    return requests.get(url).text
+    return requests.get(url).json()[0]
 
 
 # DO NOT ABUSE
@@ -85,9 +83,10 @@ class LILACSReasoner(object):
     """
     """
     coref_nlp = None
+    nlp = None
     analyzer = LILACSTextAnalyzer
 
-    def __init__(self, bus=None, coref_nlp=None):
+    def __init__(self, bus=None, nlp=None, coref_nlp=None):
         """
 
         Args:
@@ -97,6 +96,8 @@ class LILACSReasoner(object):
         self.bus = bus
         if LILACSReasoner.coref_nlp is None and coref_nlp is not None:
             LILACSReasoner.coref_nlp = coref_nlp
+        if LILACSReasoner.nlp is None and nlp is not None:
+            LILACSReasoner.nlp = nlp
 
     @staticmethod
     def is_math_question(question):
@@ -205,8 +206,8 @@ class LILACSReasoner(object):
         # sort by similarity to the result
         allWords.sort(key=lambda w: cosine(w.vector, result), reverse=True)
 
-        print(allWords[0].orth_, allWords[1].orth_, allWords[2].orth_)
-        return allWords[:3]
+        #print(allWords[0].orth_, allWords[1].orth_, allWords[2].orth_)
+        return [a.orth_ for a in allWords[:3]]
 
     # WIP
     def answer(self, question):

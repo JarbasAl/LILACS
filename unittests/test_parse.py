@@ -40,6 +40,10 @@ class TestNormalize(unittest.TestCase):
                          "i love dog")
 
     def test_coref(self):
+        self.assertEqual(normalize("My sister has a dog. She loves him.",
+                                   remove_articles=False,
+                                   solve_corefs=True),
+                         "My sister has a dog. my sister loves a dog.")
         text = "London is the capital and most populous city of England and " \
                "the United Kingdom. Standing on the River Thames in the " \
                "south east of the island of Great Britain,London has been a " \
@@ -49,11 +53,6 @@ class TestNormalize(unittest.TestCase):
                  "Standing on River Thames in south east of island of Great Britain," \
                  "London has been major settlement for 2 millennia. " \
                  "london was founded by Romans, who named london Londinium."
-        self.assertEqual(normalize("My sister has a dog. She loves him.",
-                                   remove_articles=False,
-                                   solve_corefs=True),
-                         "My sister has a dog. my sister loves a dog.")
-
         self.assertEqual(normalize(text, solve_corefs=True), solved)
 
     def test_extract_number(self):
@@ -130,7 +129,7 @@ class TestNormalize(unittest.TestCase):
         self.assertTrue(extract_number("grobo 0") is not False)
         self.assertEqual(extract_number("grobo 0"), 0)
 
-    def test_extractdatetime_en(self):
+    def test_extractdatetime(self):
         def extractWithFormat(text):
             date = datetime(2017, 6, 27, 13, 4)  # Tue June 27, 2017 @ 1:04pm
             [extractedDate, leftover] = extract_datetime(text, date)
@@ -398,7 +397,7 @@ class TestNormalize(unittest.TestCase):
         testExtract("remind me to call mom at 10am next saturday",
                     "2017-07-08 10:00:00", "remind me to call mom")
 
-    def test_extract_ambiguous_time_en(self):
+    def test_extract_ambiguous_time(self):
         morning = datetime(2017, 6, 27, 8, 1, 2)
         evening = datetime(2017, 6, 27, 20, 1, 2)
         noonish = datetime(2017, 6, 27, 12, 1, 2)
@@ -412,7 +411,7 @@ class TestNormalize(unittest.TestCase):
             extract_datetime('feed fish at 10 o\'clock', evening)[0],
             datetime(2017, 6, 27, 22, 0, 0))
 
-    def test_extract_relativedatetime_en(self):
+    def test_extract_relativedatetime(self):
         def extractWithFormat(text):
             date = datetime(2017, 6, 27, 10, 1, 2)
             [extractedDate, leftover] = extract_datetime(text, date)
