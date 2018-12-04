@@ -1,10 +1,12 @@
 import requests
 from lilacs.util.parse import extract_datetime, extract_number
-from lilacs.processing.comprehension.NER import spacy_NER_demo, spacy_NER, FOX_NER, allennlp_NER_demo, polyglot_NER, polyglot_NER_demo
+from lilacs.processing.comprehension.NER import spacy_NER_demo, spacy_NER, \
+    FOX_NER, allennlp_NER_demo, polyglot_NER, polyglot_NER_demo
 import geocoder
 import spotlight
 import datetime
 from lilacs.settings import SPOTLIGHT_URL
+from pprint import pprint
 
 
 # use the source https://cogcomp.org/page/demo_view/Wikifier
@@ -28,17 +30,15 @@ def dandelion_annotate(text):
     return response.annotations
 
 
-from pprint import pprint
-
-
 def location_extraction(text):
     ents = spacy_NER_demo(text)
     locations = []
-    if not(len(ents)):
+    if not (len(ents)):
         ents = [(text, "?")]
     searched = []
     for ent, ent_type in ents:
-        if ent_type not in ["person", "location", "?", "gpe"] or ent.lower() in searched:
+        if ent_type not in ["person", "location", "?",
+                            "gpe"] or ent.lower() in searched:
             continue
         searched.append(ent.lower())
         location_data = geocoder.geonames(ent, method='details', key='jarbas')
@@ -50,37 +50,37 @@ def location_extraction(text):
             location_data = geocoder.geocodefarm(ent)
 
         # just making it slow
-        #if not location_data.ok:
+        # if not location_data.ok:
         #    location_data = geocoder.arcgis(ent)
-        #if not location_data.ok:
+        # if not location_data.ok:
         #    location_data = geocoder.bing(ent)
-        #if not location_data.ok:
+        # if not location_data.ok:
         #    location_data = geocoder.canadapost(ent)
-        #if not location_data.ok:
+        # if not location_data.ok:
         #    location_data = geocoder.yandex(ent)
-        #if not location_data.ok:
+        # if not location_data.ok:
         #    location_data = geocoder.tgos(ent)
 
         # api key required
-        #if not location_data.ok:
+        # if not location_data.ok:
         #    location_data = geocoder.baidu(ent)
-        #if not location_data.ok:
+        # if not location_data.ok:
         #    location_data = geocoder.gaode(ent)
-        #if not location_data.ok:
+        # if not location_data.ok:
         #    location_data = geocoder.locationiq(ent)
-        #if not location_data.ok:
+        # if not location_data.ok:
         #    location_data = geocoder.mapbox(ent)
-        #if not location_data.ok:
+        # if not location_data.ok:
         #    location_data = geocoder.mapquest(ent)
-        #if not location_data.ok:
+        # if not location_data.ok:
         #    location_data = geocoder.maxmind(ent)
-        #if not location_data.ok:
+        # if not location_data.ok:
         #    location_data = geocoder.opencage(ent)
-        #if not location_data.ok:
+        # if not location_data.ok:
         #    location_data = geocoder.tamu(ent)
-        #if not location_data.ok:
+        # if not location_data.ok:
         #    location_data = geocoder.tomtom(ent)
-        #if not location_data.ok:
+        # if not location_data.ok:
         #    location_data = geocoder.w3w(ent)
 
         if location_data.ok:
@@ -88,7 +88,7 @@ def location_extraction(text):
     return locations
 
 
-#location_extraction("Where is Chiang Mai?")
+# location_extraction("Where is Chiang Mai?")
 
 
 def date_extraction(text):
@@ -101,7 +101,8 @@ def date_extraction(text):
         return [a.metadata["datetime_range"] for a in annotations]
     return []
 
-#pprint(date_extraction("From March 5 until April 7 1988"))
+
+# pprint(date_extraction("From March 5 until April 7 1988"))
 
 
 def count_extraction(text):
@@ -213,22 +214,22 @@ if __name__ == "__main__":
 
     assert LILACS.extract_number("it's over nine thousand") == 9000
 
-
     now = datetime.datetime.now()
-    #print(now)
-    #pprint(LILACS.extract_date("tomorrow i will finish LILACS", now))
+    # print(now)
+    # pprint(LILACS.extract_date("tomorrow i will finish LILACS", now))
     # output
     # 2018-09-11 01:55:07.639843
     # [datetime.datetime(2018, 9, 12, 0, 0), 'i will finish lilacs']
 
-    assert LILACS.extract_date_range("From March 5 until April 7 1988") == [[datetime.datetime(1988, 3, 5, 0, 0), datetime.datetime(1988, 4, 8, 0, 0)]]
+    assert LILACS.extract_date_range("From March 5 until April 7 1988") == [
+        [datetime.datetime(1988, 3, 5, 0, 0),
+         datetime.datetime(1988, 4, 8, 0, 0)]]
 
     test_text = """London is the capital and most populous city of England and the United Kingdom.
     Standing on the River Thames in the south east of the island of Great Britain, London has been a major settlement for 2 millennia.
     It was founded by the Romans, who named it Londinium. London's ancient core, the City of London, which covers an area of only 1.12 square miles (2.9 km2), largely retains its medieval boundaries. Since at least the 19th century, "London" has also referred to the metropolis around this core, historically split between Middlesex, Essex, Surrey, Kent and Hertfordshire, which today largely makes up Greater London, a region governed by the Mayor of London and the London Assembly."""
 
-
-    #entities = LILACS.extract_entities(test_text)
+    # entities = LILACS.extract_entities(test_text)
     # pprint(entities)
     # output
     # [('London', 'gpe'),
@@ -257,8 +258,8 @@ if __name__ == "__main__":
     #  ('London', 'gpe'),
     #  ('the London Assembly', 'org')]
 
-    #relations = LILACS.extract_relations(test_text)
-    #pprint(relations)
+    # relations = LILACS.extract_relations(test_text)
+    # pprint(relations)
     # output
     # [('London', 'ALL_ZERO', 'England'),
     #  ('London', 'country', 'United Kingdom'),
