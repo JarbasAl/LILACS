@@ -1,42 +1,47 @@
 #emotion_data bundled for now
-numpy
-owlready
-sqlalchemy
+#numpy
+#owlready
+#sqlalchemy
 
-wikipedia
-padaos
-nltk
-spacy
-spacy-lookup
-textacy
-textblob
-epitator
+#textacy
+#textblob
+#epitator
 #sense2vec==1.0.0a0
-pyspotlight
-SPARQLWrapper
-
-# spacy models, pick one, change settings.py to use it
-# python -m spacy download [model name]
-# https://github.com/explosion/spacy-models
-
-#https://github.com/explosion/spacy-models/releases/download/en_core_web_md-2.0.0/en_core_web_sm-2.0.0.tar.gz
-#https://github.com/explosion/spacy-models/releases/download/en_core_web_md-2.1.0a0/en_core_web_md-2.1.0a0.tar.gz
-#https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-2.1.0a0/en_core_web_lg-2.1.0a0.tar.gz
-#https://github.com/explosion/spacy-models/releases/download/xx_ent_wiki_sm-2.1.0a0/xx_ent_wiki_sm-2.1.0a0.tar.gz
-
-# https://github.com/huggingface/neuralcoref
-#https://github.com/huggingface/neuralcoref-models/releases/download/en_coref_md-3.0.0/en_coref_md-3.0.0.tar.gz
+#SPARQLWrapper
 
 
-vocabulary
+# https://github.com/huggingface/neuralcoref-models/releases
+
+#vocabulary
 profanity
-wptools
-gensim
-pattern
+afinn
+#wptools
 
-requests
-bs4
-python-dateutil==2.6.0
 
-# version with emojis
-git+https://github.com/angstwad/afinn
+#requests
+#bs4
+#python-dateutil==2.6.0
+jarbas_utils>=0.6.1
+simple_NER>=0.4.4
+little_questions>=0.5.2
+lingua_franca>=0.2.0
+wikipedia_for_humans>=0.2.1
+simple_deepmoji>=0.1.1
+
+
+pywsd
+stemming
+scikit-learn==0.21.3
+
+# NOTE there is some weird conflicts neuralooref/spacy/sense2vec
+# https://github.com/huggingface/neuralcoref-models/releases/download/en_coref_md-3.0.0/en_coref_md-3.0.0.tar.gz
+spacy
+sense2vec
+#neuralcoref
+spacy-wordnet
+negspacy
+spacy-readability
+lemminflect
+textacy
+
+
